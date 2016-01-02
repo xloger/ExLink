@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.FileUtil;
@@ -60,7 +61,8 @@ public class MainActivity extends ActionBarActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<App> app2= (List<App>) FileUtil.getInstance().loadObject("test");
+                Object test = FileUtil.loadObject(Constant.APP_URL, "test");
+                List<App> app2= (List<App>) test;
 //                Toast.makeText(MainActivity.this,"id:"+app2.getId()+" appname:"+app2.getAppName(),Toast.LENGTH_SHORT).show();
                 Toast.makeText(MainActivity.this,app2.toString(),Toast.LENGTH_SHORT).show();
             }

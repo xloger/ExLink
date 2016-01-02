@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -13,6 +14,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+
+import java.util.List;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
@@ -31,6 +34,15 @@ public class HookMain implements IXposedHookLoadPackage {
                 myPackageName, "123");
         String string = sharedPreferences.getString("123", "456");
         MyLog.log("快看这是个啥："+string);
+
+        Object test = FileUtil.loadObject(Constant.APP_URL, "test");
+        if (test != null) {
+            List<App> appList= (List<App>) test;
+            MyLog.log("天灵灵地灵灵："+appList.toString());
+        }else {
+            MyLog.log("test is null");
+        }
+
 
         MyLog.log(lpparam.packageName);
         if(!lpparam.packageName.equals("com.tencent.mobileqq"))

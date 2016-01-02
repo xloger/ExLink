@@ -1,6 +1,7 @@
 package com.xloger.exlink.app.util;
 
 import android.content.Context;
+import android.util.Log;
 import com.xloger.exlink.app.entity.App;
 
 import java.io.*;
@@ -108,6 +109,40 @@ public class FileUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                StreamUtil.close(fin);
+            }
+        }
+
+        return ret;
+    }
+
+    public static Object loadObject(String url,String fileName){
+        Object ret = null;
+
+//        File folder=context.getFilesDir();
+//        Log.d("23333","folder:"+folder.toString());
+//        File file=new File(url,fileName);
+        Log.d("23333","url:"+url);
+
+        if (true){
+            FileInputStream fin=null;
+            try {
+                fin=new FileInputStream(url+"/"+fileName);
+                ObjectInputStream ois=new ObjectInputStream(fin);
+                ret=ois.readObject();
+            } catch (FileNotFoundException e) {
+                MyLog.log("看！报错："+e);
+                e.printStackTrace();
+            } catch (StreamCorruptedException e) {
+                MyLog.log("看！报错："+e);
+                e.printStackTrace();
+            } catch (IOException e) {
+                MyLog.log("看！报错："+e);
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                MyLog.log("看！报错："+e);
                 e.printStackTrace();
             } finally {
                 StreamUtil.close(fin);
