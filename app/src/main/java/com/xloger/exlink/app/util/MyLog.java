@@ -13,7 +13,7 @@ public class MyLog {
     }
 
     public static void log(String s) {
-        XposedBridge.log("[LinkPlus] " + s);
+        XposedBridge.log("[ExLink] " + s);
     }
     public static void log(Throwable t) {
         XposedBridge.log(t);
