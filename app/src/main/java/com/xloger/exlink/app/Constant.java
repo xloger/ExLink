@@ -6,5 +6,6 @@ package com.xloger.exlink.app;
  * Email:phoenix@xloger.com
  */
 public class Constant {
-    public static final String APP_URL="/data/data/com.xloger.exlink.app/files";
+    public static final String APP_URL="/data/data/com.xloger.exlink.app/files/";
+    public static final String APP_FILE_NAME="AppData";
 }

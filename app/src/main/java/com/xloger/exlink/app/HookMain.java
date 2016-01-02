@@ -25,29 +25,35 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
  * Email:phoenix@xloger.com
  */
 public class HookMain implements IXposedHookLoadPackage {
+    private int index;
+    private List<App> appList;
+
     @Override
     public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
-        String myPackageName=this.getClass().getPackage().getName();
-        MyLog.log("fuck::::" + myPackageName);
 
-        XSharedPreferences sharedPreferences=new XSharedPreferences(
-                myPackageName, "123");
-        String string = sharedPreferences.getString("123", "456");
-        MyLog.log("快看这是个啥："+string);
+        Object appObject = FileUtil.loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
+        if (appObject != null) {
+            appList = (List<App>) appObject;
+            MyLog.log("天灵灵地灵灵：" + appList.toString());
 
-        Object test = FileUtil.loadObject(Constant.APP_URL, "test");
-        if (test != null) {
-            List<App> appList= (List<App>) test;
-            MyLog.log("天灵灵地灵灵："+appList.toString());
+            for (int i = 0; i < appList.size(); i++) {
+                if(lpparam.packageName.equals(appList.get(i).getPackageName())){
+                    index=i;
+                    findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
+                    break;
+                }
+            }
+
         }else {
-            MyLog.log("test is null");
+            MyLog.log("appObject is null");
         }
 
 
-        MyLog.log(lpparam.packageName);
-        if(!lpparam.packageName.equals("com.tencent.mobileqq"))
-            return;
-        findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
+
+//        MyLog.log(lpparam.packageName);
+//        if(!lpparam.packageName.equals("com.tencent.mobileqq"))
+//            return;
+//        findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
     }
 
     XC_MethodHook xc_methodHook=new XC_MethodHook(){
@@ -57,7 +63,7 @@ public class HookMain implements IXposedHookLoadPackage {
 
             String activityName = param.thisObject.getClass().getName();
             MyLog.log("Started activity: " + activityName);
-            if(!activityName.equals("com.tencent.mobileqq.activity.QQBrowserDelegationActivity"))
+            if(!activityName.equals(appList.get(index).getActivityName()))
                 return;
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());

@@ -94,26 +94,29 @@ public class FileUtil {
         Object ret = null;
 
         File folder=context.getFilesDir();
-        File file=new File(folder,fileName);
 
-        if (file.exists()&&file.canRead()){
-            FileInputStream fin=null;
-            try {
-                fin=new FileInputStream(file);
-                ObjectInputStream ois=new ObjectInputStream(fin);
-                ret=ois.readObject();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (StreamCorruptedException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } finally {
-                StreamUtil.close(fin);
-            }
-        }
+        ret=loadObject(folder.toString(),fileName);
+
+//        File file=new File(folder,fileName);
+
+//        if (file.exists()&&file.canRead()){
+//            FileInputStream fin=null;
+//            try {
+//                fin=new FileInputStream(file);
+//                ObjectInputStream ois=new ObjectInputStream(fin);
+//                ret=ois.readObject();
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            } catch (StreamCorruptedException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } catch (ClassNotFoundException e) {
+//                e.printStackTrace();
+//            } finally {
+//                StreamUtil.close(fin);
+//            }
+//        }
 
         return ret;
     }
@@ -121,15 +124,11 @@ public class FileUtil {
     public static Object loadObject(String url,String fileName){
         Object ret = null;
 
-//        File folder=context.getFilesDir();
-//        Log.d("23333","folder:"+folder.toString());
-//        File file=new File(url,fileName);
-        Log.d("23333","url:"+url);
 
         if (true){
             FileInputStream fin=null;
             try {
-                fin=new FileInputStream(url+"/"+fileName);
+                fin=new FileInputStream(url+fileName);
                 ObjectInputStream ois=new ObjectInputStream(fin);
                 ret=ois.readObject();
             } catch (FileNotFoundException e) {
