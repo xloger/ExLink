@@ -6,6 +6,10 @@
                  android:icon="@mipmap/ic_launcher"
             >
 
+        <meta-data android:name="xposedmodule" android:value="true" />
+        <meta-data android:name="xposeddescription" android:value="屏蔽QQ等App的内置浏览器" />
+        <meta-data android:name="xposedminversion" android:value="40" />
+
     </application>
 
 </manifest>
