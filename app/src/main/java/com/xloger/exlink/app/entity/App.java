@@ -2,12 +2,14 @@ package com.xloger.exlink.app.entity;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by xloger on 1月1日.
  * Author:xloger
  * Email:phoenix@xloger.com
  */
-public class App {
+public class App implements Serializable {
     private int id;
     private String appName;
     private String packageName;

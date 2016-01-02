@@ -27,11 +27,10 @@ public class HookMain implements IXposedHookLoadPackage {
         String myPackageName=this.getClass().getPackage().getName();
         MyLog.log("fuck::::" + myPackageName);
 
-//        XSharedPreferences sharedPreferences=new XSharedPreferences(
-//                myPackageName, "prefs");
-//        SharedPreferences.Editor edit = sharedPreferences.edit();
-//        edit.putString("123","123");
-//        edit.apply();
+        XSharedPreferences sharedPreferences=new XSharedPreferences(
+                myPackageName, "123");
+        String string = sharedPreferences.getString("123", "456");
+        MyLog.log("快看这是个啥："+string);
 
         MyLog.log(lpparam.packageName);
         if(!lpparam.packageName.equals("com.tencent.mobileqq"))

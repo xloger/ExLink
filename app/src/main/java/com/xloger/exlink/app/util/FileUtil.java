@@ -1,6 +1,7 @@
 package com.xloger.exlink.app.util;
 
 import android.content.Context;
+import com.xloger.exlink.app.entity.App;
 
 import java.io.*;
 
@@ -62,6 +63,53 @@ public class FileUtil {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }finally {
+                StreamUtil.close(fin);
+            }
+        }
+
+        return ret;
+    }
+
+    public void saveObject(String fileName,Object object){
+        File folder=context.getFilesDir();
+        File file=new File(folder,fileName);
+
+        FileOutputStream fout=null;
+        try {
+            fout=new FileOutputStream(file);
+            ObjectOutputStream oos=new ObjectOutputStream(fout);
+            oos.writeObject(object);
+            oos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            StreamUtil.close(fout);
+        }
+    }
+
+    public Object loadObject(String fileName){
+        Object ret = null;
+
+        File folder=context.getFilesDir();
+        File file=new File(folder,fileName);
+
+        if (file.exists()&&file.canRead()){
+            FileInputStream fin=null;
+            try {
+                fin=new FileInputStream(file);
+                ObjectInputStream ois=new ObjectInputStream(fin);
+                ret=ois.readObject();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (StreamCorruptedException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } finally {
                 StreamUtil.close(fin);
             }
         }
