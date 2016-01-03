@@ -33,7 +33,7 @@ public class HookMain implements IXposedHookLoadPackage {
             MyLog.log("天灵灵地灵灵：" + appList.toString());
 
             for (int i = 0; i < appList.size(); i++) {
-                if(lpparam.packageName.equals(appList.get(i).getPackageName())){
+                if(lpparam.packageName.equals(appList.get(i).getPackageName())&&appList.get(i).isUse()){
                     index=i;
                     findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
                     break;

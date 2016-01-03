@@ -122,29 +122,27 @@ public class FileUtil {
     public static Object loadObject(String url,String fileName){
         Object ret = null;
 
-
-        if (true){
-            FileInputStream fin=null;
-            try {
-                fin=new FileInputStream(url+fileName);
-                ObjectInputStream ois=new ObjectInputStream(fin);
-                ret=ois.readObject();
-            } catch (FileNotFoundException e) {
-                MyLog.log("看！报错："+e);
-                e.printStackTrace();
-            } catch (StreamCorruptedException e) {
-                MyLog.log("看！报错："+e);
-                e.printStackTrace();
-            } catch (IOException e) {
-                MyLog.log("看！报错："+e);
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                MyLog.log("看！报错："+e);
-                e.printStackTrace();
-            } finally {
-                StreamUtil.close(fin);
-            }
+        FileInputStream fin=null;
+        try {
+            fin=new FileInputStream(url+fileName);
+            ObjectInputStream ois=new ObjectInputStream(fin);
+            ret=ois.readObject();
+        } catch (FileNotFoundException e) {
+            MyLog.log("看！报错："+e);
+            e.printStackTrace();
+        } catch (StreamCorruptedException e) {
+            MyLog.log("看！报错："+e);
+            e.printStackTrace();
+        } catch (IOException e) {
+            MyLog.log("看！报错："+e);
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            MyLog.log("看！报错："+e);
+            e.printStackTrace();
+        } finally {
+            StreamUtil.close(fin);
         }
+
 
         return ret;
     }
