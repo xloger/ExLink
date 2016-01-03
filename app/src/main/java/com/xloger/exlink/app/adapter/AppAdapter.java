@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.entity.App;
+import com.xloger.exlink.app.util.FileUtil;
 
 import java.util.List;
 
@@ -17,7 +20,7 @@ import java.util.List;
  * Author:xloger
  * Email:phoenix@xloger.com
  */
-public class AppAdapter extends BaseAdapter {
+public class AppAdapter extends BaseAdapter implements View.OnClickListener {
     private Context context;
     private List<App> appList;
 
@@ -66,8 +69,23 @@ public class AppAdapter extends BaseAdapter {
         viewHolder.name.setText(appList.get(position).getAppName());
         viewHolder.packageName.setText(appList.get(position).getPackageName());
 
+        viewHolder.use.setTag(position+"");
+        viewHolder.use.setOnClickListener(this);
+
         return ret;
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v instanceof CheckBox){
+            CheckBox checkBox= (CheckBox) v;
+            String positionString=(String)checkBox.getTag();
+            int position=Integer.parseInt(positionString);
+            appList.get(position).setIsUse(checkBox.isChecked());
+            FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+        }
+    }
+
 
     private static class ViewHolder{
         public CheckBox use;
