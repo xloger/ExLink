@@ -4,7 +4,6 @@ package com.xloger.exlink.app.client;
 import com.xloger.exlink.app.entity.App;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.util.List;
 

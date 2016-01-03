@@ -1,8 +1,6 @@
 package com.xloger.exlink.app.util;
 
 import android.content.Context;
-import android.util.Log;
-import com.xloger.exlink.app.entity.App;
 
 import java.io.*;
 
