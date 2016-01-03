@@ -2,13 +2,10 @@ package com.xloger.exlink.app.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
@@ -22,6 +19,7 @@ public class MainActivity extends Activity {
     private List<App> appList;
     private ListView listView;
     private AppAdapter appAdapter;
+    private Button addApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +42,11 @@ public class MainActivity extends Activity {
         listView.setAdapter(appAdapter);
 
 
-        Button button2=(Button)findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Object test = FileUtil.loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
-                List<App> app2= (List<App>) test;
-                Toast.makeText(MainActivity.this,appList.toString(),Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void initView(){
         listView = (ListView) findViewById(R.id.app_list);
+        addApp = (Button) findViewById(R.id.add_app);
     }
 
     private void initAppData(){
@@ -84,6 +74,14 @@ public class MainActivity extends Activity {
         qqi.setIsUse(true);
         qqi.setIsUserBuild(false);
         appList.add(qqi);
+
+        App weChat=new App();
+        weChat.setAppName("微信");
+        weChat.setPackageName("com.tencent.mm");
+
+        weChat.setIsUse(true);
+        weChat.setIsUserBuild(false);
+        appList.add(weChat);
 
     }
 

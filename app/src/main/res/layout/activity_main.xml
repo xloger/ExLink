@@ -17,10 +17,10 @@
             />
 
     <Button
-            android:id="@+id/button2"
+            android:id="@+id/add_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="show"
+            android:text="新建规则"
             />
 
 </LinearLayout>

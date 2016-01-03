@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Toast;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
@@ -44,23 +45,17 @@ public class HookMain implements IXposedHookLoadPackage {
             MyLog.log("appObject is null");
         }
 
-
-
-//        MyLog.log(lpparam.packageName);
-//        if(!lpparam.packageName.equals("com.tencent.mobileqq"))
-//            return;
-//        findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
     }
 
     XC_MethodHook xc_methodHook=new XC_MethodHook(){
         @Override
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 
-
             String activityName = param.thisObject.getClass().getName();
             MyLog.log("Started activity: " + activityName);
             if(!activityName.equals(appList.get(index).getActivityName()))
                 return;
+
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());
             MyLog.log(" - With extras: " + intent.getExtras().toString());
@@ -71,6 +66,7 @@ public class HookMain implements IXposedHookLoadPackage {
             exIntent.setAction(Intent.ACTION_VIEW);
             exIntent.setData(uri);
             ((Activity)param.thisObject).startActivity(exIntent);
+
             param.setResult(null); // prevent opening internal browser
         }
     };
