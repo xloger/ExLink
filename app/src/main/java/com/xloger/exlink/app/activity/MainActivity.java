@@ -34,6 +34,7 @@ public class MainActivity extends Activity {
         if (firstRun==null) {
             initAppData();
             FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+            FileUtil.getInstance().setReadable(Constant.APP_FILE_NAME);
         }else {
             appList= (List<App>) firstRun;
         }

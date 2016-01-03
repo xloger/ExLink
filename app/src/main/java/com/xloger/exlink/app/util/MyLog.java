@@ -1,5 +1,6 @@
 package com.xloger.exlink.app.util;
 
+import android.util.Log;
 import de.robv.android.xposed.XposedBridge;
 
 /**
@@ -13,9 +14,17 @@ public class MyLog {
     }
 
     public static void log(String s) {
-        XposedBridge.log("[ExLink] " + s);
+        try {
+            XposedBridge.log("[ExLink] " + s);
+        }catch (NoClassDefFoundError error){
+            Log.d("[ExLink] ",s);
+        }
     }
     public static void log(Throwable t) {
-        XposedBridge.log(t);
+        try {
+            XposedBridge.log(t);
+        }catch (NoClassDefFoundError error){
+            Log.e("[ExLink] ",t.toString());
+        }
     }
 }

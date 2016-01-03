@@ -69,7 +69,7 @@ public class AppAdapter extends BaseAdapter {
         return ret;
     }
 
-    private class ViewHolder{
+    private static class ViewHolder{
         public CheckBox use;
         public TextView name;
         public TextView packageName;

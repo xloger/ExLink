@@ -128,16 +128,16 @@ public class FileUtil {
             ObjectInputStream ois=new ObjectInputStream(fin);
             ret=ois.readObject();
         } catch (FileNotFoundException e) {
-            MyLog.log("看！报错："+e);
+            MyLog.log(e);
             e.printStackTrace();
         } catch (StreamCorruptedException e) {
-            MyLog.log("看！报错："+e);
+            MyLog.log(e);
             e.printStackTrace();
         } catch (IOException e) {
-            MyLog.log("看！报错："+e);
+            MyLog.log(e);
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            MyLog.log("看！报错："+e);
+            MyLog.log(e);
             e.printStackTrace();
         } finally {
             StreamUtil.close(fin);
@@ -145,5 +145,12 @@ public class FileUtil {
 
 
         return ret;
+    }
+
+    public void setReadable(String fileName){
+        File folder=context.getFilesDir();
+        File file=new File(folder,fileName);
+        boolean b = file.setReadable(true,false);
+        MyLog.log("修改权限："+b);
     }
 }
