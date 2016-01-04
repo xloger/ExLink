@@ -20,7 +20,13 @@
             android:id="@+id/add_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="新建规则"
+            android:text="@string/new_rule"
             />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="“新建规则”暂时没写"
+                />
+        
 
 </LinearLayout>
