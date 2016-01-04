@@ -1,6 +1,7 @@
 package com.xloger.exlink.app.activity;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +22,8 @@ public class MainActivity extends Activity {
     private AppAdapter appAdapter;
     private Button addApp;
 
+    private static final int nowInitVersion=1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,11 +31,18 @@ public class MainActivity extends Activity {
 
         initView();
 
+        SharedPreferences sp = getSharedPreferences("config", 0);
+        int initVersion = sp.getInt("initVersion", 0);
+
         Object firstRun = FileUtil.loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
-        if (firstRun==null) {
+        if (firstRun==null||nowInitVersion!=initVersion) {
             initAppData();
             FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
             FileUtil.getInstance().setReadable(Constant.APP_FILE_NAME);
+
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putInt("initVersion",nowInitVersion);
+            editor.apply();
         }else {
             appList= (List<App>) firstRun;
         }
@@ -75,13 +85,13 @@ public class MainActivity extends Activity {
         qqi.setIsUserBuild(false);
         appList.add(qqi);
 
-        App weChat=new App();
-        weChat.setAppName("微信");
-        weChat.setPackageName("com.tencent.mm");
-
-        weChat.setIsUse(true);
-        weChat.setIsUserBuild(false);
-        appList.add(weChat);
+//        App weChat=new App();
+//        weChat.setAppName("微信");
+//        weChat.setPackageName("com.tencent.mm");
+//
+//        weChat.setIsUse(true);
+//        weChat.setIsUserBuild(false);
+//        appList.add(weChat);
 
     }
 
