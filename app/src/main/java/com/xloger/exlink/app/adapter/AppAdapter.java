@@ -83,6 +83,7 @@ public class AppAdapter extends BaseAdapter implements View.OnClickListener {
             int position=Integer.parseInt(positionString);
             appList.get(position).setIsUse(checkBox.isChecked());
             FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+            Toast.makeText(context,"规则已保存，重启后生效",Toast.LENGTH_SHORT).show();
         }
     }
 

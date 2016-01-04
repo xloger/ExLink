@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">去你大爷的内置浏览器</string>
+    <string name="new_rule">新建规则</string>
+
+    <string name="action_settings">设置</string>
+</resources>
