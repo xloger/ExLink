@@ -1,8 +1,11 @@
 package com.xloger.exlink.app.util;
 
 import android.content.Context;
+import com.xloger.exlink.app.Constant;
+import com.xloger.exlink.app.entity.App;
 
 import java.io.*;
+import java.util.List;
 
 /**
  * Created by xloger on 1月1日.
@@ -152,5 +155,19 @@ public class FileUtil {
         File file=new File(folder,fileName);
         boolean b = file.setReadable(true,false);
         MyLog.log("修改权限："+b);
+    }
+
+    public static List<App> appList;
+
+    public static List<App> getAppList(){
+        List<App> apps = null;
+        if (appList == null) {
+            MyLog.log("这个应该不会一直获取吧？");
+            apps= (List<App>) loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
+            appList=apps;
+        }else {
+            apps=appList;
+        }
+        return apps;
     }
 }

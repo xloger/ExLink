@@ -23,26 +23,30 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
  */
 public class HookMain implements IXposedHookLoadPackage {
     private int index;
-    private List<App> appList;
+    private static List<App> appList=null;
 
     @Override
     public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 
-        Object appObject = FileUtil.loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
-        if (appObject != null) {
-            appList = (List<App>) appObject;
-            MyLog.log("天灵灵地灵灵：" + appList.toString());
+        if (appList == null||appList.size()==0) {
+//            Object appObject = FileUtil.loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
+//            if (appObject != null) {
+//                appList = (List<App>) appObject;
+//                MyLog.log("天灵灵地灵灵：" + appList.toString());
+//
+//            }else {
+//                MyLog.log("appObject is null");
+//                return;
+//            }
+            appList=FileUtil.getAppList();
+        }
 
-            for (int i = 0; i < appList.size(); i++) {
-                if(lpparam.packageName.equals(appList.get(i).getPackageName())&&appList.get(i).isUse()){
-                    index=i;
-                    findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
-                    break;
-                }
+        for (int i = 0; i < appList.size(); i++) {
+            if(lpparam.packageName.equals(appList.get(i).getPackageName())&&appList.get(i).isUse()){
+                index=i;
+                findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
+                break;
             }
-
-        }else {
-            MyLog.log("appObject is null");
         }
 
     }
