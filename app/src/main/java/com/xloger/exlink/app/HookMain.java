@@ -8,6 +8,7 @@ import android.widget.Toast;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
+import com.xloger.exlink.app.util.StreamUtil;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
@@ -57,7 +58,7 @@ public class HookMain implements IXposedHookLoadPackage {
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 
             if (appList.get(index).isTest()){
-                MyLog.log("进入test模块！");
+                MyLog.log("进入test模式！");
                 sendToExLink(param);
                 return;
             }
@@ -68,7 +69,10 @@ public class HookMain implements IXposedHookLoadPackage {
                 return;
 
             Intent intent = (Intent)param.args[0];
-            String externalUrl = intent.getStringExtra("url");
+            MyLog.log("Intent: " + intent.toString());
+            MyLog.log(" - With extras: " + intent.getExtras().toString());
+            String externalUrl = intent.getStringExtra(appList.get(index).getExtrasKey());
+            MyLog.log("externalUrl:"+externalUrl);
             Uri uri = Uri.parse(externalUrl);
             Intent exIntent = new Intent();
             exIntent.setAction(Intent.ACTION_VIEW);
@@ -92,7 +96,7 @@ public class HookMain implements IXposedHookLoadPackage {
                 }else {
                     continue;
                 }
-                if ("http://www.example.org/ex-link-test".equals(value)){
+                if (StreamUtil.isMatch("http://www.example.org/ex-link-test",value)){
                     MyLog.log("成功匹配！");
                     Uri uri = Uri.parse("exlink://test");
                     String activityName = param.thisObject.getClass().getName();
@@ -101,6 +105,7 @@ public class HookMain implements IXposedHookLoadPackage {
                     sendToExLinkIntent.setAction(Intent.ACTION_VIEW);
                     sendToExLinkIntent.setData(uri);
                     sendToExLinkIntent.putExtra("activityName",activityName);
+                    sendToExLinkIntent.putExtra("extrasKey",key);
                     sendToExLinkIntent.putExtra("position",index);
                     ((Activity)param.thisObject).startActivity(sendToExLinkIntent);
                     param.setResult(null);

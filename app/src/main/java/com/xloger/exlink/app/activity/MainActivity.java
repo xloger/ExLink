@@ -33,6 +33,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private Context context;
 
     private static final int nowInitVersion=1;
+    private Button show;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +50,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         addApp.setOnClickListener(this);
 
+        show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
+                textView.setText(appList.toString());
+            }
+        });
+
     }
 
     private void initView(){
         listView = (ListView) findViewById(R.id.app_list);
         addApp = (Button) findViewById(R.id.add_app);
+        show = (Button) findViewById(R.id.show);
     }
 
     private void initAppList(){
@@ -80,6 +90,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         qq.setAppName("QQ");
         qq.setPackageName("com.tencent.mobileqq");
         qq.setActivityName("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
+        qq.setExtrasKey("url");
         qq.setIsUse(true);
         qq.setIsUserBuild(false);
         appList.add(qq);
@@ -88,6 +99,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         qqLite.setAppName("QQ轻聊版");
         qqLite.setPackageName("com.tencent.qqlite");
         qqLite.setActivityName("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
+        qqLite.setExtrasKey("url");
         qqLite.setIsUse(true);
         qqLite.setIsUserBuild(false);
         appList.add(qqLite);
@@ -96,6 +108,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         qqi.setAppName("QQ国际版");
         qqi.setPackageName("com.tencent.mobileqqi");
         qqi.setActivityName("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
+        qqi.setExtrasKey("url");
         qqi.setIsUse(true);
         qqi.setIsUserBuild(false);
         appList.add(qqi);

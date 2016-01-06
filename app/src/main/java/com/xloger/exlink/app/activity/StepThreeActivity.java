@@ -22,11 +22,13 @@ public class StepThreeActivity extends Activity {
         setContentView(R.layout.step_three);
         Intent intent = getIntent();
         String activityName = intent.getStringExtra("activityName");
+        String extrasKey=intent.getStringExtra("extrasKey");
         int position = intent.getIntExtra("position", -1);
         List<App> appList = FileUtil.getAppList();
         if (appList != null) {
             App testApp = appList.get(position);
             testApp.setActivityName(activityName);
+            testApp.setExtrasKey(extrasKey);
             testApp.setIsTest(false);
             FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
         }
