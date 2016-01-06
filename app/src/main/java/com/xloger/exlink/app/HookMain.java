@@ -55,6 +55,11 @@ public class HookMain implements IXposedHookLoadPackage {
         @Override
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 
+            if (appList.get(index).isTest()){
+                sendToExLink();
+                return;
+            }
+
             String activityName = param.thisObject.getClass().getName();
             MyLog.log("Started activity: " + activityName);
             if(!activityName.equals(appList.get(index).getActivityName()))
@@ -72,6 +77,10 @@ public class HookMain implements IXposedHookLoadPackage {
             ((Activity)param.thisObject).startActivity(exIntent);
 
             param.setResult(null); // prevent opening internal browser
+        }
+
+        private void sendToExLink() {
+
         }
     };
 }

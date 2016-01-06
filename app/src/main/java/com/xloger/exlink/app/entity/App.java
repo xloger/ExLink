@@ -16,6 +16,7 @@ public class App implements Serializable {
     private String activityName;
     private boolean isUse;
     private boolean isUserBuild;
+    private boolean isTest;
 
     public int getId() {
         return id;
@@ -63,6 +64,14 @@ public class App implements Serializable {
 
     public void setIsUserBuild(boolean isUserBuild) {
         this.isUserBuild = isUserBuild;
+    }
+
+    public boolean isTest() {
+        return isTest;
+    }
+
+    public void setIsTest(boolean isTest) {
+        this.isTest = isTest;
     }
 
     public void parseJson(JSONObject jsonObject){
