@@ -8,6 +8,7 @@ import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.FileUtil;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -27,7 +28,12 @@ public class StepThreeActivity extends Activity {
         List<App> appList = FileUtil.getAppList();
         if (appList != null) {
             App testApp = appList.get(position);
-            testApp.setActivityName(activityName);
+            List<String> activityNameList = testApp.getActivityName();
+            if (activityNameList==null){
+                activityNameList=new LinkedList<String>();
+            }
+            activityNameList.add(activityName);
+            testApp.setActivityName(activityNameList);
             testApp.setExtrasKey(extrasKey);
             testApp.setIsTest(false);
             FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);

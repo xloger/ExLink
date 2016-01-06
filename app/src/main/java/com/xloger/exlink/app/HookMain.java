@@ -65,7 +65,15 @@ public class HookMain implements IXposedHookLoadPackage {
 
             String activityName = param.thisObject.getClass().getName();
             MyLog.log("Started activity: " + activityName);
-            if(!activityName.equals(appList.get(index).getActivityName()))
+            List<String> activityNameList = appList.get(index).getActivityName();
+            boolean activityIsMatch=false;
+            for (int i = 0; i < activityNameList.size(); i++) {
+                if (activityName.equals(activityNameList.get(i))){
+                    activityIsMatch=true;
+                    break;
+                }
+            }
+            if(!activityIsMatch)
                 return;
 
             Intent intent = (Intent)param.args[0];
@@ -96,7 +104,17 @@ public class HookMain implements IXposedHookLoadPackage {
                 }else {
                     continue;
                 }
-                if (StreamUtil.isMatch("http://www.example.org/ex-link-test",value)){
+
+                //微博特殊匹配
+                boolean weiboRule=false;
+                if (appList.get(index).getPackageName().equals("com.sina.weibo")){
+                    if (value.contains("http://t.cn")){
+                        weiboRule=true;
+                    }
+                }
+
+
+                if (value.contains("http://www.example.org/ex-link-test")||value.contains("http%3A%2F%2Fwww.example.org%2Fex-link-test")||weiboRule){
                     MyLog.log("成功匹配！");
                     Uri uri = Uri.parse("exlink://test");
                     String activityName = param.thisObject.getClass().getName();

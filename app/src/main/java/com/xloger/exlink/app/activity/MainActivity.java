@@ -19,6 +19,7 @@ import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.FileUtil;
+import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.ViewTool;
 
 import java.util.LinkedList;
@@ -32,7 +33,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private Context context;
 
-    private static final int nowInitVersion=1;
+    private static final int nowInitVersion=3;
     private Button show;
 
     @Override
@@ -85,11 +86,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void initAppData(){
+        MyLog.log("进行了初始化规则");
         appList=new LinkedList<App>();
         App qq=new App();
         qq.setAppName("QQ");
         qq.setPackageName("com.tencent.mobileqq");
-        qq.setActivityName("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
+        List<String> qqActivityName=new LinkedList<String>();
+        qqActivityName.add("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
+        qq.setActivityName(qqActivityName);
         qq.setExtrasKey("url");
         qq.setIsUse(true);
         qq.setIsUserBuild(false);
@@ -98,7 +102,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         App qqLite=new App();
         qqLite.setAppName("QQ轻聊版");
         qqLite.setPackageName("com.tencent.qqlite");
-        qqLite.setActivityName("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
+        List<String> qqLiteActivityName=new LinkedList<String>();
+        qqLiteActivityName.add("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
+        qqLite.setActivityName(qqLiteActivityName);
         qqLite.setExtrasKey("url");
         qqLite.setIsUse(true);
         qqLite.setIsUserBuild(false);
@@ -107,11 +113,37 @@ public class MainActivity extends Activity implements View.OnClickListener {
         App qqi=new App();
         qqi.setAppName("QQ国际版");
         qqi.setPackageName("com.tencent.mobileqqi");
-        qqi.setActivityName("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
+        List<String> qqiActivityName=new LinkedList<String>();
+        qqiActivityName.add("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
+        qqi.setActivityName(qqiActivityName);
         qqi.setExtrasKey("url");
         qqi.setIsUse(true);
         qqi.setIsUserBuild(false);
         appList.add(qqi);
+
+        App tieba=new App();
+        tieba.setAppName("百度贴吧");
+        tieba.setPackageName("com.baidu.tieba");
+        List<String> tiebaActivityName=new LinkedList<String>();
+        tiebaActivityName.add("com.baidu.tieba.imMessageCenter.im.chat.PersonalChatActivity");
+        tiebaActivityName.add("com.baidu.tieba.pb.pb.main.PbActivity");
+        tieba.setActivityName(tiebaActivityName);
+        tieba.setExtrasKey("tag_url");
+        tieba.setIsUse(true);
+        tieba.setIsUserBuild(false);
+        appList.add(tieba);
+
+        App weibo=new App();
+        weibo.setAppName("微博");
+        weibo.setPackageName("com.sina.weibo");
+        List<String> weiboActivityName=new LinkedList<String>();
+        weiboActivityName.add("com.sina.weibo.feed.HomeListActivity");
+        weiboActivityName.add("com.sina.weibo.weiyou.DMSingleChatActivity");
+        weibo.setActivityName(weiboActivityName);
+        weibo.setExtrasKey("com_sina_weibo_weibobrowser_url");
+        weibo.setIsUse(true);
+        weibo.setIsUserBuild(false);
+        appList.add(weibo);
 
 //        App weChat=new App();
 //        weChat.setAppName("微信");
@@ -170,7 +202,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private static String[] longClickList=new String[]{"删除"};
+    private static String[] longClickList=new String[]{"添加页面","删除"};
 
     private ItemCallBack itemCallBack=new ItemCallBack() {
         @Override
@@ -192,6 +224,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which==0){
+                        appList.get(position).setIsTest(true);
+                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                        openStepTwo();
+                    }else if (which==1){
                         if (!appList.get(position).isUserBuild()){
                             Toast.makeText(context,"系统规则不允许删除",Toast.LENGTH_SHORT).show();
                             return;
