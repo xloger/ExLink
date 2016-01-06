@@ -3,6 +3,7 @@ package com.xloger.exlink.app.entity;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by xloger on 1月1日.
@@ -13,7 +14,7 @@ public class App implements Serializable {
     private int id;
     private String appName;
     private String packageName;
-    private String activityName;
+    private List<String> activityName;
     private String extrasKey;
     private boolean isUse;
     private boolean isUserBuild;
@@ -43,11 +44,11 @@ public class App implements Serializable {
         this.packageName = packageName;
     }
 
-    public String getActivityName() {
+    public List<String> getActivityName() {
         return activityName;
     }
 
-    public void setActivityName(String activityName) {
+    public void setActivityName(List<String> activityName) {
         this.activityName = activityName;
     }
 
@@ -100,7 +101,7 @@ public class App implements Serializable {
                 "id=" + id +
                 ", appName='" + appName + '\'' +
                 ", packageName='" + packageName + '\'' +
-                ", activityName='" + activityName + '\'' +
+                ", activityName=" + activityName +
                 ", extrasKey='" + extrasKey + '\'' +
                 ", isUse=" + isUse +
                 ", isUserBuild=" + isUserBuild +
