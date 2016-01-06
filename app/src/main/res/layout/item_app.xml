@@ -16,11 +16,34 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
-        <TextView
-                android:id="@+id/app_name"
-                android:layout_width="wrap_content"
+        <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:orientation="horizontal"
+                >
+            <TextView
+                    android:id="@+id/app_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    />
+            <TextView
+                    android:id="@+id/app_system"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="[自带]"
+                    android:textColor="#0F0"
+                    />
+            <TextView
+                    android:id="@+id/app_test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="[待添加]"
+                    android:textColor="#F00"
+                    />
+        </LinearLayout>
         <TextView
                 android:id="@+id/app_package_name"
                 android:layout_width="wrap_content"
