@@ -14,6 +14,7 @@ public class App implements Serializable {
     private String appName;
     private String packageName;
     private String activityName;
+    private String extrasKey;
     private boolean isUse;
     private boolean isUserBuild;
     private boolean isTest;
@@ -50,6 +51,14 @@ public class App implements Serializable {
         this.activityName = activityName;
     }
 
+    public String getExtrasKey() {
+        return extrasKey;
+    }
+
+    public void setExtrasKey(String extrasKey) {
+        this.extrasKey = extrasKey;
+    }
+
     public boolean isUse() {
         return isUse;
     }
@@ -83,5 +92,19 @@ public class App implements Serializable {
         //TODO 生成Json格式的字符串
 
         return ret;
+    }
+
+    @Override
+    public String toString() {
+        return "App{" +
+                "id=" + id +
+                ", appName='" + appName + '\'' +
+                ", packageName='" + packageName + '\'' +
+                ", activityName='" + activityName + '\'' +
+                ", extrasKey='" + extrasKey + '\'' +
+                ", isUse=" + isUse +
+                ", isUserBuild=" + isUserBuild +
+                ", isTest=" + isTest +
+                '}';
     }
 }

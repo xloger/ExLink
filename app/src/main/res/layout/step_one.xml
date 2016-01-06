@@ -16,7 +16,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="输入完成后，请在点击“确定”按钮后重启手机，再打开本App"
+            android:text="点击“确定”后请重启手机，再打开本App"
             />
 
 </LinearLayout>

@@ -28,12 +28,18 @@
                 android:layout_height="wrap_content"
                 android:text="@string/new_rule"
                 />
+
+        <Button
+                android:id="@+id/show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="show"
+                />
         <TextView
+                android:id="@+id/show_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="“新建规则”暂时没写"
                 />
-
 
     </LinearLayout>
 

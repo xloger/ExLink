@@ -61,4 +61,19 @@ public class StreamUtil {
 
         }
     }
+
+    public static boolean isMatch(String s1,String s2){
+        if (s1==null||s2==null){
+            return false;
+        }
+
+        if (s1.equals(s2)){
+            return true;
+        }
+
+        if (s1.startsWith(s2)||s2.startsWith(s1)){
+            return true;
+        }
+        return false;
+    }
 }
