@@ -162,7 +162,6 @@ public class FileUtil {
     public static List<App> getAppList(){
         List<App> apps = null;
         if (appList == null) {
-            MyLog.log("这个应该不会一直获取吧？");
             apps= (List<App>) loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
             appList=apps;
         }else {

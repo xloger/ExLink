@@ -3,6 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="new_rule">new rule</string>
 
+    <string name="test_url">http://www.example.org/ex-link-test</string>
+
     <item type="id" name="app_adapter_view_holder"/>
     <item type="id" name="app_adapter_position"/>
 </resources>

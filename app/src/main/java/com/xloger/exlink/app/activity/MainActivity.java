@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.browse.MediaBrowser;
 import android.os.Bundle;
@@ -36,10 +37,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context=MainActivity.this;
         initView();
         initAppList();
-
-        context=MainActivity.this;
+        openStepTwo();
 
         appAdapter = new AppAdapter(this,appList,itemCallBack);
         listView.setAdapter(appAdapter);
@@ -107,6 +108,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     }
 
+    private void openStepTwo(){
+        for (int i=0;i<appList.size();i++){
+            if (appList.get(i).isTest()){
+
+                Intent intent = new Intent(context,StepTwoActivity.class);
+                startActivity(intent);
+            }
+        }
+    }
+
     @Override
     public void onClick(View v) {
         if (v.getId()==addApp.getId()){
@@ -129,6 +140,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                         appList.add(testApp);
                         FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                        Toast.makeText(context,"请重启手机，之后再打开本App",Toast.LENGTH_SHORT).show();
                     }
                 }
             });
