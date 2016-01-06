@@ -3,5 +3,7 @@
     <string name="app_name">去你大爷的内置浏览器</string>
     <string name="new_rule">新建规则</string>
 
+    <string name="test_url">http://www.example.org/ex-link-test</string>
+
     <string name="action_settings">设置</string>
 </resources>

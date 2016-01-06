@@ -29,16 +29,17 @@
                 android:text="@string/new_rule"
                 />
 
-        <Button
-                android:id="@+id/show"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="show"
-                />
+        <!--<Button-->
+                <!--android:id="@+id/show"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="show"-->
+                <!--/>-->
         <TextView
                 android:id="@+id/show_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="”新建规则“虽然写好了基本的，但是不推荐现在使用。以及长按的”添加页面“，暂时不推荐操作.\n等我下次更新写好”使用说明“吧。"
                 />
 
     </LinearLayout>
