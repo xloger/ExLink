@@ -19,6 +19,7 @@ import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.FileUtil;
+import com.xloger.exlink.app.util.ViewTool;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -44,6 +45,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         appAdapter = new AppAdapter(this,appList,itemCallBack);
         listView.setAdapter(appAdapter);
+        ViewTool.setListViewHeightBasedOnChildren(listView);
 
         addApp.setOnClickListener(this);
 
@@ -111,9 +113,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void openStepTwo(){
         for (int i=0;i<appList.size();i++){
             if (appList.get(i).isTest()){
-
                 Intent intent = new Intent(context,StepTwoActivity.class);
                 startActivity(intent);
+                break;
             }
         }
     }
@@ -140,6 +142,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                         appList.add(testApp);
                         FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                        ViewTool.setListViewHeightBasedOnChildren(listView);
                         Toast.makeText(context,"请重启手机，之后再打开本App",Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -182,6 +185,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         }
                         appList.remove(position);
                         FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                        ViewTool.setListViewHeightBasedOnChildren(listView);
                         appAdapter.notifyDataSetChanged();
                     }
                 }

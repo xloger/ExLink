@@ -67,6 +67,8 @@ public class AppAdapter extends BaseAdapter implements View.OnClickListener, Vie
             viewHolder.use= (CheckBox) ret.findViewById(R.id.app_use);
             viewHolder.name= (TextView) ret.findViewById(R.id.app_name);
             viewHolder.packageName= (TextView) ret.findViewById(R.id.app_package_name);
+            viewHolder.system= (TextView) ret.findViewById(R.id.app_system);
+            viewHolder.test= (TextView) ret.findViewById(R.id.app_test);
             ret.setTag(R.id.app_adapter_view_holder,viewHolder);
         }
 
@@ -80,6 +82,15 @@ public class AppAdapter extends BaseAdapter implements View.OnClickListener, Vie
         viewHolder.layout.setTag(position+"");
         viewHolder.layout.setTag(R.id.app_adapter_position,position+"");
         viewHolder.layout.setOnLongClickListener(this);
+
+        viewHolder.system.setVisibility(View.GONE);
+        if (!appList.get(position).isUserBuild()){
+            viewHolder.system.setVisibility(View.VISIBLE);
+        }
+        viewHolder.test.setVisibility(View.GONE);
+        if (appList.get(position).isTest()){
+            viewHolder.test.setVisibility(View.VISIBLE);
+        }
 
         return ret;
     }
@@ -107,5 +118,7 @@ public class AppAdapter extends BaseAdapter implements View.OnClickListener, Vie
         public CheckBox use;
         public TextView name;
         public TextView packageName;
+        public TextView system;
+        public TextView test;
     }
 }
