@@ -28,6 +28,24 @@
             </intent-filter>
         </activity>
 
+        <activity
+                android:name=".activity.StepTwoActivity"
+                android:label="步骤二"
+                >
+        </activity>
+
+        <activity
+                android:name=".activity.StepThreeActivity"
+                android:label="步骤三"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="exlink"/>
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

@@ -13,6 +13,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import java.util.List;
+import java.util.Set;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
@@ -56,7 +57,8 @@ public class HookMain implements IXposedHookLoadPackage {
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 
             if (appList.get(index).isTest()){
-                sendToExLink();
+                MyLog.log("进入test模块！");
+                sendToExLink(param);
                 return;
             }
 
@@ -66,10 +68,7 @@ public class HookMain implements IXposedHookLoadPackage {
                 return;
 
             Intent intent = (Intent)param.args[0];
-            MyLog.log("Intent: " + intent.toString());
-            MyLog.log(" - With extras: " + intent.getExtras().toString());
             String externalUrl = intent.getStringExtra("url");
-            MyLog.log("Get a internal url: " + externalUrl);
             Uri uri = Uri.parse(externalUrl);
             Intent exIntent = new Intent();
             exIntent.setAction(Intent.ACTION_VIEW);
@@ -79,7 +78,34 @@ public class HookMain implements IXposedHookLoadPackage {
             param.setResult(null); // prevent opening internal browser
         }
 
-        private void sendToExLink() {
+        private void sendToExLink(XC_MethodHook.MethodHookParam param) {
+            Intent intent = (Intent)param.args[0];
+            MyLog.log("Intent: " + intent.toString());
+            MyLog.log(" - With extras: " + intent.getExtras().toString());
+            Bundle extras = intent.getExtras();
+            Set<String> keySet = extras.keySet();
+            for (String key : keySet) {
+                Object o = extras.get(key);
+                String value;
+                if (o instanceof String){
+                    value= (String) o;
+                }else {
+                    continue;
+                }
+                if ("http://www.example.org/ex-link-test".equals(value)){
+                    MyLog.log("成功匹配！");
+                    Uri uri = Uri.parse("exlink://test");
+                    String activityName = param.thisObject.getClass().getName();
+
+                    Intent sendToExLinkIntent=new Intent();
+                    sendToExLinkIntent.setAction(Intent.ACTION_VIEW);
+                    sendToExLinkIntent.setData(uri);
+                    sendToExLinkIntent.putExtra("activityName",activityName);
+                    sendToExLinkIntent.putExtra("position",index);
+                    ((Activity)param.thisObject).startActivity(sendToExLinkIntent);
+                    param.setResult(null);
+                }
+            }
 
         }
     };
