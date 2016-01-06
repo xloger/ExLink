@@ -33,7 +33,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private Context context;
 
-    private static final int nowInitVersion=3;
+    private static final int nowInitVersion=4;
     private Button show;
 
     @Override
@@ -51,20 +51,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         addApp.setOnClickListener(this);
 
-        show.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
-                textView.setText(appList.toString());
-            }
-        });
+//        show.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
+//                textView.setText(appList.toString());
+//            }
+//        });
 
     }
 
     private void initView(){
         listView = (ListView) findViewById(R.id.app_list);
         addApp = (Button) findViewById(R.id.add_app);
-        show = (Button) findViewById(R.id.show);
+//        show = (Button) findViewById(R.id.show);
     }
 
     private void initAppList(){
@@ -139,6 +139,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         List<String> weiboActivityName=new LinkedList<String>();
         weiboActivityName.add("com.sina.weibo.feed.HomeListActivity");
         weiboActivityName.add("com.sina.weibo.weiyou.DMSingleChatActivity");
+        weiboActivityName.add("com.sina.weibo.page.NewCardListActivity");
         weibo.setActivityName(weiboActivityName);
         weibo.setExtrasKey("com_sina_weibo_weibobrowser_url");
         weibo.setIsUse(true);
