@@ -1,9 +1,7 @@
 package com.xloger.exlink.app.entity;
 
-import org.json.JSONObject;
-
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by xloger on 1月1日.
@@ -14,8 +12,7 @@ public class App implements Serializable {
     private int id;
     private String appName;
     private String packageName;
-    private List<String> activityName;
-    private String extrasKey;
+    private Set<Rule> rules;
     private boolean isUse;
     private boolean isUserBuild;
     private boolean isTest;
@@ -44,20 +41,12 @@ public class App implements Serializable {
         this.packageName = packageName;
     }
 
-    public List<String> getActivityName() {
-        return activityName;
+    public Set<Rule> getRules() {
+        return rules;
     }
 
-    public void setActivityName(List<String> activityName) {
-        this.activityName = activityName;
-    }
-
-    public String getExtrasKey() {
-        return extrasKey;
-    }
-
-    public void setExtrasKey(String extrasKey) {
-        this.extrasKey = extrasKey;
+    public void setRules(Set<Rule> rules) {
+        this.rules = rules;
     }
 
     public boolean isUse() {
@@ -84,25 +73,13 @@ public class App implements Serializable {
         this.isTest = isTest;
     }
 
-    public void parseJson(JSONObject jsonObject){
-        //TODO 解析json
-    }
-
-    public String toJson(){
-        String ret = null;
-        //TODO 生成Json格式的字符串
-
-        return ret;
-    }
-
     @Override
     public String toString() {
         return "App{" +
                 "id=" + id +
                 ", appName='" + appName + '\'' +
                 ", packageName='" + packageName + '\'' +
-                ", activityName=" + activityName +
-                ", extrasKey='" + extrasKey + '\'' +
+                ", rules=" + rules +
                 ", isUse=" + isUse +
                 ", isUserBuild=" + isUserBuild +
                 ", isTest=" + isTest +

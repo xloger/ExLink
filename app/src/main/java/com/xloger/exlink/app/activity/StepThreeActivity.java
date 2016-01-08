@@ -6,10 +6,12 @@ import android.os.Bundle;
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.entity.App;
+import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.FileUtil;
 
-import java.util.LinkedList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by xloger on 1月6日.
@@ -28,13 +30,12 @@ public class StepThreeActivity extends Activity {
         List<App> appList = FileUtil.getAppList();
         if (appList != null) {
             App testApp = appList.get(position);
-            List<String> activityNameList = testApp.getActivityName();
-            if (activityNameList==null){
-                activityNameList=new LinkedList<String>();
+
+            Set<Rule> rules = testApp.getRules();
+            if (rules == null) {
+                rules=new HashSet<Rule>();
             }
-            activityNameList.add(activityName);
-            testApp.setActivityName(activityNameList);
-            testApp.setExtrasKey(extrasKey);
+            rules.add(new Rule(activityName,extrasKey));
             testApp.setIsTest(false);
             FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
         }

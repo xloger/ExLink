@@ -4,11 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Toast;
 import com.xloger.exlink.app.entity.App;
+import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
-import com.xloger.exlink.app.util.StreamUtil;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
@@ -44,9 +43,10 @@ public class HookMain implements IXposedHookLoadPackage {
         }
 
         for (int i = 0; i < appList.size(); i++) {
-            if(lpparam.packageName.equals(appList.get(i).getPackageName())&&appList.get(i).isUse()){
+            App app = appList.get(i);
+            if(lpparam.packageName.equals(app.getPackageName())&& app.isUse()){
                 index=i;
-                MyLog.log("进入"+appList.get(i).getAppName()+"("+appList.get(i).getPackageName()+")");
+                MyLog.log("进入"+ app.getAppName()+"("+ app.getPackageName()+")");
                 findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
                 break;
             }
@@ -57,9 +57,10 @@ public class HookMain implements IXposedHookLoadPackage {
     XC_MethodHook xc_methodHook=new XC_MethodHook(){
         @Override
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+            App app = appList.get(index);
 
             //如果该应用正处于“匹配模式”，则执行sendToExLink方法
-            if (appList.get(index).isTest()){
+            if (app.isTest()){
                 MyLog.log("进入匹配模式！");
                 sendToExLink(param);
                 return;
@@ -68,11 +69,13 @@ public class HookMain implements IXposedHookLoadPackage {
             //判断该Activity是否处于规则之中
             String activityName = param.thisObject.getClass().getName();
             MyLog.log("Started activity: " + activityName);
-            List<String> activityNameList = appList.get(index).getActivityName();
+            Set<Rule> ruleSet = app.getRules();
+            Rule rule = null;
             boolean activityIsMatch=false;
-            for (int i = 0; i < activityNameList.size(); i++) {
-                if (activityName.equals(activityNameList.get(i))){
+            for (Rule tempRule : ruleSet) {
+                if (activityName.equals(tempRule.getActivityName())){
                     activityIsMatch=true;
+                    rule=tempRule;
                     break;
                 }
             }
@@ -83,13 +86,13 @@ public class HookMain implements IXposedHookLoadPackage {
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());
             MyLog.log(" - With extras: " + intent.getExtras().toString());
-            String externalUrl = intent.getStringExtra(appList.get(index).getExtrasKey());
+            String externalUrl = intent.getStringExtra(rule.getExtrasKey());
             MyLog.log("externalUrl:"+externalUrl);
 
             //匹配奇葩
             if (externalUrl == null) {
                 MyLog.log("_(:з)∠)_知乎你为嘛这么奇葩......");
-                externalUrl=intent.getBundleExtra(appList.get(index).getExtrasKey()).toString();
+                externalUrl=intent.getBundleExtra(rule.getExtrasKey()).toString();
             }
 
             //Uri规范化

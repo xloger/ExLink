@@ -1,20 +1,17 @@
 package com.xloger.exlink.app.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.media.browse.MediaBrowser;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
-import com.xloger.exlink.app.Constant;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.activity.MainActivity;
 import com.xloger.exlink.app.entity.App;
-import com.xloger.exlink.app.util.FileUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

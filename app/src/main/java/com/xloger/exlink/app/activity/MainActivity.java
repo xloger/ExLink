@@ -6,24 +6,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.browse.MediaBrowser;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.*;
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
 import com.xloger.exlink.app.entity.App;
+import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.ViewTool;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends Activity implements View.OnClickListener {
     private List<App> appList;
@@ -33,7 +32,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private Context context;
 
-    private static final int nowInitVersion=4;
+    private static final int nowInitVersion=5;
     private Button show;
 
     @Override
@@ -91,10 +90,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         App qq=new App();
         qq.setAppName("QQ");
         qq.setPackageName("com.tencent.mobileqq");
-        List<String> qqActivityName=new LinkedList<String>();
-        qqActivityName.add("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
-        qq.setActivityName(qqActivityName);
-        qq.setExtrasKey("url");
+        Set<Rule> qqRule=new HashSet<Rule>();
+        qqRule.add(new Rule("com.tencent.mobileqq.activity.QQBrowserDelegationActivity","url"));
+        qq.setRules(qqRule);
         qq.setIsUse(true);
         qq.setIsUserBuild(false);
         appList.add(qq);
@@ -102,10 +100,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         App qqLite=new App();
         qqLite.setAppName("QQ轻聊版");
         qqLite.setPackageName("com.tencent.qqlite");
-        List<String> qqLiteActivityName=new LinkedList<String>();
-        qqLiteActivityName.add("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
-        qqLite.setActivityName(qqLiteActivityName);
-        qqLite.setExtrasKey("url");
+        Set<Rule> qqLiteRule=new HashSet<Rule>();
+        qqLiteRule.add(new Rule("com.tencent.mobileqq.activity.QQBrowserDelegationActivity","url"));
+        qqLite.setRules(qqLiteRule);
         qqLite.setIsUse(true);
         qqLite.setIsUserBuild(false);
         appList.add(qqLite);
@@ -113,10 +110,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         App qqi=new App();
         qqi.setAppName("QQ国际版");
         qqi.setPackageName("com.tencent.mobileqqi");
-        List<String> qqiActivityName=new LinkedList<String>();
-        qqiActivityName.add("com.tencent.mobileqq.activity.QQBrowserDelegationActivity");
-        qqi.setActivityName(qqiActivityName);
-        qqi.setExtrasKey("url");
+        Set<Rule> qqiRule=new HashSet<Rule>();
+        qqiRule.add(new Rule("com.tencent.mobileqq.activity.QQBrowserDelegationActivity", "url"));
+        qqi.setRules(qqiRule);
         qqi.setIsUse(true);
         qqi.setIsUserBuild(false);
         appList.add(qqi);
@@ -124,11 +120,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         App tieba=new App();
         tieba.setAppName("百度贴吧");
         tieba.setPackageName("com.baidu.tieba");
-        List<String> tiebaActivityName=new LinkedList<String>();
-        tiebaActivityName.add("com.baidu.tieba.imMessageCenter.im.chat.PersonalChatActivity");
-        tiebaActivityName.add("com.baidu.tieba.pb.pb.main.PbActivity");
-        tieba.setActivityName(tiebaActivityName);
-        tieba.setExtrasKey("tag_url");
+        Set<Rule> tiebaRule=new HashSet<Rule>();
+        tiebaRule.add(new Rule("com.baidu.tieba.imMessageCenter.im.chat.PersonalChatActivity","tag_url"));
+        tiebaRule.add(new Rule("com.baidu.tieba.pb.pb.main.PbActivity","tag_url"));
+        tieba.setRules(tiebaRule);
         tieba.setIsUse(true);
         tieba.setIsUserBuild(false);
         appList.add(tieba);
@@ -136,12 +131,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
         App weibo=new App();
         weibo.setAppName("微博");
         weibo.setPackageName("com.sina.weibo");
-        List<String> weiboActivityName=new LinkedList<String>();
-        weiboActivityName.add("com.sina.weibo.feed.HomeListActivity");
-        weiboActivityName.add("com.sina.weibo.weiyou.DMSingleChatActivity");
-        weiboActivityName.add("com.sina.weibo.page.NewCardListActivity");
-        weibo.setActivityName(weiboActivityName);
-        weibo.setExtrasKey("com_sina_weibo_weibobrowser_url");
+        Set<Rule> weiboRule=new HashSet<Rule>();
+        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));
+        weiboRule.add(new Rule("com.sina.weibo.weiyou.DMSingleChatActivity","com_sina_weibo_weibobrowser_url"));
+        weiboRule.add(new Rule("com.sina.weibo.page.NewCardListActivity","com_sina_weibo_weibobrowser_url"));
+        weibo.setRules(weiboRule);
         weibo.setIsUse(true);
         weibo.setIsUserBuild(false);
         appList.add(weibo);
