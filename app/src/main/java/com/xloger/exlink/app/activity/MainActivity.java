@@ -51,20 +51,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         addApp.setOnClickListener(this);
 
-//        show.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
-//                textView.setText(appList.toString());
-//            }
-//        });
+        show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
+                textView.setText(appList.toString());
+            }
+        });
 
     }
 
     private void initView(){
         listView = (ListView) findViewById(R.id.app_list);
         addApp = (Button) findViewById(R.id.add_app);
-//        show = (Button) findViewById(R.id.show);
+        show = (Button) findViewById(R.id.show);
     }
 
     private void initAppList(){

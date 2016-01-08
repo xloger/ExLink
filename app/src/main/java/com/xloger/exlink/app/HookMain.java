@@ -46,6 +46,7 @@ public class HookMain implements IXposedHookLoadPackage {
         for (int i = 0; i < appList.size(); i++) {
             if(lpparam.packageName.equals(appList.get(i).getPackageName())&&appList.get(i).isUse()){
                 index=i;
+                MyLog.log("进入"+appList.get(i).getAppName()+"("+appList.get(i).getPackageName()+")");
                 findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
                 break;
             }
@@ -57,12 +58,14 @@ public class HookMain implements IXposedHookLoadPackage {
         @Override
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
 
+            //如果该应用正处于“匹配模式”，则执行sendToExLink方法
             if (appList.get(index).isTest()){
-                MyLog.log("进入test模式！");
+                MyLog.log("进入匹配模式！");
                 sendToExLink(param);
                 return;
             }
 
+            //判断该Activity是否处于规则之中
             String activityName = param.thisObject.getClass().getName();
             MyLog.log("Started activity: " + activityName);
             List<String> activityNameList = appList.get(index).getActivityName();
@@ -76,12 +79,28 @@ public class HookMain implements IXposedHookLoadPackage {
             if(!activityIsMatch)
                 return;
 
+            //分析获取的Intent
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());
             MyLog.log(" - With extras: " + intent.getExtras().toString());
             String externalUrl = intent.getStringExtra(appList.get(index).getExtrasKey());
             MyLog.log("externalUrl:"+externalUrl);
+
+            //匹配奇葩
+            if (externalUrl == null) {
+                MyLog.log("_(:з)∠)_知乎你为嘛这么奇葩......");
+                externalUrl=intent.getBundleExtra(appList.get(index).getExtrasKey()).toString();
+            }
+
+            //Uri规范化
+            if (!externalUrl.startsWith("http")){
+                MyLog.log("Url不符合规范，正在二次分析");
+                //TODO 三三你快来写
+            }
+
+            //发送干净的Intent
             Uri uri = Uri.parse(externalUrl);
+
             Intent exIntent = new Intent();
             exIntent.setAction(Intent.ACTION_VIEW);
             exIntent.setData(uri);
@@ -98,12 +117,12 @@ public class HookMain implements IXposedHookLoadPackage {
             Set<String> keySet = extras.keySet();
             for (String key : keySet) {
                 Object o = extras.get(key);
-                String value;
-                if (o instanceof String){
-                    value= (String) o;
-                }else {
-                    continue;
-                }
+                String value=o.toString();
+//                if (o instanceof String){
+//                    value= (String) o;
+//                }else {
+//                    continue;
+//                }
 
                 //微博特殊匹配
                 boolean weiboRule=false;
@@ -112,9 +131,7 @@ public class HookMain implements IXposedHookLoadPackage {
                         weiboRule=true;
                     }
                 }
-
-
-                if (value.contains("http://www.example.org/ex-link-test")||value.contains("http%3A%2F%2Fwww.example.org%2Fex-link-test")||weiboRule){
+                if ((value.contains("www.example.org")&&value.contains("ex-link-test"))||weiboRule){
                     MyLog.log("成功匹配！");
                     Uri uri = Uri.parse("exlink://test");
                     String activityName = param.thisObject.getClass().getName();
