@@ -46,6 +46,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+                android:name=".activity.AddWhiteUrl"
+                android:label="添加白名单"
+                >
+
+        </activity>
+
     </application>
 
 </manifest>

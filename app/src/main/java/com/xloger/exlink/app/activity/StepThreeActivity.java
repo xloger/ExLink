@@ -3,11 +3,13 @@ package com.xloger.exlink.app.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.FileUtil;
+import com.xloger.exlink.app.util.MyLog;
 
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +36,7 @@ public class StepThreeActivity extends Activity {
             Set<Rule> rules = testApp.getRules();
             if (rules == null) {
                 rules=new HashSet<Rule>();
+                testApp.setRules(rules);
             }
             rules.add(new Rule(activityName,extrasKey));
             testApp.setIsTest(false);
