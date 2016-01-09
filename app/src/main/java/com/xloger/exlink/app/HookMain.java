@@ -92,12 +92,24 @@ public class HookMain implements IXposedHookLoadPackage {
             //匹配奇葩
             if (externalUrl == null) {
                 MyLog.log("_(:з)∠)_知乎你为嘛这么奇葩......");
-                externalUrl=intent.getBundleExtra(rule.getExtrasKey()).toString();
+                Bundle bundleExtra = intent.getBundleExtra(rule.getExtrasKey());
+                Set<String> keySet = bundleExtra.keySet();
+                for (String key : keySet) {
+                    Object o = bundleExtra.get(key);
+                    String value=o.toString();
+                    if (value.startsWith("http")){
+                        externalUrl=value;
+                        MyLog.log("匹配奇葩规则成功");
+                    }else {
+                        throw new Exception("无法匹配Url!");
+                    }
+                }
             }
 
             //Uri规范化
             if (!externalUrl.startsWith("http")){
                 MyLog.log("Url不符合规范，正在二次分析");
+                MyLog.log("当前externalUrl:"+externalUrl);
                 //TODO 三三你快来写
             }
 
