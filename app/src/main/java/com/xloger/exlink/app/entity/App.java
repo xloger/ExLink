@@ -13,6 +13,7 @@ public class App implements Serializable {
     private String appName;
     private String packageName;
     private Set<Rule> rules;
+    private Set<String> whiteUrl;
     private boolean isUse;
     private boolean isUserBuild;
     private boolean isTest;
@@ -49,6 +50,14 @@ public class App implements Serializable {
         this.rules = rules;
     }
 
+    public Set<String> getWhiteUrl() {
+        return whiteUrl;
+    }
+
+    public void setWhiteUrl(Set<String> whiteUrl) {
+        this.whiteUrl = whiteUrl;
+    }
+
     public boolean isUse() {
         return isUse;
     }
@@ -80,6 +89,7 @@ public class App implements Serializable {
                 ", appName='" + appName + '\'' +
                 ", packageName='" + packageName + '\'' +
                 ", rules=" + rules +
+                ", whiteUrl=" + whiteUrl +
                 ", isUse=" + isUse +
                 ", isUserBuild=" + isUserBuild +
                 ", isTest=" + isTest +

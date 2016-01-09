@@ -101,9 +101,21 @@ public class HookMain implements IXposedHookLoadPackage {
                 //TODO 三三你快来写
             }
 
-            //发送干净的Intent
             Uri uri = Uri.parse(externalUrl);
 
+            //检查白名单
+            Set<String> whiteUrl = app.getWhiteUrl();
+            if (whiteUrl != null) {
+                for (String s : whiteUrl) {
+                    if (uri.getHost().equals(s)){
+                        MyLog.log("处于白名单之中，跳过");
+                        return;
+                    }
+                }
+            }
+
+
+            //发送干净的Intent
             Intent exIntent = new Intent();
             exIntent.setAction(Intent.ACTION_VIEW);
             exIntent.setData(uri);

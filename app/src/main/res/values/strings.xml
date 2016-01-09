@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ExLink</string>
     <string name="action_settings">Settings</string>
-    <string name="new_rule">new rule</string>
+    <string name="new_rule">add app</string>
 
     <string name="test_url">http://www.example.org/ex-link-test</string>
 

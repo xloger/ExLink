@@ -93,6 +93,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Set<Rule> qqRule=new HashSet<Rule>();
         qqRule.add(new Rule("com.tencent.mobileqq.activity.QQBrowserDelegationActivity","url"));
         qq.setRules(qqRule);
+        Set<String> qqWhiteUrl=new HashSet<String>();
+        qqWhiteUrl.add("h5.qzone.qq.com");
+        qq.setWhiteUrl(qqWhiteUrl);
         qq.setIsUse(true);
         qq.setIsUserBuild(false);
         appList.add(qq);
@@ -197,7 +200,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private static String[] longClickList=new String[]{"添加页面","删除"};
+    private static String[] longClickList=new String[]{"添加规则","添加白名单","删除"};
 
     private ItemCallBack itemCallBack=new ItemCallBack() {
         @Override
@@ -223,6 +226,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
                         openStepTwo();
                     }else if (which==1){
+                        Intent intent=new Intent(context,AddWhiteUrl.class);
+                        startActivity(intent);
+                    }else if (which==2){
                         if (!appList.get(position).isUserBuild()){
                             Toast.makeText(context,"系统规则不允许删除",Toast.LENGTH_SHORT).show();
                             return;
