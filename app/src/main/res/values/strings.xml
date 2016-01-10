@@ -7,4 +7,7 @@
 
     <item type="id" name="app_adapter_view_holder"/>
     <item type="id" name="app_adapter_position"/>
+    <string name="title_activity_read_me">ReadMeActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

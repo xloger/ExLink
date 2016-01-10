@@ -23,36 +23,36 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
-
         <activity
-                android:name=".activity.StepTwoActivity"
-                android:label="步骤二"
-                >
+            android:name=".activity.StepTwoActivity"
+            android:label="步骤二" >
         </activity>
-
         <activity
-                android:name=".activity.StepThreeActivity"
-                android:label="步骤三"
-                >
+            android:name=".activity.StepThreeActivity"
+            android:label="步骤三" >
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="exlink"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="exlink" />
             </intent-filter>
         </activity>
-
         <activity
-                android:name=".activity.AddWhiteUrl"
-                android:label="添加白名单"
-                >
-
+            android:name=".activity.AddWhiteUrl"
+            android:label="添加白名单" >
         </activity>
-
+        <activity
+            android:name=".activity.ReadMeActivity"
+            android:theme="@android:style/Theme.Holo.NoActionBar"
+            android:label="@string/title_activity_read_me" >
+        </activity>
     </application>
 
 </manifest>

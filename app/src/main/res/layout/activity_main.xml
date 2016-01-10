@@ -29,6 +29,15 @@
                 android:text="@string/new_rule"
                 />
 
+            <TextView
+                    android:id="@+id/main_read_me"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="使用说明"
+                    android:textColor="#2196F3"
+                    android:textSize="18sp"
+                    />
+
         <Button
                 android:id="@+id/show"
                 android:layout_width="match_parent"
