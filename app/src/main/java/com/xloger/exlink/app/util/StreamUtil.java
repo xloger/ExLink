@@ -3,6 +3,8 @@ package com.xloger.exlink.app.util;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by xloger on 2015/10/26.
@@ -75,5 +77,25 @@ public class StreamUtil {
             return true;
         }
         return false;
+    }
+
+    public static String parseUrl(String s){
+        StringBuffer ret = new StringBuffer();
+        Pattern pattern =Pattern.compile("https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)");//匹配的模式
+//        Pattern pattern =Pattern.compile("charset=(.+?)https?:\\/\\/");//匹配的模式
+
+        //通配符中也要加入转移字符 (.+?)代表要查找的内容
+
+        Matcher matcher=pattern.matcher(s);
+
+        while(matcher.find())
+
+        {
+            ret.append(matcher.group());
+            System.out.println(matcher.group()); //每次返回第一个即可 可用groupcount()方法来查看捕获的组数 个数
+
+        }
+
+        return ret.toString();
     }
 }

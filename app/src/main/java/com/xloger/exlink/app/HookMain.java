@@ -8,10 +8,12 @@ import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
+import com.xloger.exlink.app.util.StreamUtil;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.Set;
 
@@ -90,30 +92,48 @@ public class HookMain implements IXposedHookLoadPackage {
             MyLog.log("externalUrl:"+externalUrl);
 
             //匹配奇葩
+//            if (externalUrl == null) {
+//                MyLog.log("_(:з)∠)_知乎你为嘛这么奇葩......");
+//                Bundle bundleExtra = intent.getBundleExtra(rule.getExtrasKey());
+//                if (bundleExtra != null) {
+//                    Set<String> keySet = bundleExtra.keySet();
+//                    for (String key : keySet) {
+//                        Object o = bundleExtra.get(key);
+//                        String value=o.toString();
+//                        if (value.startsWith("http")){
+//                            externalUrl=value;
+//                            MyLog.log("匹配奇葩规则成功");
+//                        }
+//                    }
+//                }
+//            }
+
             if (externalUrl == null) {
-                MyLog.log("_(:з)∠)_知乎你为嘛这么奇葩......");
                 Bundle bundleExtra = intent.getBundleExtra(rule.getExtrasKey());
-                Set<String> keySet = bundleExtra.keySet();
-                for (String key : keySet) {
-                    Object o = bundleExtra.get(key);
-                    String value=o.toString();
-                    if (value.startsWith("http")){
-                        externalUrl=value;
-                        MyLog.log("匹配奇葩规则成功");
-                    }else {
-                        throw new Exception("无法匹配Url!");
-                    }
+                if (bundleExtra != null) {
+                    externalUrl= bundleExtra.toString();
+                }
+                if (externalUrl==null||!externalUrl.contains("http")){
+                    externalUrl=intent.toUri(0);
+                    Uri parse = Uri.parse(externalUrl);
                 }
             }
 
-            //Uri规范化
+            if (externalUrl == null||"".equals(externalUrl)) {
+                throw new Exception("无法获取url");
+            }
+
+            //Url规范化
             if (!externalUrl.startsWith("http")){
                 MyLog.log("Url不符合规范，正在二次分析");
                 MyLog.log("当前externalUrl:"+externalUrl);
-                //TODO 三三你快来写
+                externalUrl= URLDecoder.decode(externalUrl);
+                externalUrl= StreamUtil.parseUrl(externalUrl);
+                MyLog.log("处理后externalUrl:"+externalUrl);
             }
 
             Uri uri = Uri.parse(externalUrl);
+            MyLog.log("uri:"+uri);
 
             //检查白名单
             Set<String> whiteUrl = app.getWhiteUrl();
@@ -126,13 +146,16 @@ public class HookMain implements IXposedHookLoadPackage {
                 }
             }
 
+            if (externalUrl != null&&externalUrl.contains("http")) {
 
-            //发送干净的Intent
-            Intent exIntent = new Intent();
-            exIntent.setAction(Intent.ACTION_VIEW);
-            exIntent.setData(uri);
-            ((Activity)param.thisObject).startActivity(exIntent);
 
+                //发送干净的Intent
+                Intent exIntent = new Intent();
+                exIntent.setAction(Intent.ACTION_VIEW);
+                exIntent.setData(uri);
+                ((Activity)param.thisObject).startActivity(exIntent);
+
+            }
             param.setResult(null); // prevent opening internal browser
         }
 
