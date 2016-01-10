@@ -239,8 +239,37 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
                         openStepTwo();
                     }else if (which==1){
-                        Intent intent=new Intent(context,AddWhiteUrl.class);
-                        startActivity(intent);
+                        final View oneStepView = LayoutInflater.from(MainActivity.this).inflate(R.layout.add_white, null);
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        builder.setTitle("添加白名单").setView(oneStepView);
+                        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                EditText whiteNameEditText= (EditText) oneStepView.findViewById(R.id.add_white_name);
+                                String whiteName=whiteNameEditText.getText().toString();
+                                if (!"".equals(whiteName)&&whiteName.length()!=0) {
+                                    App changeApp=appList.get(position);
+                                    Set<String> whiteUrl = changeApp.getWhiteUrl();
+                                    if (whiteUrl == null) {
+                                        whiteUrl=new HashSet<String>();
+                                        changeApp.setWhiteUrl(whiteUrl);
+                                    }
+                                    if (!"".equals(whiteName)) {
+                                        whiteUrl.add(whiteName);
+                                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                                        Toast.makeText(context,"添加成功",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            }
+                        });
+                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.create().show();
                     }else if (which==2){
                         if (!appList.get(position).isUserBuild()){
                             Toast.makeText(context,"系统规则不允许删除",Toast.LENGTH_SHORT).show();
