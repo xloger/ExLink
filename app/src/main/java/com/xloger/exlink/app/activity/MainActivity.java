@@ -17,6 +17,7 @@ import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
+import com.xloger.exlink.app.util.StreamUtil;
 import com.xloger.exlink.app.util.ViewTool;
 
 import java.util.HashSet;
@@ -32,7 +33,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private Context context;
 
-    private static final int nowInitVersion=5;
+    private static final int nowInitVersion=7;
     private Button show;
 
     @Override
@@ -55,6 +56,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             public void onClick(View v) {
                 TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
                 textView.setText(appList.toString());
+//                String s="sinaweibo://browser?url=http://share.acg.tv/av3439126&sinainternalbrowser=topnav&share_menu=1&url_type=39&object_type=video&pos=2";
+//                String ret= StreamUtil.parseUrl(s);
+//                textView.setText(ret);
             }
         });
 
@@ -139,6 +143,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         weiboRule.add(new Rule("com.sina.weibo.weiyou.DMSingleChatActivity","com_sina_weibo_weibobrowser_url"));
         weiboRule.add(new Rule("com.sina.weibo.page.NewCardListActivity","com_sina_weibo_weibobrowser_url"));
         weibo.setRules(weiboRule);
+        Set<String> weiboWhiteUrl=new HashSet<String>();
+        weiboWhiteUrl.add("card.weibo.com");
+        weibo.setWhiteUrl(weiboWhiteUrl);
         weibo.setIsUse(true);
         weibo.setIsUserBuild(false);
         appList.add(weibo);
@@ -173,11 +180,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    EditText editText= (EditText) oneStepView.findViewById(R.id.new_rule_package_name);
-                    String newRulePackageName=editText.getText().toString();
+                    EditText appEditText= (EditText) oneStepView.findViewById(R.id.new_rule_app_name);
+                    EditText packageEditText= (EditText) oneStepView.findViewById(R.id.new_rule_package_name);
+                    String newRuleAppName=appEditText.getText().toString();
+                    String newRulePackageName=packageEditText.getText().toString();
                     if (!"".equals(newRulePackageName)&&newRulePackageName.length()!=0) {
                         App testApp=new App();
-                        testApp.setAppName("测试用例");
+                        if ("".equals(newRuleAppName)) {
+                            testApp.setAppName("测试用例");
+                        }else {
+                            testApp.setAppName(newRuleAppName);
+                        }
                         testApp.setPackageName(newRulePackageName);
                         testApp.setIsUse(true);
                         testApp.setIsUserBuild(true);
