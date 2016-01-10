@@ -35,6 +35,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private static final int nowInitVersion=7;
     private Button show;
+    private TextView readme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         ViewTool.setListViewHeightBasedOnChildren(listView);
 
         addApp.setOnClickListener(this);
+        readme.setOnClickListener(this);
+        readme.getPaint().setAntiAlias(true);
 
         show.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +71,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         listView = (ListView) findViewById(R.id.app_list);
         addApp = (Button) findViewById(R.id.add_app);
         show = (Button) findViewById(R.id.show);
+        readme = (TextView) findViewById(R.id.main_read_me);
     }
 
     private void initAppList(){
@@ -210,6 +214,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
             });
             builder.create().show();
+        }else if(v.getId()==readme.getId()){
+            Intent intent=new Intent(context,ReadMeActivity.class);
+            startActivity(intent);
         }
     }
 
