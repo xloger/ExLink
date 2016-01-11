@@ -115,7 +115,7 @@ public class HookMain implements IXposedHookLoadPackage {
                 }
                 if (externalUrl==null||!externalUrl.contains("http")){
                     externalUrl=intent.toUri(0);
-                    Uri parse = Uri.parse(externalUrl);
+                    return;
                 }
             }
 
@@ -146,17 +146,16 @@ public class HookMain implements IXposedHookLoadPackage {
                 }
             }
 
-            if (externalUrl != null&&externalUrl.contains("http")) {
-
+            if (externalUrl != null&&externalUrl.startsWith("http")) {
 
                 //发送干净的Intent
                 Intent exIntent = new Intent();
                 exIntent.setAction(Intent.ACTION_VIEW);
                 exIntent.setData(uri);
                 ((Activity)param.thisObject).startActivity(exIntent);
+                param.setResult(null); // prevent opening internal browser
 
             }
-            param.setResult(null); // prevent opening internal browser
         }
 
         private void sendToExLink(XC_MethodHook.MethodHookParam param) {

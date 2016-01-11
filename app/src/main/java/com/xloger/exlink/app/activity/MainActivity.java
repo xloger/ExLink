@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
+import com.xloger.exlink.app.BuildConfig;
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
@@ -54,6 +55,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         readme.setOnClickListener(this);
         readme.getPaint().setAntiAlias(true);
 
+        if (!BuildConfig.DEBUG){
+            show.setVisibility(View.GONE);
+        }
         show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
