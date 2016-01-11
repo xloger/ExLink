@@ -51,7 +51,7 @@
         <activity
             android:name=".activity.ReadMeActivity"
             android:theme="@android:style/Theme.Holo.NoActionBar"
-            android:label="@string/title_activity_read_me" >
+            android:label="readme" >
         </activity>
     </application>
 
