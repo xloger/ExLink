@@ -7,7 +7,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请输入要屏蔽的App名称:（将来版本再做直接选择）"
+            android:text="@string/step_one_text1"
             />
     <EditText
             android:id="@+id/new_rule_app_name"
@@ -18,7 +18,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请输入想要屏蔽App的包名："
+            android:text="@string/step_one_text2"
             />
     <EditText
             android:id="@+id/new_rule_package_name"
@@ -28,7 +28,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="点击“确定”后请重启手机，再打开本App"
+            android:text="@string/step_one_text3"
             />
 
 </LinearLayout>

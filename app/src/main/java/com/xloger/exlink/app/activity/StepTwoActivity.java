@@ -31,6 +31,6 @@ public class StepTwoActivity extends Activity implements View.OnClickListener {
         ClipboardManager cmb = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
         cmb.setText(urlTextView.getText()); //将内容放入粘贴管理器,在别的地方长按选择"粘贴"即可
 //        cm.getText();//获取粘贴信息
-        Toast.makeText(this,"复制成功",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,getString(R.string.copy_succeed),Toast.LENGTH_SHORT).show();
     }
 }
