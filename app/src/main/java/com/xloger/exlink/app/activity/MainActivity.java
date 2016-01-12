@@ -18,7 +18,6 @@ import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
-import com.xloger.exlink.app.util.StreamUtil;
 import com.xloger.exlink.app.util.ViewTool;
 
 import java.util.HashSet;
@@ -184,8 +183,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
             final View oneStepView = LayoutInflater.from(MainActivity.this).inflate(R.layout.step_one, null);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("步骤一").setView(oneStepView);
-            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.step_one)).setView(oneStepView);
+            builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     EditText appEditText= (EditText) oneStepView.findViewById(R.id.new_rule_app_name);
@@ -195,7 +194,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     if (!"".equals(newRulePackageName)&&newRulePackageName.length()!=0) {
                         App testApp=new App();
                         if ("".equals(newRuleAppName)) {
-                            testApp.setAppName("测试用例");
+                            testApp.setAppName(getString(R.string.demo));
                         }else {
                             testApp.setAppName(newRuleAppName);
                         }
@@ -207,11 +206,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         appList.add(testApp);
                         FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
                         ViewTool.setListViewHeightBasedOnChildren(listView);
-                        Toast.makeText(context,"请重启手机，之后再打开本App",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context,getString(R.string.step_one_text4),Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -224,7 +223,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private static String[] longClickList=new String[]{"添加规则","添加白名单","删除"};
+//    private String[] longClickList=new String[]{getString(R.string.item_click_text1),getString(R.string.item_click_text2),getString(R.string.item_click_text3)};
 
     private ItemCallBack itemCallBack=new ItemCallBack() {
         @Override
@@ -233,15 +232,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 CheckBox checkBox= (CheckBox) view;
                 appList.get(position).setIsUse(checkBox.isChecked());
                 FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
-                Toast.makeText(context,"规则已保存，重启后生效",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,getString(R.string.item_check_text),Toast.LENGTH_SHORT).show();
             }
         }
 
 
         @Override
         public void onLongClick(final int position, View view) {
+            String[] longClickList=new String[]{getString(R.string.item_click_text1),getString(R.string.item_click_text2),getString(R.string.item_click_text3)};
+
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle("操作");
+            builder.setTitle(getString(R.string.item_click_title));
             builder.setItems(longClickList, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -253,8 +254,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         final View oneStepView = LayoutInflater.from(MainActivity.this).inflate(R.layout.add_white, null);
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setTitle("添加白名单").setView(oneStepView);
-                        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        builder.setTitle(getString(R.string.add_white_title)).setView(oneStepView);
+                        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 EditText whiteNameEditText= (EditText) oneStepView.findViewById(R.id.add_white_name);
@@ -269,12 +270,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                     if (!"".equals(whiteName)) {
                                         whiteUrl.add(whiteName);
                                         FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
-                                        Toast.makeText(context,"添加成功",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context,getString(R.string.add_white_succeed),Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             }
                         });
-                        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -283,7 +284,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         builder.create().show();
                     }else if (which==2){
                         if (!appList.get(position).isUserBuild()){
-                            Toast.makeText(context,"系统规则不允许删除",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,getString(R.string.del_system_rule_toask),Toast.LENGTH_SHORT).show();
                             return;
                         }
                         appList.remove(position);

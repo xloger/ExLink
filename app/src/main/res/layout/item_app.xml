@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:text="[自带]"
+                    android:text="@string/zidai"
                     android:textColor="#0F0"
                     />
             <TextView
@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:text="[待添加]"
+                    android:text="@string/daitianjia"
                     android:textColor="#F00"
                     />
         </LinearLayout>

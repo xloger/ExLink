@@ -7,7 +7,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="请输入要忽略的域名："
+            android:text="@string/add_white_text1"
             />
     <EditText
             android:id="@+id/add_white_name"

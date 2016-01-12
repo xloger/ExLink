@@ -30,11 +30,11 @@
         </activity>
         <activity
             android:name=".activity.StepTwoActivity"
-            android:label="步骤二" >
+            android:label="@string/step_two" >
         </activity>
         <activity
             android:name=".activity.StepThreeActivity"
-            android:label="步骤三" >
+            android:label="@string/step_three" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -43,10 +43,6 @@
 
                 <data android:scheme="exlink" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.AddWhiteUrl"
-            android:label="添加白名单" >
         </activity>
         <activity
             android:name=".activity.ReadMeActivity"
