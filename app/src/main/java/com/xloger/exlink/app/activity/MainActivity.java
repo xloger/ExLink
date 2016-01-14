@@ -6,8 +6,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.xloger.exlink.app.BuildConfig;
@@ -45,6 +48,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         initView();
         initAppList();
         openStepTwo();
+        debugMode();
 
         appAdapter = new AppAdapter(this,appList,itemCallBack);
         listView.setAdapter(appAdapter);
@@ -54,19 +58,19 @@ public class MainActivity extends Activity implements View.OnClickListener {
         readme.setOnClickListener(this);
         readme.getPaint().setAntiAlias(true);
 
-        if (!BuildConfig.DEBUG){
-            show.setVisibility(View.GONE);
+        SharedPreferences sp = getSharedPreferences("config", 0);
+        boolean isHiddenIcon = sp.getBoolean("isHiddenIcon", false);
+        if (isHiddenIcon){
+            PackageManager packageManager = getPackageManager();
+            packageManager.setComponentEnabledSetting(getComponentName(),PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
+        }else {
+            PackageManager p = getPackageManager();
+            p.setComponentEnabledSetting(getComponentName(),
+                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                    PackageManager.DONT_KILL_APP);
         }
-        show.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
-                textView.setText(appList.toString());
-//                String s="sinaweibo://browser?url=http://share.acg.tv/av3439126&sinainternalbrowser=topnav&share_menu=1&url_type=39&object_type=video&pos=2";
-//                String ret= StreamUtil.parseUrl(s);
-//                textView.setText(ret);
-            }
-        });
+
+
 
     }
 
@@ -175,6 +179,23 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 break;
             }
         }
+    }
+
+    private void debugMode(){
+        SharedPreferences sp = getSharedPreferences("config", 0);
+        boolean isDebugMode = sp.getBoolean("isDebugMode", false);
+
+        if (isDebugMode){
+            show.setVisibility(View.VISIBLE);
+            show.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
+                    textView.setText(appList.toString());
+                }
+            });
+        }
+
     }
 
     @Override
@@ -299,27 +320,29 @@ public class MainActivity extends Activity implements View.OnClickListener {
     };
 
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent intent=new Intent(context,SettingActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
     public interface ItemCallBack{

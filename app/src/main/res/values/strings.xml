@@ -1,39 +1,44 @@
 <resources>
     <string name="app_name">ExLink</string>
     <string name="action_settings">Settings</string>
-    <string name="new_rule">add app</string>
+    <string name="new_rule">Add application</string>
 
     <string name="test_url">http://www.example.org/ex-link-test</string>
-    <string name="use_state">使用说明</string>
-    <string name="show">show</string>
-    <string name="add_white_text1">请输入要忽略的域名：</string>
-    <string name="zidai">[自带]</string>
-    <string name="daitianjia">[待添加]</string>
-    <string name="step_one_text1">请输入要屏蔽的App名称:</string>
-    <string name="step_one_text2">请输入要屏蔽的App包名：</string>
-    <string name="step_one_text3">点击“确定”后请重启手机，再打开本App</string>
-    <string name="step_one_text4">请重启手机，之后再打开本App</string>
-    <string name="step_three_text1">已成功获取！请重启手机。</string>
-    <string name="step_three_text2">注：该功能为最基本的添加规则，可能会遇到一些bug。如果屏蔽后App无法正常使用，请删除该规则。</string>
-    <string name="step_two_text1">请先点击下面链接，将会自动复制到剪贴板。</string>
-    <string name="step_two_text2">接着请将该链接在希望屏蔽的App里发送，并打开它。</string>
-    <string name="step_one">步骤一</string>
-    <string name="yes">确定</string>
-    <string name="no">取消</string>
-    <string name="demo">测试用例</string>
-    <string name="item_click_title">操作</string>
-    <string name="item_click_text1">添加规则</string>
-    <string name="item_click_text2">添加白名单</string>
-    <string name="item_click_text3">删除</string>
-    <string name="item_check_text">规则已保存，重启后生效</string>
-    <string name="del_system_rule_toask">系统规则不允许删除</string>
-    <string name="add_white_title">添加白名单</string>
-    <string name="add_white_succeed">添加成功</string>
-    <string name="copy_succeed">复制成功</string>
-    <string name="step_two">步骤二</string>
-    <string name="step_three">步骤三</string>
+    <string name="use_state">User Guide</string>
+    <string name="show">Show</string>
+    <string name="add_white_text1">Add the domain name you wish to be whitelisted:</string>
+    <string name="built_in">[Built-in]</string>
+    <string name="un_add">[To be added]</string>
+    <string name="step_one_text1">Enter the name of the application you wish to block:</string>
+    <string name="step_one_text2">Enter the package name of the application you wish to block：</string>
+    <string name="step_one_text3">After click "OK", please reboot your device and relaunch this module</string>
+    <string name="step_one_text4">Please reboot your device, and relaunch this module</string>
+    <string name="step_three_text1">Added successfully! Please reboot your device.</string>
+    <string name="step_three_text2">Please note: This feature is still a work in progress. Please remove the rule if the application fails to function properly after being blocked.</string>
+    <string name="step_two_text1">Please click the link below and it will be placed into clipboard automatically.</string>
+    <string name="step_two_text2">Then post this link (e.g. send a message, a status update) inside the application you wish to block and open it</string>
+    <string name="step_one">Step One</string>
+    <string name="yes">OK</string>
+    <string name="no">Cancel</string>
+    <string name="demo">Demo</string>
+    <string name="item_click_title">Actions</string>
+    <string name="item_click_text1">Add Rules</string>
+    <string name="item_click_text2">Add to Whitelist</string>
+    <string name="item_click_text3">Delete</string>
+    <string name="item_check_text">Rule saved. It will take effect after reboot</string>
+    <string name="del_system_rule_toask">Unable to delete built-in rules</string>
+    <string name="add_white_title">Add Whitelist</string>
+    <string name="add_white_succeed">Added successfully</string>
+    <string name="copy_succeed">Copied successfully</string>
+    <string name="step_two">Step Two</string>
+    <string name="step_three">Step Three</string>
 
     <item type="id" name="app_adapter_view_holder"/>
     <item type="id" name="app_adapter_position"/>
+    <string name="title_activity_setting">SettingActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="debug_mode">调试模式</string>
+    <string name="hidden_icon">隐藏桌面图标</string>
 
 </resources>

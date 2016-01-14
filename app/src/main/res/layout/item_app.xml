@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:text="@string/zidai"
+                    android:text="@string/built_in"
                     android:textColor="#0F0"
                     />
             <TextView
@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:text="@string/daitianjia"
+                    android:text="@string/un_add"
                     android:textColor="#F00"
                     />
         </LinearLayout>

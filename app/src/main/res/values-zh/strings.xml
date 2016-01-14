@@ -9,8 +9,8 @@
     <string name="use_state">使用说明</string>
     <string name="show">show</string>
     <string name="add_white_text1">请输入要忽略的域名：</string>
-    <string name="zidai">[自带]</string>
-    <string name="daitianjia">[待添加]</string>
+    <string name="built_in">[自带]</string>
+    <string name="un_add">[待添加]</string>
     <string name="step_one_text1">请输入要屏蔽的App名称:</string>
     <string name="step_one_text2">请输入要屏蔽的App包名：</string>
     <string name="step_one_text3">点击“确定”后请重启手机，再打开本App</string>
@@ -34,4 +34,10 @@
     <string name="copy_succeed">复制成功</string>
     <string name="step_two">步骤二</string>
     <string name="step_three">步骤三</string>
+    <string name="debug_mode">调试模式</string>
+
+    <string name="title_activity_setting">设置</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="hidden_icon">隐藏桌面图标</string>
 </resources>
