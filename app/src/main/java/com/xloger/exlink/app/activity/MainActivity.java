@@ -58,17 +58,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         readme.setOnClickListener(this);
         readme.getPaint().setAntiAlias(true);
 
-        SharedPreferences sp = getSharedPreferences("config", 0);
-        boolean isHiddenIcon = sp.getBoolean("isHiddenIcon", false);
-        if (isHiddenIcon){
-            PackageManager packageManager = getPackageManager();
-            packageManager.setComponentEnabledSetting(getComponentName(),PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
-        }else {
-            PackageManager p = getPackageManager();
-            p.setComponentEnabledSetting(getComponentName(),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP);
-        }
 
 
 
