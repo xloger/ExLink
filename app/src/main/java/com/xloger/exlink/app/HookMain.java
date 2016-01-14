@@ -146,6 +146,12 @@ public class HookMain implements IXposedHookLoadPackage {
                 }
             }
 
+            if (appList.get(index).getPackageName().equals("com.tencent.mm")){
+                MyLog.log("进入匹配微信模式");
+                compatibleWeChat(param,uri);
+                return;
+            }
+
             if (externalUrl != null&&externalUrl.startsWith("http")) {
 
                 //发送干净的Intent
@@ -196,6 +202,24 @@ public class HookMain implements IXposedHookLoadPackage {
                 }
             }
 
+        }
+
+        private void compatibleWeChat(XC_MethodHook.MethodHookParam param,Uri uri){
+            Intent intent = (Intent)param.args[0];
+            String judge1 = intent.getStringExtra("prePublishId");
+            String judge2=intent.getStringExtra("pre_username");
+            String judge3=intent.getStringExtra("KPublisherId");
+            MyLog.log("judge1:"+judge1+"judge2:"+judge2+"judge3:"+judge3);
+            if (judge1==null&&judge2==null&&judge3==null){
+                MyLog.log("判断可以用外置浏览器打开");
+                Intent exIntent = new Intent();
+                exIntent.setAction(Intent.ACTION_VIEW);
+                exIntent.setData(uri);
+                ((Activity)param.thisObject).startActivity(exIntent);
+                param.setResult(null);
+            }else {
+                MyLog.log("判断需要用内置浏览器打开");
+            }
         }
     };
 }

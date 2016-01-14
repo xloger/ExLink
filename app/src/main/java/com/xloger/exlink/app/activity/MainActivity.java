@@ -36,7 +36,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private Context context;
 
-    private static final int nowInitVersion=7;
+    private static final int nowInitVersion=8;
     private Button show;
     private TextView readme;
 
@@ -57,8 +57,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         addApp.setOnClickListener(this);
         readme.setOnClickListener(this);
         readme.getPaint().setAntiAlias(true);
-
-
 
 
     }
@@ -150,13 +148,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         weibo.setIsUserBuild(false);
         appList.add(weibo);
 
-//        App weChat=new App();
-//        weChat.setAppName("微信");
-//        weChat.setPackageName("com.tencent.mm");
-//
-//        weChat.setIsUse(true);
-//        weChat.setIsUserBuild(false);
-//        appList.add(weChat);
+        App weChat=new App();
+        weChat.setAppName("微信");
+        weChat.setPackageName("com.tencent.mm");
+        Set<Rule> weChatRule=new HashSet<Rule>();
+        weChatRule.add(new Rule("com.tencent.mm.ui.LauncherUI","rawUrl"));
+        weChat.setRules(weChatRule);
+        weChat.setIsUse(true);
+        weChat.setIsUserBuild(false);
+        appList.add(weChat);
 
     }
 
@@ -181,6 +181,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 public void onClick(View v) {
                     TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
                     textView.setText(appList.toString());
+                    textView.setTextIsSelectable(true);
                 }
             });
         }
