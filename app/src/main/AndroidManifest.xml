@@ -26,6 +26,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -46,8 +47,12 @@
         </activity>
         <activity
             android:name=".activity.ReadMeActivity"
-            android:theme="@android:style/Theme.Holo.NoActionBar"
-            android:label="readme" >
+            android:label="readme"
+            android:theme="@android:style/Theme.Holo.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".activity.SettingActivity"
+            android:label="@string/title_activity_setting" >
         </activity>
     </application>
 

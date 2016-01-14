@@ -1,0 +1,64 @@
+<html>
+<head>
+	<title>read me</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<style type="text/css">
+		*{
+			background-color: #000;
+			color: #FFF;
+		}
+		h2{
+			color:#FF4081;
+		}
+        h3{
+            color:#2196F3;
+        }
+	</style>
+</head>
+<body>
+<h2>FAQ</h2>
+
+<h3>What are the prerequisites for using this module?</h3>
+<p>You need to have Xposed framework installed on your device, activate this module and reboot your device. If the module is not activated after reboot, try another reboot.<br>If the module is still not functioning properly, I'm afraid there's nothing else I could do. If you wish to achieve similar functionality without the Xposed framework, I recommend this app from Coolapk: <a href="http://www.coolapk.com/apk/com.jmx.fkinwebview">OpenLinksWithDefaultBrowser-Coolapk</a></p>
+<h3>What applications are supported?</h3>
+<p>As the developer is from mainland China, several apps from China are pre-loaded in this module. Twitter is currently supported however you will need to add it manually. </p>
+<h3>Why do some pages from inside the blocked applications cannot be opened by an external browser?</h3>
+<p>Please refer to the “Current Issues” section. If you couldn't find an explanation, please leave the details (i.e. what webpage, what link) with a screenshot if possible in the comment section（<a href="https://play.google.com/store/apps/details?id=com.xloger.exlink.app">Google Play</a>）</p>
+<h3>Some pages from inside the blocked applications are opened by external browser but they shouldn't be? </h3>
+<p>This can be solved by the "Add whitelist" function. Please refer to “How to Use” section for details</p>
+
+<h2>How to Use</h2>
+<h3>How to manually add an application? </h3>
+<p>Three steps: First click "Add Application", enter the package name and reboot your device; After reboot, relaunch this module, place the link from on-screen instruction to your application (e.g. send a message, post a status update) and open the link; If successful, a "Step Three" page would automatically appear, reboot your device and you are done.</p>
+<h3>What is a package name? Why can't I just select an application?</h3>
+<p>I believe Xposed users have the skills to find the package name for an application. As to why there's not an option to automatically select applications，it requires a lot of coding and I wish to focus my attention on core functionalities.</p>
+<h3>I've opened the link in Step Two but there's no Step Three/I've completed all the steps but it doesn't work?</h3>
+<p>Some applications are really improperly coded. Please send me the details. Please ensure you have followed all the instructions, e.g. make sure to reboot your device (Some applications such as Zhihu doesn't automatically recognize links, you need to make the edit on their webpage). I will run tests once I receive your feedback, and I will inform you if it's a compatibility issue</p>
+<h3>Do I have to reboot my device after completing all these steps?</h3>
+<p>Not necessary. But background service of your application needs to be killed. I suggest a reboot to make sure of that considering the malicious behaviour of many Chinese apps.</p>
+<h3>I can open this page with an external browser but it doesn't work with another page.</h3>
+<p>A properly coded application should have only one internal browser. However some applications have multiple. Please long press on the application you wish to modify and select “Add Rules”.</p>
+<h3>What is “Add Rules”, how do I use it?</h3>
+<p>"Add Rules" is to solve the aforementioned issue. Please follow the same steps as "Add Applications"</p>
+<h3>Some pages from inside the blocked applications are opened by external browser but they shouldn't be?</h3>
+<p>This is because some pages from inside the application are essentially webpages. For instance, comment section and lover's space in QZone will be opened by external browser with ExLink version 1.1. A simple workaround: All these links are pages inside an application (not user generated)，therefore just whitelist the corresponding domain name, e.g For QQ I whitelisted h5.qzone.qq.com and for Weibo I whitelisted card.weibo.com。<br>How to use：Long press your application, select "Add Whitelist" and add the domain name</p>
+
+<h2>Current Issues</h2>
+<h3>Unable to view rules, remove whitelists, etc.</h3>
+<p>Hmmm, these features seem necessary but it would be a headache to code.Orz...I may get to these later on but at the moment if you run into problems please clear app data to reset. Sorry about this.</p>
+<h3>Why are my rules all gone after I updated the module?</h3>
+<p>Because I've been modifying the framework and it's difficult to achieve backward compatibility...I will try to solve this once I have a more stable framework.</p>
+<h3>Why don't you have more built-in rule? Manually adding application is tedious</h3>
+<p>There're just too many applications with internal browsers. If I pre-load this in current version, I'll need to pre-load that in the next version. Not everyone uses all these applications. My plan is build a framework with maximum compatibility and support as many applications as possible. But only the following will be pre-loaded in the module: QQ, WeChat, Weibo, Baidu Tieba.</p>
+<h3>I did something weird and I'm now having some weird problems.</h3>
+<p>This module is not foolproof. Please follow the instructions carefully. Do not add several applications simultaneously to the test list. Do not add rules before an application is successfully added. If you run into problems, clear app data to reset the module.</p>
+
+<h3>I'm unable to visit some links with an external browser?</h3>
+<p>This is due to the fact that some applications add user analytics to their links and are improperly coded. Please send me the details if you run into this problem and I will try to work it out.</p>
+<h3>Why can't I hide the icon from app drawer?</h3>
+<p>It was the plan but I thought it would be more convenient if module could be launched directly from home screen. I will consider adding an option to hide the icon.</p>
+
+<p>Thanks for ContactFront's translate!</p>
+<p><a href="./readme_en.html">English</a> <a href="./readme.html">中文</a></p>
+</body>
+</html>
