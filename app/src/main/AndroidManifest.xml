@@ -13,7 +13,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="屏蔽QQ等App的内置浏览器" />
+            android:value="@string/xposed_description" />
         <meta-data
             android:name="xposedminversion"
             android:value="40" />

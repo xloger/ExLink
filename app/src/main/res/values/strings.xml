@@ -38,7 +38,8 @@
     <string name="title_activity_setting">SettingActivity</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="debug_mode">调试模式</string>
+    <string name="debug_mode">Debug Mode</string>
     <string name="hidden_icon">隐藏桌面图标</string>
+    <string name="xposed_description">Block bulit-in browsers</string>
 
 </resources>

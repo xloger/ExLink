@@ -1,6 +1,5 @@
 package com.xloger.exlink.app.util;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 import com.xloger.exlink.app.BuildConfig;
 import de.robv.android.xposed.XposedBridge;

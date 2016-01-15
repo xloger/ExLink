@@ -6,14 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import com.xloger.exlink.app.BuildConfig;
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
@@ -36,7 +34,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private Context context;
 
-    private static final int nowInitVersion=8;
+    private static final int nowInitVersion=9;
     private Button show;
     private TextView readme;
 
@@ -140,6 +138,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));
         weiboRule.add(new Rule("com.sina.weibo.weiyou.DMSingleChatActivity","com_sina_weibo_weibobrowser_url"));
         weiboRule.add(new Rule("com.sina.weibo.page.NewCardListActivity","com_sina_weibo_weibobrowser_url"));
+        weiboRule.add(new Rule("com.sina.weibo.feed.DetailWeiboActivity","com_sina_weibo_weibobrowser_url"));        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));
         weibo.setRules(weiboRule);
         Set<String> weiboWhiteUrl=new HashSet<String>();
         weiboWhiteUrl.add("card.weibo.com");
