@@ -4,13 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import com.xloger.exlink.app.BuildConfig;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.util.MyLog;
 

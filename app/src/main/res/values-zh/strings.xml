@@ -40,4 +40,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="hidden_icon">隐藏桌面图标</string>
+    <string name="xposed_description">屏蔽QQ等App的内置浏览器</string>
+
 </resources>
