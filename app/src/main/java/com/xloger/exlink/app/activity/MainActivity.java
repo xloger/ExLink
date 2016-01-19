@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import com.xloger.exlink.app.BuildConfig;
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
@@ -82,6 +83,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }else {
             appList= (List<App>) firstRun;
         }
+
+        if (nowInitVersion!=initVersion){
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("initAppVersion", BuildConfig.VERSION_NAME);
+            editor.apply();
+        }
+
     }
 
     private void initAppData(){
