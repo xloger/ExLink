@@ -3,5 +3,5 @@
 * 正则匹配URL
 * 微博：B站的
 * 更新不删除之前的
-
-* QQ邮箱,nga,twitter
+* log
+* QQ空间
