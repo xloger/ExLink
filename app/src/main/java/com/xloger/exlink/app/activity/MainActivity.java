@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private Context context;
 
-    private static final int nowInitVersion=9;
+    private static final int nowInitVersion=10;
     private Button show;
     private TextView readme;
 
@@ -72,23 +72,35 @@ public class MainActivity extends Activity implements View.OnClickListener {
         int initVersion = sp.getInt("initVersion", 0);
 
         Object firstRun = FileUtil.loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
-        if (firstRun==null||nowInitVersion!=initVersion) {
+        if (firstRun==null) {
             initAppData();
             FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
             FileUtil.getInstance().setReadable(Constant.APP_FILE_NAME);
 
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putInt("initVersion",nowInitVersion);
-            editor.apply();
+
         }else {
             appList= (List<App>) firstRun;
         }
 
-        if (nowInitVersion!=initVersion){
+        if(nowInitVersion!=initVersion){
             SharedPreferences.Editor editor = sp.edit();
-            editor.putString("initAppVersion", BuildConfig.VERSION_NAME);
+            editor.putInt("initVersion",nowInitVersion);
             editor.apply();
+
+            int initAppVersion = sp.getInt("initAppVersion", -1);
+            SharedPreferences.Editor editor2 = sp.edit();
+            editor2.putInt("initAppVersion", BuildConfig.VERSION_CODE);
+            editor2.apply();
+
+            if (initAppVersion>=5){
+                //大于1.3版本执行更新操作
+                updateAppData();
+                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
+            }
+
+
         }
+
 
     }
 
@@ -103,6 +115,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         qq.setRules(qqRule);
         Set<String> qqWhiteUrl=new HashSet<String>();
         qqWhiteUrl.add("h5.qzone.qq.com");
+        qqWhiteUrl.add("qzs.qzone.qq.com");
         qq.setWhiteUrl(qqWhiteUrl);
         qq.setIsUse(true);
         qq.setIsUserBuild(false);
@@ -161,10 +174,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Set<Rule> weChatRule=new HashSet<Rule>();
         weChatRule.add(new Rule("com.tencent.mm.ui.LauncherUI","rawUrl"));
         weChat.setRules(weChatRule);
+        Set<String> weChatWhiteUrl=new HashSet<String>();
+        weChatWhiteUrl.add("open.weixin.qq.com");
+        weChat.setWhiteUrl(weChatWhiteUrl);
         weChat.setIsUse(true);
         weChat.setIsUserBuild(false);
         appList.add(weChat);
 
+    }
+
+    private void updateAppData(){
+        if (appList.size()==6){
+            return;
+        }
+
+        List<App> tempAppList=appList.subList(0,appList.size()-1);
+
+        initAppData();
+        for (int i=7;i<tempAppList.size();i++){
+            appList.add(tempAppList.get(i));
+        }
+        
     }
 
     private void openStepTwo(){
