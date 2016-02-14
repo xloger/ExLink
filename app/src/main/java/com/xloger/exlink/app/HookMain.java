@@ -32,15 +32,6 @@ public class HookMain implements IXposedHookLoadPackage {
     public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 
         if (appList == null||appList.size()==0) {
-//            Object appObject = FileUtil.loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
-//            if (appObject != null) {
-//                appList = (List<App>) appObject;
-//                MyLog.log("天灵灵地灵灵：" + appList.toString());
-//
-//            }else {
-//                MyLog.log("appObject is null");
-//                return;
-//            }
             appList=FileUtil.getAppList();
         }
 
@@ -85,9 +76,17 @@ public class HookMain implements IXposedHookLoadPackage {
             if(!activityIsMatch)
                 return;
 
+
             //分析获取的Intent
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());
+            if (intent.getExtras()==null){
+                MyLog.log("没有Extras，跳过");
+//                MyLog.log("没有Extras，采用第二套方案:"+param.args[2]);
+//                Bundle bundle= (Bundle) param.args[2];
+//                MyLog.log("bundle:"+bundle.toString());
+                return;
+            }
             MyLog.log(" - With extras: " + intent.getExtras().toString());
             String externalUrl = intent.getStringExtra(rule.getExtrasKey());
             MyLog.log("externalUrl:"+externalUrl);
@@ -206,12 +205,29 @@ public class HookMain implements IXposedHookLoadPackage {
         }
 
         private void compatibleWeChat(XC_MethodHook.MethodHookParam param,Uri uri){
+            boolean isOpenWithOut1=false;
+            boolean isOpenWithOut2=false;
+
             Intent intent = (Intent)param.args[0];
-            String judge1 = intent.getStringExtra("prePublishId");
-            String judge2=intent.getStringExtra("pre_username");
-            String judge3=intent.getStringExtra("KPublisherId");
+            String judge1 = intent.getStringExtra("preChatName");
+            String judge2 = intent.getStringExtra("prePublishId");
+            String judge3 = intent.getStringExtra("preUsername");
             MyLog.log("judge1:"+judge1+"judge2:"+judge2+"judge3:"+judge3);
+
             if (judge1==null&&judge2==null&&judge3==null){
+                isOpenWithOut1=true;
+            }
+
+            String judge4 = intent.getStringExtra("version_name");
+            String judge5 = intent.getStringExtra("KAppId");
+            String judge6 = intent.getStringExtra("srcDisplayname");
+            MyLog.log("judge4:"+judge4+"judge5:"+judge5+"judge6:"+judge6);
+
+            if (judge4!=null&&judge5!=null&&judge6==null){
+                isOpenWithOut2=true;
+            }
+
+            if (isOpenWithOut1||isOpenWithOut2){
                 MyLog.log("判断可以用外置浏览器打开");
                 Intent exIntent = new Intent();
                 exIntent.setAction(Intent.ACTION_VIEW);

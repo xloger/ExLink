@@ -57,7 +57,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
         readme.setOnClickListener(this);
         readme.getPaint().setAntiAlias(true);
 
-
     }
 
     private void initView(){

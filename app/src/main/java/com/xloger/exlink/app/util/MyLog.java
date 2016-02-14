@@ -11,6 +11,7 @@ import de.robv.android.xposed.XposedBridge;
  */
 public class MyLog {
     private static final boolean LOG_ON= BuildConfig.DEBUG;
+    private static boolean isShowLog=true;
 
 
     private MyLog(){
@@ -18,20 +19,24 @@ public class MyLog {
     }
 
     public static void log(String s) {
-        try {
-            XposedBridge.log("[ExLink] " + s);
-        }catch (NoClassDefFoundError error){
-            if (LOG_ON){
-                Log.d("[ExLink] ",s);
+        if (isShowLog){
+            try {
+                XposedBridge.log("[ExLink] " + s);
+            }catch (NoClassDefFoundError error){
+                if (LOG_ON){
+                    Log.d("[ExLink] ",s);
+                }
             }
         }
     }
     public static void log(Throwable t) {
-        try {
-            XposedBridge.log(t);
-        }catch (NoClassDefFoundError error){
-            if (LOG_ON){
-                Log.e("[ExLink] ",t.toString());
+        if (isShowLog){
+            try {
+                XposedBridge.log(t);
+            }catch (NoClassDefFoundError error){
+                if (LOG_ON){
+                    Log.e("[ExLink] ",t.toString());
+                }
             }
         }
     }
