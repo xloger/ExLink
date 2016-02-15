@@ -207,6 +207,7 @@ public class HookMain implements IXposedHookLoadPackage {
         private void compatibleWeChat(XC_MethodHook.MethodHookParam param,Uri uri){
             boolean isOpenWithOut1=false;
             boolean isOpenWithOut2=false;
+            boolean isOpenWithOut3=false;
 
             Intent intent = (Intent)param.args[0];
             String judge1 = intent.getStringExtra("preChatName");
@@ -227,7 +228,17 @@ public class HookMain implements IXposedHookLoadPackage {
                 isOpenWithOut2=true;
             }
 
-            if (isOpenWithOut1||isOpenWithOut2){
+            String judge7 = intent.getStringExtra("srcUsername");
+            String judge8 = intent.getStringExtra("message_index");
+            String judge9 = intent.getStringExtra("message_id");
+            MyLog.log("judge7:"+judge7+"judge8:"+judge8+"judge9:"+judge9);
+
+            if (judge7==null&&judge8==null&&judge9==null){
+                isOpenWithOut3=true;
+            }
+
+
+            if (isOpenWithOut1||isOpenWithOut2||isOpenWithOut3){
                 MyLog.log("判断可以用外置浏览器打开");
                 Intent exIntent = new Intent();
                 exIntent.setAction(Intent.ACTION_VIEW);

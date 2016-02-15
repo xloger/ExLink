@@ -115,6 +115,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Set<String> qqWhiteUrl=new HashSet<String>();
         qqWhiteUrl.add("h5.qzone.qq.com");
         qqWhiteUrl.add("qzs.qzone.qq.com");
+        qqWhiteUrl.add("jq.qq.com");
         qq.setWhiteUrl(qqWhiteUrl);
         qq.setIsUse(true);
         qq.setIsUserBuild(false);
