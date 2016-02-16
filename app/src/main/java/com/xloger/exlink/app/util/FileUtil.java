@@ -55,7 +55,29 @@ public class FileUtil {
         byte[] ret = null;
 
         File folder=context.getFilesDir();
-        File file=new File(folder,fileName);
+        ret=load(folder.toString(),fileName);
+
+//        File file=new File(folder,fileName);
+//
+//        if (file.exists()&&file.canRead()){
+//            FileInputStream fin=null;
+//            try {
+//                fin=new FileInputStream(file);
+//                ret=StreamUtil.readStream(fin);
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }finally {
+//                StreamUtil.close(fin);
+//            }
+//        }
+
+        return ret;
+    }
+
+    public static byte[] load(String url,String fileName){
+        byte[] ret = null;
+
+        File file=new File(url,fileName);
 
         if (file.exists()&&file.canRead()){
             FileInputStream fin=null;
