@@ -165,6 +165,18 @@ public class HookMain implements IXposedHookLoadPackage {
         }
 
         private void sendToExLink(XC_MethodHook.MethodHookParam param) {
+
+            byte useDifferentUrl='0';
+            String differentUrl = null;
+            byte[] bytes = FileUtil.load(Constant.APP_URL, Constant.DIFFERENT_URL_FILE_NAME);
+            if (bytes != null&&bytes.length>0) {
+                useDifferentUrl=bytes[0];
+                differentUrl=new String(bytes,1,bytes.length-1);
+                if (useDifferentUrl=='1'){
+                    MyLog.log("使用自定义Url:"+differentUrl);
+                }
+            }
+
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());
             MyLog.log(" - With extras: " + intent.getExtras().toString());
@@ -179,6 +191,12 @@ public class HookMain implements IXposedHookLoadPackage {
 //                    continue;
 //                }
 
+                boolean differentUrlRule=false;
+                if (useDifferentUrl=='1'&&value.equals(differentUrl)){
+                    differentUrlRule=true;
+                }
+
+
                 //微博特殊匹配
                 boolean weiboRule=false;
                 if (appList.get(index).getPackageName().equals("com.sina.weibo")){
@@ -186,7 +204,7 @@ public class HookMain implements IXposedHookLoadPackage {
                         weiboRule=true;
                     }
                 }
-                if ((value.contains("www.example.org")&&value.contains("ex-link-test"))||weiboRule){
+                if ((value.contains("www.example.org")&&value.contains("ex-link-test"))||weiboRule||differentUrlRule){
                     MyLog.log("成功匹配！");
                     Uri uri = Uri.parse("exlink://test");
                     String activityName = param.thisObject.getClass().getName();

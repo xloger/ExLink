@@ -9,5 +9,6 @@ public class Constant {
     public static final String APP_URL="/data/data/com.xloger.exlink.app/files/";
     public static final String APP_FILE_NAME="AppData";
     public static final String IS_DEBUG_FILE_NAME="isDebugModeFile.dat";
+    public static final String DIFFERENT_URL_FILE_NAME="DifferentUrl.dat";
 
 }
