@@ -40,5 +40,10 @@ public class StepThreeActivity extends Activity {
             testApp.setIsTest(false);
             FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
         }
+
+
+        //修改自定义Url
+        FileUtil.getInstance().save(Constant.DIFFERENT_URL_FILE_NAME,"0".getBytes());
+
     }
 }

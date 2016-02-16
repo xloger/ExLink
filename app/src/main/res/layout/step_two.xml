@@ -22,4 +22,38 @@
             android:text="@string/step_two_text2"
             />
 
+
+    <TextView
+            android:layout_marginTop="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="——分割线——"
+            />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="假如你希望屏蔽的App做了链接跳转，或你没法主动发链接。那么请在下面的输入框内输入用于识别的链接。点击确定后再尝试（或许需要重启一下）。"
+            />
+
+    <EditText
+            android:id="@+id/step_two_different_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textUri"
+            />
+
+    <Button
+            android:id="@+id/step_two_different_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="确定"
+            />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提示："
+            />
+
 </LinearLayout>
