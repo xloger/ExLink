@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
+import com.xloger.exlink.app.util.FileUtil;
 
 public class SettingActivity extends Activity implements View.OnClickListener {
 
@@ -36,6 +38,10 @@ public class SettingActivity extends Activity implements View.OnClickListener {
             SharedPreferences.Editor edit = sp.edit();
             edit.putBoolean("isDebugMode",debugMode.isChecked());
             edit.apply();
+
+            FileUtil fileUtil = FileUtil.getInstance();
+            fileUtil.save(Constant.IS_DEBUG_FILE_NAME, (debugMode.isChecked() + "").getBytes());
+            fileUtil.setReadable(Constant.IS_DEBUG_FILE_NAME);
         }
     }
 }

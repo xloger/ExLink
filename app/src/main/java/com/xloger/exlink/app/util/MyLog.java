@@ -2,6 +2,7 @@ package com.xloger.exlink.app.util;
 
 import android.util.Log;
 import com.xloger.exlink.app.BuildConfig;
+import com.xloger.exlink.app.Constant;
 import de.robv.android.xposed.XposedBridge;
 
 /**
@@ -11,7 +12,7 @@ import de.robv.android.xposed.XposedBridge;
  */
 public class MyLog {
     private static final boolean LOG_ON= BuildConfig.DEBUG;
-    private static boolean isShowLog=true;
+    private static boolean isShowLog=false;
 
 
     private MyLog(){
@@ -19,6 +20,11 @@ public class MyLog {
     }
 
     public static void log(String s) {
+        byte[] bytes = FileUtil.load(Constant.APP_URL, Constant.IS_DEBUG_FILE_NAME);
+        if (bytes != null) {
+            isShowLog=Boolean.valueOf(new String(bytes)).booleanValue();
+        }
+
         if (isShowLog){
             try {
                 XposedBridge.log("[ExLink] " + s);
@@ -30,6 +36,11 @@ public class MyLog {
         }
     }
     public static void log(Throwable t) {
+        byte[] bytes = FileUtil.load(Constant.APP_URL, Constant.IS_DEBUG_FILE_NAME);
+        if (bytes != null) {
+            isShowLog=Boolean.valueOf(new String(bytes)).booleanValue();
+        }
+
         if (isShowLog){
             try {
                 XposedBridge.log(t);
