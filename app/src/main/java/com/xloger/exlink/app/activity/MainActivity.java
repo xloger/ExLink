@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private Context context;
 
-    private static final int nowInitVersion=10;
+    private static final int nowInitVersion=12;
     private Button show;
     private TextView readme;
 
@@ -86,15 +86,25 @@ public class MainActivity extends Activity implements View.OnClickListener {
             editor.putInt("initVersion",nowInitVersion);
             editor.apply();
 
-            int initAppVersion = sp.getInt("initAppVersion", -1);
+            int initAppVersionCode = sp.getInt("initAppVersionCode", -1);
+            String initAppVersionName=sp.getString("initAppVersion","");
             SharedPreferences.Editor editor2 = sp.edit();
-            editor2.putInt("initAppVersion", BuildConfig.VERSION_CODE);
+            editor2.putString("initAppVersion", BuildConfig.VERSION_NAME);
+            editor2.putInt("initAppVersionCode", BuildConfig.VERSION_CODE);
             editor2.apply();
 
-            if (initAppVersion>=5){
+            if (initAppVersionCode>=5){
                 //大于1.3版本执行更新操作
                 updateAppData();
                 FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
+            }else if(initAppVersionCode==-1){
+                updateAppData();
+                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
+            } else {
+                initAppData();
+                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
+                FileUtil.getInstance().setReadable(Constant.APP_FILE_NAME);
+
             }
 
 
@@ -184,14 +194,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
     }
 
     private void updateAppData(){
-        if (appList.size()==6){
+        if (appList.size()<=6){
+            initAppData();
             return;
         }
 
-        List<App> tempAppList=appList.subList(0,appList.size()-1);
+        List<App> tempAppList=appList.subList(0,appList.size());
 
         initAppData();
-        for (int i=7;i<tempAppList.size();i++){
+        for (int i=6;i<tempAppList.size();i++){
             appList.add(tempAppList.get(i));
         }
         

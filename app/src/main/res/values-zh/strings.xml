@@ -19,6 +19,8 @@
     <string name="step_three_text2">注：该功能仍在完善中，如果屏蔽后App无法正常使用，请删除该规则。</string>
     <string name="step_two_text1">请点击下面链接，它将会自动复制到剪贴板。</string>
     <string name="step_two_text2">接着请将该链接在希望屏蔽的App里发送（比如聊天、发表动态），并打开它。</string>
+    <string name="step_two_text3">自定义链接:假如你希望屏蔽的App做了链接跳转，或你没法主动发链接。那么请在下面的输入框内输入用于识别的链接。点击确定后再尝试（或许需要重启一下）。</string>
+    <string name="step_two_text4">提示：如果你不知道哪个是应该输入的链接，请打开本App的“调试模式”，再次点击链接后，进入Xposed的日志，观察“[Exlink] - With extras: ”开头的日志。</string>
     <string name="step_one">步骤一</string>
     <string name="yes">确定</string>
     <string name="no">取消</string>
@@ -41,5 +43,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="hidden_icon">隐藏桌面图标</string>
     <string name="xposed_description">屏蔽QQ等App的内置浏览器</string>
+    <string name="change_succeed">修改成功</string>
+    <string name="line">——分割线——</string>
 
 </resources>
