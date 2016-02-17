@@ -58,6 +58,7 @@ public class StepTwoActivity extends Activity implements View.OnClickListener {
                     FileUtil fileUtil = FileUtil.getInstance();
                     fileUtil.save(Constant.DIFFERENT_URL_FILE_NAME,("1"+differentUrl).getBytes());
                     fileUtil.setReadable(Constant.DIFFERENT_URL_FILE_NAME);
+                    Toast.makeText(this, getString(R.string.change_succeed),Toast.LENGTH_SHORT).show();
                 }
                 break;
 
