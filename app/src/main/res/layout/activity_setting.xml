@@ -12,6 +12,13 @@
 
 
     <CheckBox
+            android:id="@+id/setting_hidden_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hidden_icon"
+            />
+
+    <CheckBox
             android:id="@+id/setting_debug"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
