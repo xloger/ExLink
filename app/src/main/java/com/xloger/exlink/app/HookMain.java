@@ -27,6 +27,7 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 public class HookMain implements IXposedHookLoadPackage {
     private int index;
     private static List<App> appList=null;
+    private static String exDat="ExDat";
 
     @Override
     public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
@@ -60,7 +61,7 @@ public class HookMain implements IXposedHookLoadPackage {
                 return;
             }
 
-            //判断该Activity是否处于规则之中
+            //判断该Activity是否已经处于规则之中
             String activityName = param.thisObject.getClass().getName();
             MyLog.log("Started activity: " + activityName);
             Set<Rule> ruleSet = app.getRules();
@@ -80,15 +81,22 @@ public class HookMain implements IXposedHookLoadPackage {
             //分析获取的Intent
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());
-            if (intent.getExtras()==null){
-                MyLog.log("没有Extras，跳过");
-//                MyLog.log("没有Extras，采用第二套方案:"+param.args[2]);
-//                Bundle bundle= (Bundle) param.args[2];
-//                MyLog.log("bundle:"+bundle.toString());
-                return;
+            Bundle extras=intent.getExtras();
+            if (extras==null){
+                MyLog.log("没有Extras，采用第二套方案:"+param.args[2]);
+                extras= (Bundle) param.args[2];
+                if (extras==null&&!rule.getExtrasKey().equals(exDat)){
+                    MyLog.log("第二套方案失败，跳过");
+                    return;
+                }
+            }else {
+                MyLog.log(" - With extras: " + extras.toString());
             }
-            MyLog.log(" - With extras: " + intent.getExtras().toString());
+
             String externalUrl = intent.getStringExtra(rule.getExtrasKey());
+            if (rule.getExtrasKey().equals(exDat)){
+                externalUrl=intent.getData().toString();
+            }
             MyLog.log("externalUrl:"+externalUrl);
 
             //匹配奇葩
@@ -164,8 +172,14 @@ public class HookMain implements IXposedHookLoadPackage {
             }
         }
 
+        /**
+         * 匹配模式 <br/>
+         * 判断哪个值包含了Url，并发送到Exlink
+         * @param param 传入的参数
+         */
         private void sendToExLink(XC_MethodHook.MethodHookParam param) {
 
+            //获取自定义Url
             byte useDifferentUrl='0';
             String differentUrl = null;
             byte[] bytes = FileUtil.load(Constant.APP_URL, Constant.DIFFERENT_URL_FILE_NAME);
@@ -179,17 +193,38 @@ public class HookMain implements IXposedHookLoadPackage {
 
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());
-            MyLog.log(" - With extras: " + intent.getExtras().toString());
             Bundle extras = intent.getExtras();
+            if (extras==null){
+                MyLog.log("没有Extras，采用第二套方案:"+param.args[2]);
+                extras= (Bundle) param.args[2];
+                if (extras == null) {
+                    MyLog.log("依旧没有Extras，采用第三套方案:"+intent.getData());
+                    Uri data = intent.getData();
+                    if (data==null){
+                        MyLog.log("第三套方案失败，跳过");
+                        return;
+                    }
+                    if (data.toString().equals("http://www.example.org/ex-link-test")){
+                        openExlink(param,exDat);
+                        return;
+                    }
+                    if (useDifferentUrl=='1'&&data.toString().equals(differentUrl)){
+                        openExlink(param,exDat);
+                        return;
+                    }
+                    MyLog.log("第三套方案失败，跳过");
+                    return;
+
+                }else {
+                    MyLog.log("第二套:"+extras.toString());
+                }
+            }else {
+                MyLog.log(" - With extras: " + intent.getExtras().toString());
+            }
             Set<String> keySet = extras.keySet();
             for (String key : keySet) {
                 Object o = extras.get(key);
                 String value=o.toString();
-//                if (o instanceof String){
-//                    value= (String) o;
-//                }else {
-//                    continue;
-//                }
 
                 boolean differentUrlRule=false;
                 if (useDifferentUrl=='1'&&value.equals(differentUrl)){
@@ -205,23 +240,33 @@ public class HookMain implements IXposedHookLoadPackage {
                     }
                 }
                 if ((value.contains("www.example.org")&&value.contains("ex-link-test"))||weiboRule||differentUrlRule){
-                    MyLog.log("成功匹配！");
-                    Uri uri = Uri.parse("exlink://test");
-                    String activityName = param.thisObject.getClass().getName();
-
-                    Intent sendToExLinkIntent=new Intent();
-                    sendToExLinkIntent.setAction(Intent.ACTION_VIEW);
-                    sendToExLinkIntent.setData(uri);
-                    sendToExLinkIntent.putExtra("activityName",activityName);
-                    sendToExLinkIntent.putExtra("extrasKey",key);
-                    sendToExLinkIntent.putExtra("position",index);
-                    ((Activity)param.thisObject).startActivity(sendToExLinkIntent);
-                    param.setResult(null);
+                    openExlink(param,key);
                 }
             }
 
         }
 
+        private void openExlink(XC_MethodHook.MethodHookParam param,String key){
+            MyLog.log("成功匹配！");
+            Uri uri = Uri.parse("exlink://test");
+            String activityName = param.thisObject.getClass().getName();
+
+            Intent sendToExLinkIntent=new Intent();
+            sendToExLinkIntent.setAction(Intent.ACTION_VIEW);
+            sendToExLinkIntent.setData(uri);
+            sendToExLinkIntent.putExtra("activityName",activityName);
+            sendToExLinkIntent.putExtra("extrasKey",key);
+            sendToExLinkIntent.putExtra("position",index);
+            ((Activity)param.thisObject).startActivity(sendToExLinkIntent);
+            param.setResult(null);
+        }
+
+        /**
+         * 兼容微信 <br/>
+         * 对微信进行特殊处理
+         * @param param 传入的参数
+         * @param uri 需要被打开的链接
+         */
         private void compatibleWeChat(XC_MethodHook.MethodHookParam param,Uri uri){
             boolean isOpenWithOut1=false;
             boolean isOpenWithOut2=false;
