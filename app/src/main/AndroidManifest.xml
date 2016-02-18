@@ -24,7 +24,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -53,6 +52,19 @@
         <activity
             android:name=".activity.SettingActivity"
             android:label="@string/title_activity_setting" >
+        </activity>
+
+        <activity
+                android:name=".activity.XposedIntoActivity"
+                >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+            </intent-filter>
+
         </activity>
     </application>
 
