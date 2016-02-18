@@ -63,7 +63,6 @@ public class HookMain implements IXposedHookLoadPackage {
 
             //判断该Activity是否已经处于规则之中
             String activityName = param.thisObject.getClass().getName();
-            MyLog.log("Started activity: " + activityName);
             Set<Rule> ruleSet = app.getRules();
             Rule rule = null;
             boolean activityIsMatch=false;
@@ -74,21 +73,35 @@ public class HookMain implements IXposedHookLoadPackage {
                     break;
                 }
             }
-            if(!activityIsMatch)
+            if(!activityIsMatch) {
                 return;
+            }
 
+            MyLog.log("Started activity: " + activityName);
 
             //分析获取的Intent
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());
             Bundle extras=intent.getExtras();
             if (extras==null){
-                MyLog.log("没有Extras，采用第二套方案:"+param.args[2]);
-                extras= (Bundle) param.args[2];
-                if (extras==null&&!rule.getExtrasKey().equals(exDat)){
-                    MyLog.log("第二套方案失败，跳过");
-                    return;
+                MyLog.log("没有Extras，采用第二套方案");
+
+                if (!rule.getExtrasKey().equals(exDat)){
+                    MyLog.log("第二套方案失败");
+                    if (param.args.length>2){
+                        extras= (Bundle) param.args[2];
+                        if (extras!=null){
+                            MyLog.log("采用第三套方案");
+                        }else {
+                            MyLog.log("第三套方案失败，跳过");
+                            return;
+                        }
+                    }else {
+                        return;
+                    }
                 }
+
+
             }else {
                 MyLog.log(" - With extras: " + extras.toString());
             }
@@ -195,15 +208,23 @@ public class HookMain implements IXposedHookLoadPackage {
             MyLog.log("Intent: " + intent.toString());
             Bundle extras = intent.getExtras();
             if (extras==null){
-                MyLog.log("没有Extras，采用第二套方案:"+param.args[2]);
-                extras= (Bundle) param.args[2];
-                if (extras == null) {
-                    MyLog.log("依旧没有Extras，采用第三套方案:"+intent.getData());
-                    Uri data = intent.getData();
-                    if (data==null){
+                MyLog.log("没有Extras，采用第二套方案:"+intent.getData());
+                Uri data = intent.getData();
+                if (data==null){
+                    MyLog.log("第二套方案失败，尝试第三套方案");
+                    if (param.args.length>2){
+                        extras= (Bundle) param.args[2];
+                        if (extras != null) {
+                            MyLog.log("第二套:"+extras.toString());
+                        }else {
+                            MyLog.log("第三套方案失败，跳过");
+                            return;
+                        }
+                    }else {
                         MyLog.log("第三套方案失败，跳过");
                         return;
                     }
+                }else {
                     if (data.toString().equals("http://www.example.org/ex-link-test")){
                         openExlink(param,exDat);
                         return;
@@ -212,18 +233,17 @@ public class HookMain implements IXposedHookLoadPackage {
                         openExlink(param,exDat);
                         return;
                     }
-                    MyLog.log("第三套方案失败，跳过");
-                    return;
-
-                }else {
-                    MyLog.log("第二套:"+extras.toString());
                 }
+
             }else {
-                MyLog.log(" - With extras: " + intent.getExtras().toString());
+                MyLog.log(" - With extras: " + extras.toString());
             }
             Set<String> keySet = extras.keySet();
             for (String key : keySet) {
                 Object o = extras.get(key);
+                if (o == null) {
+                    continue;
+                }
                 String value=o.toString();
 
                 boolean differentUrlRule=false;
