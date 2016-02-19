@@ -98,4 +98,14 @@ public class StreamUtil {
 
         return ret.toString();
     }
+
+    public static boolean isSecondLevelDomain(String mainUrl,String testUrl){
+        boolean ret = false;
+        if (testUrl.contains(mainUrl)){
+            ret=true;
+        }
+
+        return ret;
+    }
+
 }

@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private Context context;
 
-    private static final int nowInitVersion=12;
+    private static final int nowInitVersion=13;
     private Button show;
     private TextView readme;
 
@@ -123,9 +123,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         qqRule.add(new Rule("com.tencent.mobileqq.activity.QQBrowserDelegationActivity","url"));
         qq.setRules(qqRule);
         Set<String> qqWhiteUrl=new HashSet<String>();
-        qqWhiteUrl.add("h5.qzone.qq.com");
-        qqWhiteUrl.add("qzs.qzone.qq.com");
+//        qqWhiteUrl.add("h5.qzone.qq.com");
+//        qqWhiteUrl.add("qzs.qzone.qq.com");
+        qqWhiteUrl.add("qzone.qq.com");
+        qqWhiteUrl.add("qun.qq.com");
         qqWhiteUrl.add("jq.qq.com");
+        qqWhiteUrl.add("mqq.tenpay.com");
         qq.setWhiteUrl(qqWhiteUrl);
         qq.setIsUse(true);
         qq.setIsUserBuild(false);
