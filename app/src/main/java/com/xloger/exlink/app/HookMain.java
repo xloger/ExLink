@@ -163,6 +163,9 @@ public class HookMain implements IXposedHookLoadPackage {
                     if (uri.getHost().equals(s)){
                         MyLog.log("处于白名单之中，跳过");
                         return;
+                    }else if (StreamUtil.isSecondLevelDomain(s,uri.getHost())){
+                        MyLog.log("为"+s+"的二级域名，跳过");
+                        return;
                     }
                 }
             }
