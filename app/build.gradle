@@ -27,8 +27,8 @@ android {
         applicationId "com.xloger.exlink.app"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 10
-        versionName "1.4"
+        versionCode 11
+        versionName "1.5"
         signingConfig signingConfigs.config
     }
     compileOptions {

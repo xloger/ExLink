@@ -1,8 +1,12 @@
 package com.xloger.exlink.app.util;
 
 
+import android.net.Uri;
+import com.xloger.exlink.app.Constant;
+
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URLDecoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -104,6 +108,76 @@ public class StreamUtil {
         if (testUrl.contains(mainUrl)){
             ret=true;
         }
+
+        return ret;
+    }
+
+    public  static boolean isContain(String url){
+        boolean ret = false;
+        //获取自定义Url
+        byte useDifferentUrl='0';
+        String differentUrl = null;
+        byte[] bytes = FileUtil.load(Constant.APP_URL, Constant.DIFFERENT_URL_FILE_NAME);
+        if (bytes != null&&bytes.length>0) {
+            useDifferentUrl=bytes[0];
+            differentUrl=new String(bytes,1,bytes.length-1);
+            if (useDifferentUrl=='1'){
+                MyLog.log("使用自定义Url:"+differentUrl);
+            }
+        }
+
+        String testUrl;
+        if (useDifferentUrl=='1'&&differentUrl!=null){
+            testUrl=differentUrl;
+        }else {
+            testUrl="http://www.example.org/ex-link-test";
+        }
+
+        if (url.equals(testUrl)){
+            ret=true;
+        }else {
+            ret=isContain(url,testUrl);
+        }
+
+
+        return ret;
+    }
+
+    public static boolean isContain(String longUrl,String shortUrl){
+        boolean ret = false;
+
+        longUrl= URLDecoder.decode(longUrl);
+        shortUrl=URLDecoder.decode(shortUrl);
+
+        Uri shortUri=Uri.parse(shortUrl);
+        if (longUrl.contains(shortUri.getHost())&&longUrl.contains(shortUri.getPath())){
+            if (shortUri.getPath() == null) {
+                MyLog.log("判断为匹配域名模式，并匹配成功。");
+                ret=true;
+            }else if (longUrl.contains(shortUri.getPath())){
+                ret=true;
+            }
+        }
+
+
+        return ret;
+    }
+
+    public static String clearUrl(String url){
+        String ret = null;
+
+        if (url.startsWith("sinaweibo")){
+            Uri sinaUri=Uri.parse(url);
+            String tempUrl = sinaUri.getQueryParameter("url");
+            if (tempUrl == null) {
+                tempUrl=sinaUri.getQueryParameter("showurl");
+            }
+
+            if (tempUrl != null) {
+                ret=tempUrl;
+            }
+        }
+
 
         return ret;
     }

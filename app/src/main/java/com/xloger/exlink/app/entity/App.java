@@ -84,7 +84,7 @@ public class App implements Serializable {
 
     @Override
     public String toString() {
-        return "App{" +
+        return "\nApp{" +
                 "id=" + id +
                 ", appName='" + appName + '\'' +
                 ", packageName='" + packageName + '\'' +
@@ -93,6 +93,6 @@ public class App implements Serializable {
                 ", isUse=" + isUse +
                 ", isUserBuild=" + isUserBuild +
                 ", isTest=" + isTest +
-                '}';
+                '}'+'\n';
     }
 }
