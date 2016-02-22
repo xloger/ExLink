@@ -35,7 +35,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private Context context;
 
-    private static final int nowInitVersion=13;
+    private static final int nowInitVersion=14;
     private Button show;
     private TextView readme;
 
@@ -129,6 +129,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         qqWhiteUrl.add("qun.qq.com");
         qqWhiteUrl.add("jq.qq.com");
         qqWhiteUrl.add("mqq.tenpay.com");
+        qqWhiteUrl.add("mp.qq.com");
         qq.setWhiteUrl(qqWhiteUrl);
         qq.setIsUse(true);
         qq.setIsUserBuild(false);
@@ -172,7 +173,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));
         weiboRule.add(new Rule("com.sina.weibo.weiyou.DMSingleChatActivity","com_sina_weibo_weibobrowser_url"));
         weiboRule.add(new Rule("com.sina.weibo.page.NewCardListActivity","com_sina_weibo_weibobrowser_url"));
-        weiboRule.add(new Rule("com.sina.weibo.feed.DetailWeiboActivity","com_sina_weibo_weibobrowser_url"));        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));
+        weiboRule.add(new Rule("com.sina.weibo.feed.DetailWeiboActivity","com_sina_weibo_weibobrowser_url"));
+        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));
+        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","ExDat"));
         weibo.setRules(weiboRule);
         Set<String> weiboWhiteUrl=new HashSet<String>();
         weiboWhiteUrl.add("card.weibo.com");

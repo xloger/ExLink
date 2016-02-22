@@ -44,6 +44,6 @@
     <string name="hidden_icon">隐藏桌面图标</string>
     <string name="xposed_description">屏蔽QQ等App的内置浏览器</string>
     <string name="change_succeed">修改成功</string>
-    <string name="line">——分割线——</string>
+    <string name="line">——分割线(你不知道下面是干什么的话，可以无视它)——</string>
 
 </resources>
