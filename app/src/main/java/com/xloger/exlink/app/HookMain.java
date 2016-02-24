@@ -85,7 +85,8 @@ public class HookMain implements IXposedHookLoadPackage {
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());
             Bundle extras=intent.getExtras();
-            if (extras==null){
+            if (extras==null||!extras.toString().contains("http")){
+
                 MyLog.log("没有Extras，尝试第二套方案");
 
                 if (!rule.getExtrasKey().equals(exDat)){
@@ -94,9 +95,10 @@ public class HookMain implements IXposedHookLoadPackage {
                         if (extras!=null){
                             MyLog.log("采用第二套方案");
                         }else {
-                            MyLog.log("第二套方案失败，跳过");
+                            MyLog.log("第二套方案失败");
                             return;
                         }
+
                     }else {
                         return;
                     }
@@ -106,7 +108,10 @@ public class HookMain implements IXposedHookLoadPackage {
                 MyLog.log(" - With extras: " + extras.toString());
             }
 
-            String externalUrl = extras.getString(rule.getExtrasKey());
+            String externalUrl =null;
+            if (extras != null) {
+                externalUrl = extras.getString(rule.getExtrasKey());
+            }
 
             if (intent.getData() != null) {
                 String dataUrl = intent.getData().toString();
@@ -154,7 +159,6 @@ public class HookMain implements IXposedHookLoadPackage {
             }
 
 
-
             if (externalUrl == null||"".equals(externalUrl)) {
                 MyLog.log(new RuntimeException("无法获取url"));
                 return;
@@ -176,6 +180,7 @@ public class HookMain implements IXposedHookLoadPackage {
             Uri uri = Uri.parse(externalUrl);
             MyLog.log("uri:"+uri);
 
+
             //检查白名单
             Set<String> whiteUrl = app.getWhiteUrl();
             if (whiteUrl != null) {
@@ -196,11 +201,13 @@ public class HookMain implements IXposedHookLoadPackage {
                 return;
             }
 
+
             //发送干净的Intent
             Intent exIntent = new Intent();
             exIntent.setAction(Intent.ACTION_VIEW);
             exIntent.setData(uri);
             ((Activity)param.thisObject).startActivity(exIntent);
+
             param.setResult(null);
 
         }
