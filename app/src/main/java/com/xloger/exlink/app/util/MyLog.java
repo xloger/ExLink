@@ -46,7 +46,7 @@ public class MyLog {
                 XposedBridge.log(t);
             }catch (NoClassDefFoundError error){
                 if (LOG_ON){
-                    Log.e("[ExLink] ",t.toString());
+                    Log.e("[ExLink Error] ",t.toString());
                 }
             }
         }
