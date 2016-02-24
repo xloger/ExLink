@@ -86,16 +86,15 @@ public class HookMain implements IXposedHookLoadPackage {
             MyLog.log("Intent: " + intent.toString());
             Bundle extras=intent.getExtras();
             if (extras==null){
-                MyLog.log("没有Extras，采用第二套方案");
+                MyLog.log("没有Extras，尝试第二套方案");
 
                 if (!rule.getExtrasKey().equals(exDat)){
-                    MyLog.log("第二套方案失败");
                     if (param.args.length>2){
                         extras= (Bundle) param.args[2];
                         if (extras!=null){
-                            MyLog.log("采用第三套方案");
+                            MyLog.log("采用第二套方案");
                         }else {
-                            MyLog.log("第三套方案失败，跳过");
+                            MyLog.log("第二套方案失败，跳过");
                             return;
                         }
                     }else {
@@ -107,9 +106,14 @@ public class HookMain implements IXposedHookLoadPackage {
                 MyLog.log(" - With extras: " + extras.toString());
             }
 
-            String externalUrl = intent.getStringExtra(rule.getExtrasKey());
-            if (rule.getExtrasKey().equals(exDat)){
-                externalUrl=intent.getData().toString();
+            String externalUrl = extras.getString(rule.getExtrasKey());
+
+            if (intent.getData() != null) {
+                String dataUrl = intent.getData().toString();
+                if (rule.getExtrasKey().equals(exDat)||dataUrl.contains("http")){
+                    MyLog.log("使用第三套方案");
+                    externalUrl=dataUrl;
+                }
             }
             MyLog.log("externalUrl:"+externalUrl);
 
@@ -152,7 +156,8 @@ public class HookMain implements IXposedHookLoadPackage {
 
 
             if (externalUrl == null||"".equals(externalUrl)) {
-                throw new Exception("无法获取url");
+                MyLog.log(new RuntimeException("无法获取url"));
+                return;
             }
 
             //Url规范化
@@ -163,7 +168,8 @@ public class HookMain implements IXposedHookLoadPackage {
                 MyLog.log("处理后externalUrl:"+externalUrl);
 
                 if (externalUrl == null) {
-                    throw new Exception("无法解析url");
+                    MyLog.log(new RuntimeException("无法解析url"));
+                    return;
                 }
             }
 
@@ -174,7 +180,7 @@ public class HookMain implements IXposedHookLoadPackage {
             Set<String> whiteUrl = app.getWhiteUrl();
             if (whiteUrl != null) {
                 for (String s : whiteUrl) {
-                    if (uri.getHost().equals(s)){
+                    if (s.equals(uri.getHost())){
                         MyLog.log("处于白名单之中，跳过");
                         return;
                     }else if (StreamUtil.isSecondLevelDomain(s,uri.getHost())){
