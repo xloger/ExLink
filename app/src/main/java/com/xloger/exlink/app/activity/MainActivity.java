@@ -22,6 +22,7 @@ import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.ViewTool;
+import com.xloger.exlink.app.view.StepOneDialog;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -246,42 +247,53 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v.getId()==addApp.getId()){
-            final View oneStepView = LayoutInflater.from(MainActivity.this).inflate(R.layout.step_one, null);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle(getString(R.string.step_one)).setView(oneStepView);
-            builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+//            final View oneStepView = LayoutInflater.from(MainActivity.this).inflate(R.layout.step_one, null);
+//
+//            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//            builder.setTitle(getString(R.string.step_one)).setView(oneStepView);
+//            builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    EditText appEditText= (EditText) oneStepView.findViewById(R.id.new_rule_app_name);
+//                    EditText packageEditText= (EditText) oneStepView.findViewById(R.id.new_rule_package_name);
+//                    String newRuleAppName=appEditText.getText().toString();
+//                    String newRulePackageName=packageEditText.getText().toString();
+//                    if (!"".equals(newRulePackageName)&&newRulePackageName.length()!=0) {
+//                        App testApp=new App();
+//                        if ("".equals(newRuleAppName)) {
+//                            testApp.setAppName(getString(R.string.demo));
+//                        }else {
+//                            testApp.setAppName(newRuleAppName);
+//                        }
+//                        testApp.setPackageName(newRulePackageName);
+//                        testApp.setIsUse(true);
+//                        testApp.setIsUserBuild(true);
+//                        testApp.setIsTest(true);
+//
+//                        appList.add(testApp);
+//                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+//                        ViewTool.setListViewHeightBasedOnChildren(listView);
+//                        Toast.makeText(context,getString(R.string.step_one_text4),Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
+//            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            builder.create().show();
+            StepOneDialog dialog=new StepOneDialog(context);
+            dialog.setPositiveListener(new StepOneDialog.StepOneCallBack() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    EditText appEditText= (EditText) oneStepView.findViewById(R.id.new_rule_app_name);
-                    EditText packageEditText= (EditText) oneStepView.findViewById(R.id.new_rule_package_name);
-                    String newRuleAppName=appEditText.getText().toString();
-                    String newRulePackageName=packageEditText.getText().toString();
-                    if (!"".equals(newRulePackageName)&&newRulePackageName.length()!=0) {
-                        App testApp=new App();
-                        if ("".equals(newRuleAppName)) {
-                            testApp.setAppName(getString(R.string.demo));
-                        }else {
-                            testApp.setAppName(newRuleAppName);
-                        }
-                        testApp.setPackageName(newRulePackageName);
-                        testApp.setIsUse(true);
-                        testApp.setIsUserBuild(true);
-                        testApp.setIsTest(true);
-
-                        appList.add(testApp);
-                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
-                        ViewTool.setListViewHeightBasedOnChildren(listView);
-                        Toast.makeText(context,getString(R.string.step_one_text4),Toast.LENGTH_SHORT).show();
-                    }
+                public void onPositiveClick(App app) {
+                    appList.add(app);
+                    FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                    ViewTool.setListViewHeightBasedOnChildren(listView);
                 }
             });
-            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            StepOneDialog.Builder builder=dialog.getBuilder();
             builder.create().show();
         }else if(v.getId()==readme.getId()){
             Intent intent=new Intent(context,ReadMeActivity.class);
@@ -385,6 +397,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.action_about:
+                intent=new Intent(context,AboutActivity.class);
+                startActivity(intent);
                 break;
             default:
                 return true;

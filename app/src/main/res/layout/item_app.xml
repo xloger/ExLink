@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tool="http://schemas.android.com/tools"
               android:id="@+id/app_layout"
               android:orientation="horizontal"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content"
+              >
 
     <CheckBox
             android:id="@+id/app_use"
@@ -26,6 +28,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:textColor="@color/textPrimary"
+                    tool:text="应用名"
                     />
             <TextView
                     android:id="@+id/app_system"
@@ -48,7 +52,9 @@
                 android:id="@+id/app_package_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:textColor="@color/textSecondary"
+                tool:text="应用包名"
+            />
     </LinearLayout>
 
 </LinearLayout>

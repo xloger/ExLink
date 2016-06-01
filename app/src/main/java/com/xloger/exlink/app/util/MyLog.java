@@ -12,7 +12,7 @@ import de.robv.android.xposed.XposedBridge;
  */
 public class MyLog {
     private static final boolean LOG_ON= BuildConfig.DEBUG;
-    private static boolean isShowLog=false;
+    private static boolean isShowLog=true;
 
 
     private MyLog(){
