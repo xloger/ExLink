@@ -18,7 +18,7 @@ import com.xloger.exlink.app.util.FileUtil;
  * Author:xloger
  * Email:phoenix@xloger.com
  */
-public class StepTwoActivity extends Activity implements View.OnClickListener {
+public class StepTwoActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView urlTextView;
     private Button differentUrlButton;

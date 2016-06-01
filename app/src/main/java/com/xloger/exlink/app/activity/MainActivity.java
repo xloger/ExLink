@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,11 +28,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class MainActivity extends Activity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
     private List<App> appList;
     private ListView listView;
     private AppAdapter appAdapter;
-    private Button addApp;
+    private FloatingActionButton addApp;
 
     private Context context;
 
@@ -61,7 +62,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void initView(){
         listView = (ListView) findViewById(R.id.app_list);
-        addApp = (Button) findViewById(R.id.add_app);
+        addApp = (FloatingActionButton) findViewById(R.id.add_app);
         show = (Button) findViewById(R.id.show);
         readme = (TextView) findViewById(R.id.main_read_me);
     }
@@ -373,18 +374,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent=new Intent(context,SettingActivity.class);
-            startActivity(intent);
-            return true;
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.action_instruction:
+                intent= new Intent(context,ReadMeActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_settings:
+                intent=new Intent(context,SettingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_about:
+                break;
+            default:
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

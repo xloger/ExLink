@@ -18,7 +18,7 @@ import java.util.Set;
  * Author:xloger
  * Email:phoenix@xloger.com
  */
-public class StepThreeActivity extends Activity {
+public class StepThreeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

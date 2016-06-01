@@ -46,8 +46,8 @@
         </activity>
         <activity
             android:name=".activity.ReadMeActivity"
-            android:label="readme"
-            android:theme="@android:style/Theme.Holo.NoActionBar" >
+            android:label="@string/about"
+            >
         </activity>
         <activity
             android:name=".activity.SettingActivity"

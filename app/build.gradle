@@ -3,7 +3,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.1.1'
+        classpath 'com.android.tools.build:gradle:2.1.0'
     }
 }
 apply plugin: 'com.android.application'
@@ -14,12 +14,12 @@ repositories {
 
 android {
     signingConfigs {
-        config {
-            keyAlias 'xloger'
-            keyPassword '***REMOVED***'
-            storeFile file('C:/Users/xloger/.android/XlogerAndroid.jks')
-            storePassword '***REMOVED***'
-        }
+//        config {
+//            keyAlias 'xloger'
+//            keyPassword '***REMOVED***'
+//            storeFile file('C:/Users/xloger/.android/XlogerAndroid.jks')
+//            storePassword '***REMOVED***'
+//        }
     }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -29,7 +29,7 @@ android {
         targetSdkVersion 23
         versionCode 13
         versionName "1.5.2"
-        signingConfig signingConfigs.config
+//        signingConfig signingConfigs.config
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
@@ -39,6 +39,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.test
         }
     }
     productFlavors {
@@ -46,6 +47,9 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    provided fileTree(dir: 'deps', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    provided fileTree(include: ['*.jar'], dir: 'deps')
+    compile 'com.android.support:appcompat-v7:23.2.0'
+//    设置成23.2.0的话fab button会有一个异常
+    compile 'com.android.support:design:23.1.0'
 }

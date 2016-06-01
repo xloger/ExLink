@@ -12,7 +12,7 @@ import com.xloger.exlink.app.util.MyLog;
 
 import java.util.Locale;
 
-public class ReadMeActivity extends Activity {
+public class ReadMeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

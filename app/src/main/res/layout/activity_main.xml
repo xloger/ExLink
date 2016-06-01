@@ -1,57 +1,70 @@
-<ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
-    <LinearLayout
+        <LinearLayout
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:orientation="vertical"
             tools:context="com.xloger.exlink.app.activity.MainActivity">
 
 
-        <ListView
+            <ListView
                 android:id="@+id/app_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
 
-        <Button
-                android:id="@+id/add_app"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/new_rule"
-                />
 
             <TextView
-                    android:id="@+id/main_read_me"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/use_state"
-                    android:textColor="#2196F3"
-                    android:textSize="18sp"
-                    />
+                android:id="@+id/main_read_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_state"
+                android:textColor="#2196F3"
+                android:textSize="18sp"
+                />
 
-        <Button
+            <Button
                 android:id="@+id/show"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/show"
                 android:visibility="gone"
                 />
-        <TextView
+
+            <TextView
                 android:id="@+id/show_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
                 />
 
-    </LinearLayout>
+        </LinearLayout>
 
-</ScrollView>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_app"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="right|bottom"
+        android:src="@mipmap/ic_add_white"
+        android:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        />
+</FrameLayout>

@@ -1,8 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.xloger.exlink.app.activity.MainActivity">
+
+    <item android:id="@+id/action_instruction"
+          android:title="@string/use_state"
+          />
+
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
-          android:orderInCategory="100"
+          />
+
+    <item android:id="@+id/action_about"
+          android:title="@string/about"
           />
 </menu>
