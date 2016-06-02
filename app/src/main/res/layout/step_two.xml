@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    >
 
     <TextView
             android:layout_width="wrap_content"
@@ -22,38 +25,67 @@
             android:text="@string/step_two_text2"
             />
 
-
-    <TextView
-            android:layout_marginTop="30dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/step_two_custom_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/line"
+            android:text="自定义链接"
             />
+        <Button
+            android:id="@+id/step_two_back_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="恢复默认链接"
+            />
+    </LinearLayout>
 
-    <TextView
+
+    <LinearLayout
+        android:id="@+id/step_two_custom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        >
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/line"-->
+            <!--/>-->
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/step_two_text3"
             />
 
-    <EditText
+        <EditText
             android:id="@+id/step_two_different_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textUri"
             />
 
-    <Button
+        <Button
             android:id="@+id/step_two_different_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/yes"
             />
 
-    <TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/step_two_text4"
             />
+    </LinearLayout>
+
+
 
 </LinearLayout>

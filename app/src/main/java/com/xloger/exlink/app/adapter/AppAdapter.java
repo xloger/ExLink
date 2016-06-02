@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.activity.MainActivity;
 import com.xloger.exlink.app.entity.App;
+import com.xloger.exlink.app.util.MyLog;
 
 import java.util.List;
 
@@ -78,6 +79,7 @@ public class AppAdapter extends BaseAdapter implements View.OnClickListener, Vie
 
         viewHolder.layout.setTag(position+"");
         viewHolder.layout.setTag(R.id.app_adapter_position,position+"");
+        viewHolder.layout.setOnClickListener(this);
         viewHolder.layout.setOnLongClickListener(this);
 
         viewHolder.system.setVisibility(View.GONE);

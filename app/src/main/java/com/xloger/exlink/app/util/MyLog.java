@@ -51,4 +51,9 @@ public class MyLog {
             }
         }
     }
+    public static void e(String s){
+        if (isShowLog){
+            Log.e("[ExLink]",s);
+        }
+    }
 }
