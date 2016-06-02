@@ -22,6 +22,7 @@ import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.ViewTool;
+import com.xloger.exlink.app.view.AddWhiteDialog;
 import com.xloger.exlink.app.view.StepOneDialog;
 
 import java.util.HashSet;
@@ -34,6 +35,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ListView listView;
     private AppAdapter appAdapter;
     private FloatingActionButton addApp;
+    private boolean isShowingDebug=false;
 
     private Context context;
 
@@ -232,14 +234,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         if (isDebugMode){
             show.setVisibility(View.VISIBLE);
-            show.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
-                    textView.setText(appList.toString());
-                    textView.setTextIsSelectable(true);
-                }
-            });
+            show.setOnClickListener(this);
         }
 
     }
@@ -263,6 +258,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.main_read_me:
                 Intent intent=new Intent(context,ReadMeActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.show:
+                TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
+                if (isShowingDebug){
+                    textView.setText("");
+                }else {
+                    textView.setText(appList.toString());
+                    textView.setTextIsSelectable(true);
+                }
+                isShowingDebug=!isShowingDebug;
                 break;
         }
     }
@@ -297,36 +302,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
                         openStepTwo();
                     }else if (which==1){
-                        final View oneStepView = LayoutInflater.from(MainActivity.this).inflate(R.layout.add_white, null);
+                        AddWhiteDialog addWhiteDialog=new AddWhiteDialog(context,appList.get(position));
+                        addWhiteDialog.setCallBack(new AddWhiteDialog.AddWhiteCallBack() {
+                            @Override
+                            public void onPositiveClick() {
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setTitle(getString(R.string.add_white_title)).setView(oneStepView);
-                        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                            }
+
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                EditText whiteNameEditText= (EditText) oneStepView.findViewById(R.id.add_white_name);
-                                String whiteName=whiteNameEditText.getText().toString();
-                                if (!"".equals(whiteName)&&whiteName.length()!=0) {
-                                    App changeApp=appList.get(position);
-                                    Set<String> whiteUrl = changeApp.getWhiteUrl();
-                                    if (whiteUrl == null) {
-                                        whiteUrl=new HashSet<String>();
-                                        changeApp.setWhiteUrl(whiteUrl);
-                                    }
-                                    if (!"".equals(whiteName)) {
-                                        whiteUrl.add(whiteName);
-                                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
-                                        Toast.makeText(context,getString(R.string.add_white_succeed),Toast.LENGTH_SHORT).show();
-                                    }
-                                }
+                            public void saveWhiteList() {
+                                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
                             }
                         });
-                        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
+                        android.support.v7.app.AlertDialog.Builder builder = addWhiteDialog.getBuilder();
                         builder.create().show();
                     }else if (which==2){
                         if (!appList.get(position).isUserBuild()){
