@@ -16,9 +16,9 @@ android {
     signingConfigs {
         config {
             keyAlias 'xloger'
-            keyPassword '***REMOVED***'
+            keyPassword '**REMOVED**'
             storeFile file('/Users/xloger/ZZ/XlogerAndroid.jks')
-            storePassword '***REMOVED***'
+            storePassword '**REMOVED**'
         }
     }
     compileSdkVersion 23
