@@ -23,18 +23,18 @@ import java.util.Set;
  */
 public class WhiteRuleAdapter extends BaseAdapter {
     private Context context;
-    private Set<String> whiteSet;
-    private final List<String> whiteList;
+    private Set whiteSet;
+    private final List whiteList;
     private WhiteRuleAdapterCallBack callBack;
 
-    public WhiteRuleAdapter(Context context,Set<String> whiteSet,WhiteRuleAdapterCallBack callBack){
+    public WhiteRuleAdapter(Context context,Set whiteSet,WhiteRuleAdapterCallBack callBack){
         this.context=context;
         this.whiteSet=whiteSet;
         this.callBack=callBack;
-        Iterator<String> iterator;
+        Iterator iterator;
         if (whiteSet != null) {
             iterator=whiteSet.iterator();
-            whiteList = new ArrayList<String>();
+            whiteList = new ArrayList();
             while (iterator.hasNext()){
                 whiteList.add(iterator.next());
             }
@@ -69,7 +69,7 @@ public class WhiteRuleAdapter extends BaseAdapter {
         }
         TextView urlText= (TextView) view.findViewById(R.id.item_white_url);
         ImageView delImg= (ImageView) view.findViewById(R.id.item_white_del);
-        urlText.setText(whiteList.get(position));
+        urlText.setText(whiteList.get(position).toString());
         delImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

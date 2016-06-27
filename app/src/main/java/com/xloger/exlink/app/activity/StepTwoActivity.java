@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.util.FileUtil;
+import com.xloger.exlink.app.util.MyLog;
 
 /**
  * Created by xloger on 1月6日.
@@ -31,6 +32,14 @@ public class StepTwoActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.step_two);
+
+        String title = getIntent().getStringExtra("title");
+        if (title!=null&&!"".equals(title)) {
+            setTitle(title);
+        }else {
+            setTitle(getResources().getString(R.string.step_two));
+        }
+
         urlTextView = (TextView) findViewById(R.id.step_two_url);
         differentUrlEditText = (EditText) findViewById(R.id.step_two_different_url);
         differentUrlButton = (Button) findViewById(R.id.step_two_different_button);

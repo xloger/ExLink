@@ -21,8 +21,9 @@
         android:id="@+id/item_white_del"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/ic_close_black"
         android:clickable="true"
+        android:layout_gravity="center"
         />
 
 

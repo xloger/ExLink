@@ -56,7 +56,11 @@
         <activity android:name=".activity.AboutActivity"
                   android:label="@string/about"
                   >
-
+        </activity>
+        <activity
+            android:name=".activity.EditRuleActivity"
+            android:label="@string/edit_rule"
+            >
         </activity>
 
         <activity

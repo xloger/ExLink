@@ -63,6 +63,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        upDateAppList();
+        appAdapter.notifyDataSetChanged();
+        debugMode();
+    }
+
     private void initView(){
         listView = (ListView) findViewById(R.id.app_list);
         addApp = (FloatingActionButton) findViewById(R.id.add_app);
@@ -115,6 +123,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
 
+    }
+
+    private void upDateAppList(){
+        List<App> apps = FileUtil.getAppList();
+        if (apps != null) {
+            appList.clear();
+            appList.addAll(apps);
+        }
     }
 
     private void initAppData(){
@@ -234,7 +250,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         if (isDebugMode){
             show.setVisibility(View.VISIBLE);
+            show.setClickable(true);
             show.setOnClickListener(this);
+        }else {
+            show.setVisibility(View.GONE);
+            show.setClickable(false);
         }
 
     }
@@ -298,9 +318,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which==0){
-                        appList.get(position).setIsTest(true);
-                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
-                        openStepTwo();
+//                        appList.get(position).setIsTest(true);
+//                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+//                        openStepTwo();
+                        Intent intent=new Intent(context,EditRuleActivity.class);
+                        intent.putExtra("position",position);
+                        startActivity(intent);
                     }else if (which==1){
                         AddWhiteDialog addWhiteDialog=new AddWhiteDialog(context,appList.get(position));
                         addWhiteDialog.setCallBack(new AddWhiteDialog.AddWhiteCallBack() {
