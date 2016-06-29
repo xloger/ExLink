@@ -35,6 +35,14 @@
             />
 
         <TextView
+            android:id="@+id/about_qq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="以及一个理论上的反馈交流 QQ 群:429861674"
+            android:autoLink="all"
+            />
+
+        <TextView
             android:id="@+id/about_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
