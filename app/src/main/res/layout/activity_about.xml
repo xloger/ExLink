@@ -1,7 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
 
-</LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="该 App 一款 Xposed 模块,主要功能为屏蔽各国产 App 的内置浏览器,使用用户自己的浏览器打开链接。现已开源,代码在 https://github.com/xloger/ExLink ,欢迎各位继续完善."
+            android:autoLink="web"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="更新说明:\n熟悉我的人应该知道我废话很多的,所以这次特意独立出来一个页面放我的废话了.之前很多酷友问我的课表进度如何,抱歉我放弃了,具体原因在「使用说明」里面有写,然后我花三天时间写出来的那个简陋的 Demo 放在 github 了,有兴趣的可以去看看.\n然后再提提近况吧,作者工作后一直很忙,经常加班也压力很大,少数的一段时间回来后也是无心再敲代码了,该次更新大部分内容还是在请假回学校答辩的那段时间和在火车上的时间写的(这逼装的好).\n该次更新并没有改善核心功能,不过对界面与易用性进行了挺大的改良的,还有意见大家可以提,不过我看不看就得看天意了...本来是有说固定会看酷安和 Google Play 评论的,但是工作后几乎没敢点开,因为怕一旦看了就得花时间确认问题,解决方案一类的,然后看了不回应也会压力很大什么的,所以为了我那矫情的体质,我就一直没敢看了......\n以及兼容性与核心代码改进,虽然我很想弄,但是怕又有1.5那样的 bug 发生,就没有随意改动.但是逻辑并不复杂,有能力的朋友可以帮忙改善下的."
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="本次更新内容与待完善内容:\n哎呀不想写了...☸ヾ(｡╹ω╹｡)ノ☸我要去 steam 买买买了(我穷到了24号夏促刚出就加好了购物车,直到今天才买得起...)"
+            />
+
+        <TextView
+            android:id="@+id/about_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="版本号:"
+            />
+
+    </LinearLayout>
+
+</ScrollView>

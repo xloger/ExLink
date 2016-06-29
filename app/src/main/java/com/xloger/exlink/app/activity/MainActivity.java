@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.*;
 import com.xloger.exlink.app.BuildConfig;
 import com.xloger.exlink.app.Constant;
@@ -25,6 +26,7 @@ import com.xloger.exlink.app.util.ViewTool;
 import com.xloger.exlink.app.view.AddWhiteDialog;
 import com.xloger.exlink.app.view.StepOneDialog;
 
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -60,6 +62,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         addApp.setOnClickListener(this);
         readme.setOnClickListener(this);
         readme.getPaint().setAntiAlias(true);
+
+//        setOverflowShowingAlways();
 
     }
 
@@ -383,6 +387,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * 通过反射，强制显示Overflow（即右上角的菜单按钮）
+     */
+    private void setOverflowShowingAlways() {
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            menuKeyField.setAccessible(true);
+            menuKeyField.setBoolean(config, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
