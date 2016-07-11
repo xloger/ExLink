@@ -46,13 +46,30 @@
         </activity>
         <activity
             android:name=".activity.ReadMeActivity"
+<<<<<<< HEAD
             android:label="readme"
             android:theme="@android:style/Theme.Holo.NoActionBar" >
+=======
+            android:label="@string/use_state"
+            >
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
         </activity>
         <activity
             android:name=".activity.SettingActivity"
             android:label="@string/title_activity_setting" >
         </activity>
+<<<<<<< HEAD
+=======
+        <activity android:name=".activity.AboutActivity"
+                  android:label="@string/about"
+                  >
+        </activity>
+        <activity
+            android:name=".activity.EditRuleActivity"
+            android:label="@string/edit_rule"
+            >
+        </activity>
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 
         <activity
                 android:name=".activity.XposedIntoActivity"

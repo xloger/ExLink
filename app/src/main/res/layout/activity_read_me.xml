@@ -2,14 +2,20 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+<<<<<<< HEAD
                 android:background="#000"
+=======
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
                 tools:context="com.xloger.exlink.app.activity.ReadMeActivity">
 
     <WebView
             android:id="@+id/read_me_web_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+<<<<<<< HEAD
             android:background="#000"
+=======
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
             />
 
 </RelativeLayout>

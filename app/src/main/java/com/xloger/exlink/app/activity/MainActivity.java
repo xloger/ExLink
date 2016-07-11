@@ -7,10 +7,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+<<<<<<< HEAD
+=======
+import android.support.design.widget.FloatingActionButton;
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+<<<<<<< HEAD
+=======
+import android.view.ViewConfiguration;
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 import android.widget.*;
 import com.xloger.exlink.app.BuildConfig;
 import com.xloger.exlink.app.Constant;
@@ -21,17 +29,29 @@ import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.ViewTool;
+<<<<<<< HEAD
 
+=======
+import com.xloger.exlink.app.view.AddWhiteDialog;
+import com.xloger.exlink.app.view.StepOneDialog;
+
+import java.lang.reflect.Field;
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+<<<<<<< HEAD
 public class MainActivity extends Activity implements View.OnClickListener {
+=======
+public class MainActivity extends BaseActivity implements View.OnClickListener {
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
     private List<App> appList;
     private ListView listView;
     private AppAdapter appAdapter;
-    private Button addApp;
+    private FloatingActionButton addApp;
+    private boolean isShowingDebug=false;
 
     private Context context;
 
@@ -57,6 +77,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         readme.setOnClickListener(this);
         readme.getPaint().setAntiAlias(true);
 
+<<<<<<< HEAD
     }
 
     private void initView(){
@@ -66,6 +87,27 @@ public class MainActivity extends Activity implements View.OnClickListener {
         readme = (TextView) findViewById(R.id.main_read_me);
     }
 
+=======
+//        setOverflowShowingAlways();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        upDateAppList();
+        appAdapter.notifyDataSetChanged();
+        debugMode();
+    }
+
+    private void initView(){
+        listView = (ListView) findViewById(R.id.app_list);
+        addApp = (FloatingActionButton) findViewById(R.id.add_app);
+        show = (Button) findViewById(R.id.show);
+        readme = (TextView) findViewById(R.id.main_read_me);
+    }
+
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
     private void initAppList(){
         SharedPreferences sp = getSharedPreferences("config", 0);
         int initVersion = sp.getInt("initVersion", 0);
@@ -92,6 +134,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
             editor2.putString("initAppVersion", BuildConfig.VERSION_NAME);
             editor2.putInt("initAppVersionCode", BuildConfig.VERSION_CODE);
             editor2.apply();
+<<<<<<< HEAD
+=======
+
+            if (initAppVersionCode>=5){
+                //大于1.3版本执行更新操作
+                updateAppData();
+                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
+            }else if(initAppVersionCode==-1){
+                updateAppData();
+                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
+            } else {
+                initAppData();
+                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
+                FileUtil.getInstance().setReadable(Constant.APP_FILE_NAME);
+
+            }
+
+
+        }
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 
             if (initAppVersionCode>=5){
                 //大于1.3版本执行更新操作
@@ -111,6 +173,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
 
 
+<<<<<<< HEAD
+=======
+    private void upDateAppList(){
+        List<App> apps = FileUtil.getAppList();
+        if (apps != null) {
+            appList.clear();
+            appList.addAll(apps);
+        }
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
     }
 
     private void initAppData(){
@@ -196,9 +267,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
         weChat.setIsUse(true);
         weChat.setIsUserBuild(false);
         appList.add(weChat);
+<<<<<<< HEAD
+=======
 
     }
 
+    private void updateAppData(){
+        if (appList.size()<=6){
+            initAppData();
+            return;
+        }
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
+
+        List<App> tempAppList=appList.subList(0,appList.size());
+
+        initAppData();
+        for (int i=6;i<tempAppList.size();i++){
+            appList.add(tempAppList.get(i));
+        }
+        
+    }
+
+<<<<<<< HEAD
     private void updateAppData(){
         if (appList.size()<=6){
             initAppData();
@@ -214,6 +304,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         
     }
 
+=======
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
     private void openStepTwo(){
         for (int i=0;i<appList.size();i++){
             if (appList.get(i).isTest()){
@@ -230,6 +322,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         if (isDebugMode){
             show.setVisibility(View.VISIBLE);
+<<<<<<< HEAD
             show.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -238,12 +331,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     textView.setTextIsSelectable(true);
                 }
             });
+=======
+            show.setClickable(true);
+            show.setOnClickListener(this);
+        }else {
+            show.setVisibility(View.GONE);
+            show.setClickable(false);
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
         }
 
     }
 
     @Override
     public void onClick(View v) {
+<<<<<<< HEAD
         if (v.getId()==addApp.getId()){
             final View oneStepView = LayoutInflater.from(MainActivity.this).inflate(R.layout.step_one, null);
 
@@ -285,6 +386,36 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }else if(v.getId()==readme.getId()){
             Intent intent=new Intent(context,ReadMeActivity.class);
             startActivity(intent);
+=======
+        switch (v.getId()){
+            case R.id.add_app:
+                StepOneDialog dialog=new StepOneDialog(context);
+                dialog.setPositiveListener(new StepOneDialog.StepOneCallBack() {
+                    @Override
+                    public void onPositiveClick(App app) {
+                        appList.add(app);
+                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                        ViewTool.setListViewHeightBasedOnChildren(listView);
+                    }
+                });
+                StepOneDialog.Builder builder=dialog.getBuilder();
+                builder.create().show();
+                break;
+            case R.id.main_read_me:
+                Intent intent=new Intent(context,ReadMeActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.show:
+                TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
+                if (isShowingDebug){
+                    textView.setText("");
+                }else {
+                    textView.setText(appList.toString());
+                    textView.setTextIsSelectable(true);
+                }
+                isShowingDebug=!isShowingDebug;
+                break;
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
         }
     }
 
@@ -298,6 +429,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 appList.get(position).setIsUse(checkBox.isChecked());
                 FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
                 Toast.makeText(context,getString(R.string.item_check_text),Toast.LENGTH_SHORT).show();
+<<<<<<< HEAD
+=======
+            }else {
+                onLongClick(position,view);
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
             }
         }
 
@@ -312,6 +448,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which==0){
+<<<<<<< HEAD
                         appList.get(position).setIsTest(true);
                         FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
                         openStepTwo();
@@ -346,6 +483,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
                                 dialog.dismiss();
                             }
                         });
+=======
+//                        appList.get(position).setIsTest(true);
+//                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+//                        openStepTwo();
+                        Intent intent=new Intent(context,EditRuleActivity.class);
+                        intent.putExtra("position",position);
+                        startActivity(intent);
+                    }else if (which==1){
+                        AddWhiteDialog addWhiteDialog=new AddWhiteDialog(context,appList.get(position));
+                        addWhiteDialog.setCallBack(new AddWhiteDialog.AddWhiteCallBack() {
+                            @Override
+                            public void onPositiveClick() {
+
+                            }
+
+                            @Override
+                            public void saveWhiteList() {
+                                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                            }
+                        });
+                        android.support.v7.app.AlertDialog.Builder builder = addWhiteDialog.getBuilder();
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
                         builder.create().show();
                     }else if (which==2){
                         if (!appList.get(position).isUserBuild()){
@@ -373,6 +532,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+<<<<<<< HEAD
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -383,11 +543,45 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Intent intent=new Intent(context,SettingActivity.class);
             startActivity(intent);
             return true;
+=======
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.action_instruction:
+                intent= new Intent(context,ReadMeActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_settings:
+                intent=new Intent(context,SettingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_about:
+                intent=new Intent(context,AboutActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                return true;
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * 通过反射，强制显示Overflow（即右上角的菜单按钮）
+     */
+    private void setOverflowShowingAlways() {
+        try {
+            ViewConfiguration config = ViewConfiguration.get(this);
+            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+            menuKeyField.setAccessible(true);
+            menuKeyField.setBoolean(config, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+>>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 
     public interface ItemCallBack{
         void onClick(int position,View view);
