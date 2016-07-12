@@ -17,7 +17,7 @@ android {
         config {
             keyAlias 'xloger'
             keyPassword KeyPassword
-            storeFile file('/Users/xloger/ZZ/XlogerAndroid.jks')
+            storeFile file('C:/Users/xloger/.android/XlogerAndroid.jks')
             storePassword StorePassword
         }
     }
