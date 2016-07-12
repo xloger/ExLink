@@ -11,11 +11,7 @@ import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.util.FileUtil;
 
-<<<<<<< HEAD
-public class SettingActivity extends Activity implements View.OnClickListener {
-=======
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 
     private CheckBox debugMode;
     private CheckBox hiddenIcon;

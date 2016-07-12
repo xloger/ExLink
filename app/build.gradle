@@ -16,15 +16,9 @@ android {
     signingConfigs {
         config {
             keyAlias 'xloger'
-<<<<<<< HEAD
-            keyPassword '950711'
-            storeFile file('C:/Users/xloger/.android/XlogerAndroid.jks')
-            storePassword '950711'
-=======
             keyPassword KeyPassword
             storeFile file('/Users/xloger/ZZ/XlogerAndroid.jks')
             storePassword StorePassword
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
         }
     }
     compileSdkVersion 23
@@ -33,13 +27,8 @@ android {
         applicationId "com.xloger.exlink.app"
         minSdkVersion 14
         targetSdkVersion 23
-<<<<<<< HEAD
-        versionCode 13
-        versionName "1.5.2"
-=======
         versionCode 14
         versionName "2.0"
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
         signingConfig signingConfigs.config
     }
     compileOptions {
@@ -55,15 +44,12 @@ android {
     }
     productFlavors {
     }
-<<<<<<< HEAD
-=======
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
     }
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 }
 
 dependencies {

@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-=======
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -12,7 +6,6 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     >
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 
     <TextView
             android:layout_width="wrap_content"
@@ -32,17 +25,6 @@
             android:text="@string/step_two_text2"
             />
 
-<<<<<<< HEAD
-
-    <TextView
-            android:layout_marginTop="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/line"
-            />
-
-    <TextView
-=======
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,48 +60,32 @@
             <!--/>-->
 
         <TextView
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/step_two_text3"
             />
 
-<<<<<<< HEAD
-    <EditText
-=======
         <EditText
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
             android:id="@+id/step_two_different_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textUri"
             />
 
-<<<<<<< HEAD
-    <Button
-=======
         <Button
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
             android:id="@+id/step_two_different_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/yes"
             />
 
-<<<<<<< HEAD
-    <TextView
-=======
         <TextView
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/step_two_text4"
             />
-<<<<<<< HEAD
-=======
     </LinearLayout>
 
 
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 
 </LinearLayout>

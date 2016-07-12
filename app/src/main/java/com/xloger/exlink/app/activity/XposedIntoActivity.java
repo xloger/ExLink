@@ -9,11 +9,7 @@ import android.os.Bundle;
  * Author:xloger
  * Email:phoenix@xloger.com
  */
-<<<<<<< HEAD
-public class XposedIntoActivity extends Activity {
-=======
 public class XposedIntoActivity extends BaseActivity {
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

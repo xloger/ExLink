@@ -12,11 +12,7 @@ import de.robv.android.xposed.XposedBridge;
  */
 public class MyLog {
     private static final boolean LOG_ON= BuildConfig.DEBUG;
-<<<<<<< HEAD
-    private static boolean isShowLog=false;
-=======
     private static boolean isShowLog=true;
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 
 
     private MyLog(){
@@ -53,14 +49,11 @@ public class MyLog {
                     Log.e("[ExLink Error] ",t.toString());
                 }
             }
-<<<<<<< HEAD
-=======
         }
     }
     public static void e(String s){
         if (isShowLog){
             Log.e("[ExLink]",s);
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
         }
     }
 }

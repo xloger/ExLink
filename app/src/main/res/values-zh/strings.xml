@@ -26,19 +26,11 @@
     <string name="no">取消</string>
     <string name="demo">测试用例</string>
     <string name="item_click_title">操作</string>
-<<<<<<< HEAD
-    <string name="item_click_text1">添加规则</string>
-    <string name="item_click_text2">添加白名单</string>
-    <string name="item_click_text3">删除</string>
-    <string name="item_check_text">规则已保存，重启后生效</string>
-    <string name="del_system_rule_toask">系统规则不允许删除</string>
-=======
     <string name="item_click_text1">添加/编辑规则</string>
     <string name="item_click_text2">添加/编辑白名单</string>
     <string name="item_click_text3">删除</string>
     <string name="item_check_text">规则已保存，重启后生效</string>
     <string name="del_system_rule_toask">系统规则不允许删除,你可以点击左边单选框停用它</string>
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
     <string name="add_white_title">添加白名单</string>
     <string name="add_white_succeed">添加成功</string>
     <string name="copy_succeed">复制成功</string>
@@ -53,11 +45,8 @@
     <string name="xposed_description">屏蔽QQ等App的内置浏览器</string>
     <string name="change_succeed">修改成功</string>
     <string name="line">——分割线(你不知道下面是干什么的话，可以无视它)——</string>
-<<<<<<< HEAD
-=======
     <string name="about">关于</string>
     <string name="add">添加</string>
     <string name="edit_rule">编辑规则</string>
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 
 </resources>

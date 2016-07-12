@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-<<<<<<< HEAD
-=======
               xmlns:tool="http://schemas.android.com/tools"
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
               android:id="@+id/app_layout"
               android:orientation="horizontal"
               android:layout_width="match_parent"
@@ -31,11 +28,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
-<<<<<<< HEAD
-=======
                     android:textColor="@color/textPrimary"
                     tool:text="应用名"
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
                     />
             <TextView
                     android:id="@+id/app_system"

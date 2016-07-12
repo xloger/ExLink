@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-=======
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -12,7 +6,6 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     >
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 
     <TextView
             android:layout_width="wrap_content"
@@ -25,13 +18,10 @@
             android:layout_height="wrap_content"
             />
 
-<<<<<<< HEAD
-=======
     <ListView
         android:id="@+id/add_white_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
 
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 </LinearLayout>

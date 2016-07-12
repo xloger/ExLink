@@ -7,18 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
 import android.support.design.widget.FloatingActionButton;
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-<<<<<<< HEAD
-=======
 import android.view.ViewConfiguration;
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 import android.widget.*;
 import com.xloger.exlink.app.BuildConfig;
 import com.xloger.exlink.app.Constant;
@@ -29,24 +23,16 @@ import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.ViewTool;
-<<<<<<< HEAD
-
-=======
 import com.xloger.exlink.app.view.AddWhiteDialog;
 import com.xloger.exlink.app.view.StepOneDialog;
 
 import java.lang.reflect.Field;
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-<<<<<<< HEAD
-public class MainActivity extends Activity implements View.OnClickListener {
-=======
 public class MainActivity extends BaseActivity implements View.OnClickListener {
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
     private List<App> appList;
     private ListView listView;
     private AppAdapter appAdapter;
@@ -77,17 +63,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         readme.setOnClickListener(this);
         readme.getPaint().setAntiAlias(true);
 
-<<<<<<< HEAD
-    }
-
-    private void initView(){
-        listView = (ListView) findViewById(R.id.app_list);
-        addApp = (Button) findViewById(R.id.add_app);
-        show = (Button) findViewById(R.id.show);
-        readme = (TextView) findViewById(R.id.main_read_me);
-    }
-
-=======
 //        setOverflowShowingAlways();
 
     }
@@ -107,7 +82,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         readme = (TextView) findViewById(R.id.main_read_me);
     }
 
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
     private void initAppList(){
         SharedPreferences sp = getSharedPreferences("config", 0);
         int initVersion = sp.getInt("initVersion", 0);
@@ -134,26 +108,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             editor2.putString("initAppVersion", BuildConfig.VERSION_NAME);
             editor2.putInt("initAppVersionCode", BuildConfig.VERSION_CODE);
             editor2.apply();
-<<<<<<< HEAD
-=======
-
-            if (initAppVersionCode>=5){
-                //大于1.3版本执行更新操作
-                updateAppData();
-                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
-            }else if(initAppVersionCode==-1){
-                updateAppData();
-                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
-            } else {
-                initAppData();
-                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
-                FileUtil.getInstance().setReadable(Constant.APP_FILE_NAME);
-
-            }
-
-
-        }
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 
             if (initAppVersionCode>=5){
                 //大于1.3版本执行更新操作
@@ -173,15 +127,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
 
 
-<<<<<<< HEAD
-=======
+    }
+
     private void upDateAppList(){
         List<App> apps = FileUtil.getAppList();
         if (apps != null) {
             appList.clear();
             appList.addAll(apps);
         }
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
     }
 
     private void initAppData(){
@@ -267,28 +220,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         weChat.setIsUse(true);
         weChat.setIsUserBuild(false);
         appList.add(weChat);
-<<<<<<< HEAD
-=======
 
     }
 
-    private void updateAppData(){
-        if (appList.size()<=6){
-            initAppData();
-            return;
-        }
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
-
-        List<App> tempAppList=appList.subList(0,appList.size());
-
-        initAppData();
-        for (int i=6;i<tempAppList.size();i++){
-            appList.add(tempAppList.get(i));
-        }
-        
-    }
-
-<<<<<<< HEAD
     private void updateAppData(){
         if (appList.size()<=6){
             initAppData();
@@ -304,8 +238,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         
     }
 
-=======
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
     private void openStepTwo(){
         for (int i=0;i<appList.size();i++){
             if (appList.get(i).isTest()){
@@ -322,71 +254,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         if (isDebugMode){
             show.setVisibility(View.VISIBLE);
-<<<<<<< HEAD
-            show.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
-                    textView.setText(appList.toString());
-                    textView.setTextIsSelectable(true);
-                }
-            });
-=======
             show.setClickable(true);
             show.setOnClickListener(this);
         }else {
             show.setVisibility(View.GONE);
             show.setClickable(false);
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
         }
 
     }
 
     @Override
     public void onClick(View v) {
-<<<<<<< HEAD
-        if (v.getId()==addApp.getId()){
-            final View oneStepView = LayoutInflater.from(MainActivity.this).inflate(R.layout.step_one, null);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle(getString(R.string.step_one)).setView(oneStepView);
-            builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    EditText appEditText= (EditText) oneStepView.findViewById(R.id.new_rule_app_name);
-                    EditText packageEditText= (EditText) oneStepView.findViewById(R.id.new_rule_package_name);
-                    String newRuleAppName=appEditText.getText().toString();
-                    String newRulePackageName=packageEditText.getText().toString();
-                    if (!"".equals(newRulePackageName)&&newRulePackageName.length()!=0) {
-                        App testApp=new App();
-                        if ("".equals(newRuleAppName)) {
-                            testApp.setAppName(getString(R.string.demo));
-                        }else {
-                            testApp.setAppName(newRuleAppName);
-                        }
-                        testApp.setPackageName(newRulePackageName);
-                        testApp.setIsUse(true);
-                        testApp.setIsUserBuild(true);
-                        testApp.setIsTest(true);
-
-                        appList.add(testApp);
-                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
-                        ViewTool.setListViewHeightBasedOnChildren(listView);
-                        Toast.makeText(context,getString(R.string.step_one_text4),Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.create().show();
-        }else if(v.getId()==readme.getId()){
-            Intent intent=new Intent(context,ReadMeActivity.class);
-            startActivity(intent);
-=======
         switch (v.getId()){
             case R.id.add_app:
                 StepOneDialog dialog=new StepOneDialog(context);
@@ -415,7 +293,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 }
                 isShowingDebug=!isShowingDebug;
                 break;
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
         }
     }
 
@@ -429,11 +306,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 appList.get(position).setIsUse(checkBox.isChecked());
                 FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
                 Toast.makeText(context,getString(R.string.item_check_text),Toast.LENGTH_SHORT).show();
-<<<<<<< HEAD
-=======
             }else {
                 onLongClick(position,view);
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
             }
         }
 
@@ -448,42 +322,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which==0){
-<<<<<<< HEAD
-                        appList.get(position).setIsTest(true);
-                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
-                        openStepTwo();
-                    }else if (which==1){
-                        final View oneStepView = LayoutInflater.from(MainActivity.this).inflate(R.layout.add_white, null);
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        builder.setTitle(getString(R.string.add_white_title)).setView(oneStepView);
-                        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                EditText whiteNameEditText= (EditText) oneStepView.findViewById(R.id.add_white_name);
-                                String whiteName=whiteNameEditText.getText().toString();
-                                if (!"".equals(whiteName)&&whiteName.length()!=0) {
-                                    App changeApp=appList.get(position);
-                                    Set<String> whiteUrl = changeApp.getWhiteUrl();
-                                    if (whiteUrl == null) {
-                                        whiteUrl=new HashSet<String>();
-                                        changeApp.setWhiteUrl(whiteUrl);
-                                    }
-                                    if (!"".equals(whiteName)) {
-                                        whiteUrl.add(whiteName);
-                                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
-                                        Toast.makeText(context,getString(R.string.add_white_succeed),Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }
-                        });
-                        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-=======
 //                        appList.get(position).setIsTest(true);
 //                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
 //                        openStepTwo();
@@ -504,7 +342,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             }
                         });
                         android.support.v7.app.AlertDialog.Builder builder = addWhiteDialog.getBuilder();
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
                         builder.create().show();
                     }else if (which==2){
                         if (!appList.get(position).isUserBuild()){
@@ -532,18 +369,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-<<<<<<< HEAD
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent=new Intent(context,SettingActivity.class);
-            startActivity(intent);
-            return true;
-=======
         Intent intent;
         switch (item.getItemId()){
             case R.id.action_instruction:
@@ -560,13 +385,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             default:
                 return true;
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
         }
         return super.onOptionsItemSelected(item);
     }
 
-<<<<<<< HEAD
-=======
     /**
      * 通过反射，强制显示Overflow（即右上角的菜单按钮）
      */
@@ -581,7 +403,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
->>>>>>> fb21a1c5d161c95756e68719066566aeed260604
 
     public interface ItemCallBack{
         void onClick(int position,View view);
