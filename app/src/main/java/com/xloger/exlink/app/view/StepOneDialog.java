@@ -5,19 +5,15 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.ChooseAppAdapter;
 import com.xloger.exlink.app.entity.AndroidApp;
 import com.xloger.exlink.app.entity.App;
-import com.xloger.exlink.app.util.AppUtil;
-import com.xloger.exlink.app.util.FileUtil;
-import com.xloger.exlink.app.util.ViewTool;
+import com.xloger.exlink.app.util.AndroidAppUtil;
 
 import java.util.List;
 
@@ -99,7 +95,7 @@ public class StepOneDialog extends AlertDialog implements View.OnClickListener {
     }
 
     private void openChooseDialog(){
-        final List<AndroidApp> appList = AppUtil.getUserAppInfo(context);
+        final List<AndroidApp> appList = AndroidAppUtil.getUserAppInfo(context);
         AlertDialog.Builder builder=new Builder(context);
         ChooseAppAdapter adapter=new ChooseAppAdapter(context,appList);
         builder.setAdapter(adapter, new OnClickListener() {

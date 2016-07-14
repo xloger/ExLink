@@ -13,6 +13,7 @@ import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.WhiteRuleAdapter;
 import com.xloger.exlink.app.entity.App;
+import com.xloger.exlink.app.util.AppUtil;
 import com.xloger.exlink.app.util.FileUtil;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class EditRuleActivity extends BaseActivity {
             Toast.makeText(context,"哎呀我好像不知道哪个 App 点击了呢...",Toast.LENGTH_SHORT).show();
             finish();
         }
-        appList = FileUtil.getAppList();
+        appList = AppUtil.getAppList();
         app = appList.get(position);
         initView();
     }
@@ -50,7 +51,7 @@ public class EditRuleActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 app.setIsTest(true);
-                save();
+                AppUtil.save(appList);
                 Intent intent = new Intent(context,StepTwoActivity.class);
                 intent.putExtra("title","步骤二/添加规则");
                 startActivity(intent);
@@ -59,7 +60,7 @@ public class EditRuleActivity extends BaseActivity {
         WhiteRuleAdapter adapter = new WhiteRuleAdapter(context, app.getRules(), new WhiteRuleAdapter.WhiteRuleAdapterCallBack() {
             @Override
             public void onDelClick() {
-                save();
+                AppUtil.save(appList);
                 Toast.makeText(context,"删除成功",Toast.LENGTH_SHORT).show();
             }
         });
@@ -67,7 +68,4 @@ public class EditRuleActivity extends BaseActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void save(){
-        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
-    }
 }

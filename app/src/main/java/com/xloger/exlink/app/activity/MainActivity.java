@@ -20,6 +20,7 @@ import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.entity.Rule;
+import com.xloger.exlink.app.util.AppUtil;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.ViewTool;
@@ -41,7 +42,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private Context context;
 
-    private static final int nowInitVersion=14;
     private Button show;
     private TextView readme;
 
@@ -51,7 +51,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
         context=MainActivity.this;
         initView();
-        initAppList();
+        //为了方便，每次进该App时更新一次规则
+        AppUtil.updateAppData();
+        appList= AppUtil.getAppList();
+        MyLog.e(appList.toString());
         openStepTwo();
         debugMode();
 
@@ -70,7 +73,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        upDateAppList();
+        appList=AppUtil.getAppList();
         appAdapter.notifyDataSetChanged();
         debugMode();
     }
@@ -82,161 +85,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         readme = (TextView) findViewById(R.id.main_read_me);
     }
 
-    private void initAppList(){
-        SharedPreferences sp = getSharedPreferences("config", 0);
-        int initVersion = sp.getInt("initVersion", 0);
 
-        Object firstRun = FileUtil.loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
-        if (firstRun==null) {
-            initAppData();
-            FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
-            FileUtil.getInstance().setReadable(Constant.APP_FILE_NAME);
-
-
-        }else {
-            appList= (List<App>) firstRun;
-        }
-
-        if(nowInitVersion!=initVersion){
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putInt("initVersion",nowInitVersion);
-            editor.apply();
-
-            int initAppVersionCode = sp.getInt("initAppVersionCode", -1);
-            String initAppVersionName=sp.getString("initAppVersion","");
-            SharedPreferences.Editor editor2 = sp.edit();
-            editor2.putString("initAppVersion", BuildConfig.VERSION_NAME);
-            editor2.putInt("initAppVersionCode", BuildConfig.VERSION_CODE);
-            editor2.apply();
-
-            if (initAppVersionCode>=5){
-                //大于1.3版本执行更新操作
-                updateAppData();
-                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
-            }else if(initAppVersionCode==-1){
-                updateAppData();
-                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
-            } else {
-                initAppData();
-                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME, appList);
-                FileUtil.getInstance().setReadable(Constant.APP_FILE_NAME);
-
-            }
-
-
-        }
-
-
-    }
-
-    private void upDateAppList(){
-        List<App> apps = FileUtil.getAppList();
-        if (apps != null) {
-            appList.clear();
-            appList.addAll(apps);
-        }
-    }
-
-    private void initAppData(){
-        MyLog.log("进行了初始化规则");
-        appList=new LinkedList<App>();
-        App qq=new App();
-        qq.setAppName("QQ");
-        qq.setPackageName("com.tencent.mobileqq");
-        Set<Rule> qqRule=new HashSet<Rule>();
-        qqRule.add(new Rule("com.tencent.mobileqq.activity.QQBrowserDelegationActivity","url"));
-        qq.setRules(qqRule);
-        Set<String> qqWhiteUrl=new HashSet<String>();
-//        qqWhiteUrl.add("h5.qzone.qq.com");
-//        qqWhiteUrl.add("qzs.qzone.qq.com");
-        qqWhiteUrl.add("qzone.qq.com");
-        qqWhiteUrl.add("qun.qq.com");
-        qqWhiteUrl.add("jq.qq.com");
-        qqWhiteUrl.add("mqq.tenpay.com");
-        qqWhiteUrl.add("mp.qq.com");
-        qq.setWhiteUrl(qqWhiteUrl);
-        qq.setIsUse(true);
-        qq.setIsUserBuild(false);
-        appList.add(qq);
-
-        App qqLite=new App();
-        qqLite.setAppName("QQ轻聊版");
-        qqLite.setPackageName("com.tencent.qqlite");
-        Set<Rule> qqLiteRule=new HashSet<Rule>();
-        qqLiteRule.add(new Rule("com.tencent.mobileqq.activity.QQBrowserDelegationActivity","url"));
-        qqLite.setRules(qqLiteRule);
-        qqLite.setIsUse(true);
-        qqLite.setIsUserBuild(false);
-        appList.add(qqLite);
-
-        App qqi=new App();
-        qqi.setAppName("QQ国际版");
-        qqi.setPackageName("com.tencent.mobileqqi");
-        Set<Rule> qqiRule=new HashSet<Rule>();
-        qqiRule.add(new Rule("com.tencent.mobileqq.activity.QQBrowserDelegationActivity", "url"));
-        qqi.setRules(qqiRule);
-        qqi.setIsUse(true);
-        qqi.setIsUserBuild(false);
-        appList.add(qqi);
-
-        App tieba=new App();
-        tieba.setAppName("百度贴吧");
-        tieba.setPackageName("com.baidu.tieba");
-        Set<Rule> tiebaRule=new HashSet<Rule>();
-        tiebaRule.add(new Rule("com.baidu.tieba.imMessageCenter.im.chat.PersonalChatActivity","tag_url"));
-        tiebaRule.add(new Rule("com.baidu.tieba.pb.pb.main.PbActivity","tag_url"));
-        tieba.setRules(tiebaRule);
-        tieba.setIsUse(true);
-        tieba.setIsUserBuild(false);
-        appList.add(tieba);
-
-        App weibo=new App();
-        weibo.setAppName("微博");
-        weibo.setPackageName("com.sina.weibo");
-        Set<Rule> weiboRule=new HashSet<Rule>();
-        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));
-        weiboRule.add(new Rule("com.sina.weibo.weiyou.DMSingleChatActivity","com_sina_weibo_weibobrowser_url"));
-        weiboRule.add(new Rule("com.sina.weibo.page.NewCardListActivity","com_sina_weibo_weibobrowser_url"));
-        weiboRule.add(new Rule("com.sina.weibo.feed.DetailWeiboActivity","com_sina_weibo_weibobrowser_url"));
-        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));
-        weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","ExDat"));
-        weibo.setRules(weiboRule);
-        Set<String> weiboWhiteUrl=new HashSet<String>();
-        weiboWhiteUrl.add("card.weibo.com");
-        weibo.setWhiteUrl(weiboWhiteUrl);
-        weibo.setIsUse(true);
-        weibo.setIsUserBuild(false);
-        appList.add(weibo);
-
-        App weChat=new App();
-        weChat.setAppName("微信");
-        weChat.setPackageName("com.tencent.mm");
-        Set<Rule> weChatRule=new HashSet<Rule>();
-        weChatRule.add(new Rule("com.tencent.mm.ui.LauncherUI","rawUrl"));
-        weChat.setRules(weChatRule);
-        Set<String> weChatWhiteUrl=new HashSet<String>();
-        weChatWhiteUrl.add("open.weixin.qq.com");
-        weChat.setWhiteUrl(weChatWhiteUrl);
-        weChat.setIsUse(true);
-        weChat.setIsUserBuild(false);
-        appList.add(weChat);
-
-    }
-
-    private void updateAppData(){
-        if (appList.size()<=6){
-            initAppData();
-            return;
-        }
-
-        List<App> tempAppList=appList.subList(0,appList.size());
-
-        initAppData();
-        for (int i=6;i<tempAppList.size();i++){
-            appList.add(tempAppList.get(i));
-        }
-        
-    }
 
     private void openStepTwo(){
         for (int i=0;i<appList.size();i++){
@@ -272,7 +121,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onPositiveClick(App app) {
                         appList.add(app);
-                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                        AppUtil.save(appList);
                         ViewTool.setListViewHeightBasedOnChildren(listView);
                     }
                 });
@@ -304,7 +153,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             if (view instanceof CheckBox){
                 CheckBox checkBox= (CheckBox) view;
                 appList.get(position).setIsUse(checkBox.isChecked());
-                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                AppUtil.save(appList);
                 Toast.makeText(context,getString(R.string.item_check_text),Toast.LENGTH_SHORT).show();
             }else {
                 onLongClick(position,view);
@@ -338,7 +187,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                             @Override
                             public void saveWhiteList() {
-                                FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                                AppUtil.save(appList);
                             }
                         });
                         android.support.v7.app.AlertDialog.Builder builder = addWhiteDialog.getBuilder();
@@ -349,7 +198,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             return;
                         }
                         appList.remove(position);
-                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                        AppUtil.save(appList);
                         ViewTool.setListViewHeightBasedOnChildren(listView);
                         appAdapter.notifyDataSetChanged();
                     }

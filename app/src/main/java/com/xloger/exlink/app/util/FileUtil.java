@@ -53,24 +53,8 @@ public class FileUtil {
 
     public byte[] load(String fileName){
         byte[] ret = null;
-
         File folder=context.getFilesDir();
         ret=load(folder.toString(),fileName);
-
-//        File file=new File(folder,fileName);
-//
-//        if (file.exists()&&file.canRead()){
-//            FileInputStream fin=null;
-//            try {
-//                fin=new FileInputStream(file);
-//                ret=StreamUtil.readStream(fin);
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }finally {
-//                StreamUtil.close(fin);
-//            }
-//        }
-
         return ret;
     }
 
@@ -96,7 +80,11 @@ public class FileUtil {
 
     public void saveObject(String fileName,Object object){
         File folder=context.getFilesDir();
-        File file=new File(folder,fileName);
+        saveObject(folder.toString(),fileName,object);
+    }
+
+    public static void saveObject(String url,String fileName,Object object){
+        File file=new File(url,fileName);
 
         FileOutputStream fout=null;
         try {
@@ -115,32 +103,8 @@ public class FileUtil {
 
     public Object loadObject(String fileName){
         Object ret = null;
-
         File folder=context.getFilesDir();
-
         ret=loadObject(folder.toString(),fileName);
-
-//        File file=new File(folder,fileName);
-
-//        if (file.exists()&&file.canRead()){
-//            FileInputStream fin=null;
-//            try {
-//                fin=new FileInputStream(file);
-//                ObjectInputStream ois=new ObjectInputStream(fin);
-//                ret=ois.readObject();
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            } catch (StreamCorruptedException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            } finally {
-//                StreamUtil.close(fin);
-//            }
-//        }
-
         return ret;
     }
 
@@ -179,16 +143,4 @@ public class FileUtil {
         MyLog.log("修改权限："+b);
     }
 
-    public static List<App> appList;
-
-    public static List<App> getAppList(){
-        List<App> apps = null;
-        if (appList == null) {
-            apps= (List<App>) loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
-            appList=apps;
-        }else {
-            apps=appList;
-        }
-        return apps;
-    }
 }

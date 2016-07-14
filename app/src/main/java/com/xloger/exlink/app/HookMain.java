@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.entity.Rule;
+import com.xloger.exlink.app.util.AppUtil;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.StreamUtil;
@@ -35,7 +36,10 @@ public class HookMain implements IXposedHookLoadPackage {
     public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 
         if (appList == null||appList.size()==0) {
-            appList=FileUtil.getAppList();
+            appList= AppUtil.getAppList();
+        }
+        if (appList == null) {
+            return;
         }
 
         for (int i = 0; i < appList.size(); i++) {
