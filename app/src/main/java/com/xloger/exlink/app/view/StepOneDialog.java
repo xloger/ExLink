@@ -2,6 +2,8 @@ package com.xloger.exlink.app.view;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,17 +96,44 @@ public class StepOneDialog extends AlertDialog implements View.OnClickListener {
     }
 
     private void openChooseDialog(){
-        final List<AndroidApp> appList = AndroidAppUtil.getUserAppInfo(context);
-        AlertDialog.Builder builder=new Builder(context);
-        ChooseAppAdapter adapter=new ChooseAppAdapter(context,appList);
-        builder.setAdapter(adapter, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                appEditText.setText(appList.get(which).getName());
-                packageEditText.setText(appList.get(which).getPackageName());
-            }
-        });
-        builder.create().show();
+        new ChooseAppTask().execute();
+    }
+
+    class ChooseAppTask extends AsyncTask<Void,Void,List<AndroidApp>>{
+
+        private Loading loading;
+
+        @Override
+        protected void onPreExecute() {
+            loading = new Loading(context);
+            loading.show();
+        }
+
+        @Override
+        protected void onPostExecute(final List<AndroidApp> appList) {
+            loading.dismiss();
+            AlertDialog.Builder builder=new Builder(context);
+            ChooseAppAdapter adapter=new ChooseAppAdapter(context,appList);
+            builder.setAdapter(adapter, new OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    appEditText.setText(appList.get(which).getName());
+                    packageEditText.setText(appList.get(which).getPackageName());
+                }
+            });
+            builder.create().show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected List<AndroidApp> doInBackground(Void... params) {
+            List<AndroidApp> appList = AndroidAppUtil.getUserAppInfo(context);
+            return appList;
+        }
     }
 
 

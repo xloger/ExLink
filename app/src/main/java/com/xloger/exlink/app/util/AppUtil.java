@@ -68,6 +68,12 @@ public class AppUtil {
         Set<Rule> qqLiteRule=new HashSet<Rule>();
         qqLiteRule.add(new Rule("com.tencent.mobileqq.activity.QQBrowserDelegationActivity","url"));
         qqLite.setRules(qqLiteRule);
+        Set<String> qqLiteWhiteUrl=new HashSet<String>();
+        qqLiteWhiteUrl.add("qun.qq.com");
+        qqLiteWhiteUrl.add("jq.qq.com");
+        qqLiteWhiteUrl.add("mqq.tenpay.com");
+        qqLiteWhiteUrl.add("mp.qq.com");
+        qqLite.setWhiteUrl(qqLiteWhiteUrl);
         qqLite.setIsUse(true);
         qqLite.setIsUserBuild(false);
         apps.add(qqLite);
@@ -135,12 +141,20 @@ public class AppUtil {
         for (int i = 0; i < 6; i++) {
             Set<Rule> ruleSet = appList.get(i).getRules();
             Set<Rule> newRuleSet = newAppList.get(i).getRules();
+            if (ruleSet==null){
+                ruleSet=new HashSet<Rule>();
+                appList.get(i).setRules(ruleSet);
+            }
             if (newRuleSet != null) {
                 ruleSet.addAll(newRuleSet);
             }
 
             Set<String> whiteUrl = appList.get(i).getWhiteUrl();
             Set<String> newWhiteUrl = newAppList.get(i).getWhiteUrl();
+            if (whiteUrl==null){
+                whiteUrl=new HashSet<String>();
+                appList.get(i).setWhiteUrl(whiteUrl);
+            }
             if (newWhiteUrl != null) {
                 whiteUrl.addAll(newWhiteUrl);
             }
