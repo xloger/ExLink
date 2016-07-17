@@ -1,10 +1,8 @@
 package com.xloger.exlink.app.activity;
 
-import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,7 +11,6 @@ import android.widget.Toast;
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.util.FileUtil;
-import com.xloger.exlink.app.util.MyLog;
 
 /**
  * Created by xloger on 1月6日.

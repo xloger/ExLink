@@ -1,6 +1,5 @@
 package com.xloger.exlink.app.activity;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.activity.MainActivity;
 import com.xloger.exlink.app.entity.App;
-import com.xloger.exlink.app.util.MyLog;
 
 import java.util.List;
 

@@ -1,7 +1,5 @@
 package com.xloger.exlink.app.util;
 
-import android.content.SharedPreferences;
-import com.xloger.exlink.app.BuildConfig;
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.entity.Rule;

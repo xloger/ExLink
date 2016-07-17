@@ -8,12 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.WhiteRuleAdapter;
 import com.xloger.exlink.app.entity.App;
-import com.xloger.exlink.app.util.FileUtil;
 
 import java.util.HashSet;
 import java.util.Set;

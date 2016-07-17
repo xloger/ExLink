@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.ChooseAppAdapter;
 import com.xloger.exlink.app.entity.AndroidApp;

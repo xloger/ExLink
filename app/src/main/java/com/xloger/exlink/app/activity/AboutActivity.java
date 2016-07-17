@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.xloger.exlink.app.BuildConfig;
 import com.xloger.exlink.app.R;
 

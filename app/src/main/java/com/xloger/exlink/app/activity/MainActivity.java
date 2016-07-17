@@ -1,6 +1,5 @@
 package com.xloger.exlink.app.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,30 +7,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.*;
-import com.xloger.exlink.app.BuildConfig;
-import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
 import com.xloger.exlink.app.entity.App;
-import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.AppUtil;
-import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.ViewTool;
 import com.xloger.exlink.app.view.AddWhiteDialog;
 import com.xloger.exlink.app.view.StepOneDialog;
 
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
     private List<App> appList;

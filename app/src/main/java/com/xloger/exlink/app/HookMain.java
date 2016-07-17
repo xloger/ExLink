@@ -7,17 +7,14 @@ import android.os.Bundle;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.AppUtil;
-import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.StreamUtil;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
