@@ -39,4 +39,25 @@ public class Rule implements Serializable {
                 ", extrasKey='" + extrasKey + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null||!(o instanceof Rule)) {
+            return false;
+        }
+        if (!activityName.equals(((Rule) o).getActivityName())){
+            return false;
+        }
+
+        if (!extrasKey.equals(((Rule) o).getExtrasKey())){
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return 2*activityName.hashCode()+3*extrasKey.hashCode();
+    }
 }

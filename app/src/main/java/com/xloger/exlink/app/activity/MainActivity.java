@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void openStepTwo(){
         for (int i=0;i<appList.size();i++){
-            if (appList.get(i).isTest()){
+            if (appList.get(i).isUse()&&appList.get(i).isTest()){
                 Intent intent = new Intent(context,StepTwoActivity.class);
                 startActivity(intent);
                 break;

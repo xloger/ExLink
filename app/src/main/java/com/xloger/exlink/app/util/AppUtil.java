@@ -134,9 +134,7 @@ public class AppUtil {
 
     public static void updateAppData(){
         appList=getAppList();
-        MyLog.e(appList.toString());
         List<App> newAppList=initAppData();
-        MyLog.e(newAppList.toString());
 
         for (int i = 0; i < 6; i++) {
             Set<Rule> ruleSet = appList.get(i).getRules();
