@@ -155,6 +155,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         @Override
         public void onLongClick(final int position, View view) {
             String[] longClickList=new String[]{getString(R.string.item_click_text1),getString(R.string.item_click_text2),getString(R.string.item_click_text3)};
+            appList=AppUtil.getAppList();
+            if (appList.get(position).isTest()){
+                longClickList=new String[]{getString(R.string.item_click_text1),getString(R.string.item_click_text2),getString(R.string.item_click_text3),"撤销[待确认]状态"};
+            }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(getString(R.string.item_click_title));
@@ -191,6 +195,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         appList.remove(position);
                         AppUtil.save(appList);
                         ViewTool.setListViewHeightBasedOnChildren(listView);
+                        appAdapter.notifyDataSetChanged();
+                    }else if (which==3){
+                        appList.get(position).setIsTest(false);
+                        AppUtil.save(appList);
                         appAdapter.notifyDataSetChanged();
                     }
                 }
