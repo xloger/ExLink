@@ -23,6 +23,7 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
  * Created by xloger on 1月2日.
  * Author:xloger
  * Email:phoenix@xloger.com
+ * 卧槽这代码复杂度简直了......你们想看的话自求多福吧Orz，当初我写的什么鬼啊......
  */
 public class HookMain implements IXposedHookLoadPackage {
     private int index;
@@ -52,7 +53,7 @@ public class HookMain implements IXposedHookLoadPackage {
 
     }
 
-    XC_MethodHook xc_methodHook=new XC_MethodHook(){
+    private XC_MethodHook xc_methodHook=new XC_MethodHook(){
         @Override
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
             App app = appList.get(index);
@@ -86,10 +87,8 @@ public class HookMain implements IXposedHookLoadPackage {
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());
             Bundle extras=intent.getExtras();
-            if (extras==null||!extras.toString().contains("http")){
-
+            if (!StreamUtil.isContainUrl(extras.toString())){
                 MyLog.log("没有Extras，尝试第二套方案");
-
                 if (!rule.getExtrasKey().equals(exDat)){
                     if (param.args.length>2){
                         extras= (Bundle) param.args[2];
@@ -116,7 +115,7 @@ public class HookMain implements IXposedHookLoadPackage {
 
             if (intent.getData() != null) {
                 String dataUrl = intent.getData().toString();
-                if (rule.getExtrasKey().equals(exDat)||dataUrl.contains("http")){
+                if (rule.getExtrasKey().equals(exDat)||StreamUtil.isContainUrl(dataUrl)){
                     MyLog.log("使用第三套方案");
                     externalUrl=dataUrl;
                 }
@@ -139,6 +138,7 @@ public class HookMain implements IXposedHookLoadPackage {
                 }
             }
 
+            //哎呀不支持微博的问题就是压根没跑到这
             if (externalUrl==null){
                 MyLog.log("进入匹配微博模式");
                 List<String> keyList=new ArrayList<String>();

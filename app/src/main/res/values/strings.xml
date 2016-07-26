@@ -48,5 +48,7 @@
     <string name="about">About</string>
     <string name="add">Add</string>
     <string name="edit_rule">Edit Rule</string>
+    <string name="reset_rule">取消[待确认]状态</string>
+
 
 </resources>

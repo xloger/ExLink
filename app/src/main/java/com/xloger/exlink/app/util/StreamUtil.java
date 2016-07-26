@@ -139,28 +139,26 @@ public class StreamUtil {
             ret=isContain(url,testUrl);
         }
 
-
         return ret;
     }
 
     public static boolean isContain(String longUrl,String shortUrl){
-        boolean ret = false;
 
         longUrl= URLDecoder.decode(longUrl);
         shortUrl=URLDecoder.decode(shortUrl);
-
         Uri shortUri=Uri.parse(shortUrl);
-        if (longUrl.contains(shortUri.getHost())&&longUrl.contains(shortUri.getPath())){
-            if (shortUri.getPath() == null) {
-                MyLog.log("判断为匹配域名模式，并匹配成功。");
-                ret=true;
-            }else if (longUrl.contains(shortUri.getPath())){
-                ret=true;
+
+        if (shortUri.getPath() == null) {
+            if (longUrl.contains(shortUri.getHost())){
+                return true;
+            }
+        }else {
+            if (longUrl.contains(shortUri.getHost())&&longUrl.contains(shortUri.getPath())){
+                return true;
             }
         }
 
-
-        return ret;
+        return false;
     }
 
     public static String clearUrl(String url){
@@ -180,6 +178,16 @@ public class StreamUtil {
 
 
         return ret;
+    }
+
+    public static boolean isContainUrl(String string){
+        if (string==null||string.equals("")){
+            return false;
+        }
+        if (string.contains("http")||string.contains("sinaweibo://")){
+            return true;
+        }
+        return false;
     }
 
 }

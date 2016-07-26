@@ -157,7 +157,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             String[] longClickList=new String[]{getString(R.string.item_click_text1),getString(R.string.item_click_text2),getString(R.string.item_click_text3)};
             appList=AppUtil.getAppList();
             if (appList.get(position).isTest()){
-                longClickList=new String[]{getString(R.string.item_click_text1),getString(R.string.item_click_text2),getString(R.string.item_click_text3),"撤销[待确认]状态"};
+                longClickList=new String[]{getString(R.string.item_click_text1),getString(R.string.item_click_text2),getString(R.string.item_click_text3),getString(R.string.reset_rule)};
             }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
