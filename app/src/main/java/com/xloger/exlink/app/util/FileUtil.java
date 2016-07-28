@@ -81,8 +81,14 @@ public class FileUtil {
     }
 
     public static void saveObject(String url,String fileName,Object object){
+        File dir = new File(url);
+        if (!dir.exists()){
+            dir.mkdirs();
+            dir.setExecutable(true,false);
+        }
         File file=new File(url,fileName);
-
+        file.setReadable(true, false);
+        file.setWritable(true,false);
         FileOutputStream fout=null;
         try {
             fout=new FileOutputStream(file);
@@ -90,8 +96,10 @@ public class FileUtil {
             oos.writeObject(object);
             oos.close();
         } catch (FileNotFoundException e) {
+            MyLog.log(e);
             e.printStackTrace();
         } catch (IOException e) {
+            MyLog.log(e);
             e.printStackTrace();
         } finally {
             StreamUtil.close(fout);

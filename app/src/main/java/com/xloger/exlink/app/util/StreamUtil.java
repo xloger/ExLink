@@ -3,10 +3,12 @@ package com.xloger.exlink.app.util;
 
 import android.net.Uri;
 import com.xloger.exlink.app.Constant;
+import com.xloger.exlink.app.entity.Rule;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URLDecoder;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -174,6 +176,14 @@ public class StreamUtil {
             if (tempUrl != null) {
                 ret=tempUrl;
             }
+
+            if (ret==null||!ret.contains("http")){
+                //对秒拍链接特殊处理
+                if (sinaUri.getQueryParameter("url_type").equals("39")&&sinaUri.getQueryParameter("object_type").equals("video")){
+                    String containerid=sinaUri.getQueryParameter("containerid");
+                    ret="http://m.weibo.cn/p/index/?containerid="+containerid;
+                }
+            }
         }
 
 
@@ -186,6 +196,15 @@ public class StreamUtil {
         }
         if (string.contains("http")||string.contains("sinaweibo://")){
             return true;
+        }
+        return false;
+    }
+
+    public static boolean isContain(List<Rule> ruleList,String ruleKey){
+        for (int i = 0; i < ruleList.size(); i++) {
+            if (ruleList.get(i).getExtrasKey().equals(ruleKey)){
+                return true;
+            }
         }
         return false;
     }

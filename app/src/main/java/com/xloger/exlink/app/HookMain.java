@@ -28,7 +28,7 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 public class HookMain implements IXposedHookLoadPackage {
     private int index;
     private static List<App> appList=null;
-    private static String exDat="ExDat";
+    private final static String EX_DAT ="ExDat";
 
     @Override
     public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
@@ -45,7 +45,7 @@ public class HookMain implements IXposedHookLoadPackage {
             if(lpparam.packageName.equals(app.getPackageName())&& app.isUse()){
                 index=i;
                 MyLog.log("进入"+ app.getAppName()+"("+ app.getPackageName()+")");
-                findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
+//                findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
                 findAndHookMethod(Activity.class, "startActivityForResult", Intent.class, int.class, Bundle.class,xc_methodHook);
                 break;
             }
@@ -54,9 +54,17 @@ public class HookMain implements IXposedHookLoadPackage {
     }
 
     private XC_MethodHook xc_methodHook=new XC_MethodHook(){
+
         @Override
         protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+            boolean booleanExtra = ((Intent) param.args[0]).getBooleanExtra("exlink", false);
+            if (booleanExtra){
+                MyLog.log("递归，不处理");
+                return;
+            }
+
             App app = appList.get(index);
+            String exUrl =null;
 
             //如果该应用正处于“匹配模式”，则执行sendToExLink方法
             if (app.isTest()){
@@ -68,117 +76,82 @@ public class HookMain implements IXposedHookLoadPackage {
             //判断该Activity是否已经处于规则之中
             String activityName = param.thisObject.getClass().getName();
             Set<Rule> ruleSet = app.getRules();
-            Rule rule = null;
-            boolean activityIsMatch=false;
+            List<Rule> ruleList=new ArrayList<Rule>();
             for (Rule tempRule : ruleSet) {
                 if (activityName.equals(tempRule.getActivityName())){
-                    activityIsMatch=true;
-                    rule=tempRule;
-                    break;
+                    ruleList.add(tempRule);
                 }
             }
-            if(!activityIsMatch) {
+            if(ruleList.size()==0) {
                 return;
             }
-
             MyLog.log("Started activity: " + activityName);
 
             //分析获取的Intent
             Intent intent = (Intent)param.args[0];
             MyLog.log("Intent: " + intent.toString());
-            Bundle extras=intent.getExtras();
-            if (!StreamUtil.isContainUrl(extras.toString())){
-                MyLog.log("没有Extras，尝试第二套方案");
-                if (!rule.getExtrasKey().equals(exDat)){
-                    if (param.args.length>2){
-                        extras= (Bundle) param.args[2];
-                        if (extras!=null){
-                            MyLog.log("采用第二套方案");
+            boolean isDatNull=false;
+            do {
+                if (StreamUtil.isContain(ruleList, EX_DAT)&&!isDatNull){
+                    if (intent.getData() != null) {
+                        exUrl=intent.getData().toString();
+                        isDatNull=false;
+                    }else {
+                        isDatNull=true;
+                    }
+                }else {
+                    Bundle extras=intent.getExtras();
+                    if (!StreamUtil.isContainUrl(extras.toString())){
+                        MyLog.log("Extras不对，换一个");
+                        if (param.args.length>2&&param.args[2]!=null){
+                            extras=(Bundle)param.args[2];
+                            if (!StreamUtil.isContainUrl(extras.toString())){
+                                MyLog.log("还是不对，不处理了...");
+                                return;
+                            }
                         }else {
-                            MyLog.log("第二套方案失败");
+                            MyLog.log("没Bundle...");
                             return;
                         }
-
-                    }else {
-                        return;
                     }
-                }
-
-            }else {
-                MyLog.log(" - With extras: " + extras.toString());
-            }
-
-            String externalUrl =null;
-            if (extras != null) {
-                externalUrl = extras.getString(rule.getExtrasKey());
-            }
-
-            if (intent.getData() != null) {
-                String dataUrl = intent.getData().toString();
-                if (rule.getExtrasKey().equals(exDat)||StreamUtil.isContainUrl(dataUrl)){
-                    MyLog.log("使用第三套方案");
-                    externalUrl=dataUrl;
-                }
-            }
-            MyLog.log("externalUrl:"+externalUrl);
-
-
-            if (externalUrl == null) {
-                Bundle bundleExtra = intent.getBundleExtra(rule.getExtrasKey());
-                String tempUrl=null;
-                if (bundleExtra != null) {
-                    tempUrl= bundleExtra.toString();
-                }
-                if (tempUrl==null||!tempUrl.contains("http")){
-                    tempUrl=intent.toUri(0);
-                }
-
-                if (tempUrl.contains("http")){
-                    externalUrl=tempUrl;
-                }
-            }
-
-            //哎呀不支持微博的问题就是压根没跑到这
-            if (externalUrl==null){
-                MyLog.log("进入匹配微博模式");
-                List<String> keyList=new ArrayList<String>();
-                for (Rule tempRule : ruleSet) {
-                    if (activityName.equals(tempRule.getActivityName())){
-                        keyList.add(tempRule.getExtrasKey());
+                    MyLog.log(" - With extras: " + extras.toString());
+                    int trueUrl=0;
+                    for (Rule rule : ruleList) {
+                        String tempUrl=extras.getString(rule.getExtrasKey());
+                        if (tempUrl!=null&&!"".equals(tempUrl)){
+                            MyLog.log("tempUrl:"+tempUrl);
+                            exUrl=tempUrl;
+                            trueUrl++;
+                        }
                     }
-                }
-                for (int i = 0; i < keyList.size(); i++) {
-                    externalUrl=intent.getStringExtra(keyList.get(i));
-                    if (keyList.get(i).equals(exDat)){
-                        externalUrl=intent.getData().toString();
+                    if (trueUrl>1){
+                        MyLog.log("Error：好像遇到多个链接的我无法处理的情况了_(:з)∠)_");
                     }
-
-                    if (externalUrl != null) {
-                        break;
-                    }
+                    isDatNull=false;
                 }
-            }
+            }while (isDatNull);
 
+            //intent.toUri(0);这个还没测试有没有效果
 
-            if (externalUrl == null||"".equals(externalUrl)) {
-                MyLog.log(new RuntimeException("无法获取url"));
+            if (exUrl == null||"".equals(exUrl)) {
+                MyLog.log("Error：无法获取url");
                 return;
             }
 
             //Url规范化
-            if (!externalUrl.startsWith("http")){
+            if (!exUrl.startsWith("http")){
                 MyLog.log("Url不符合规范，正在二次分析");
-                MyLog.log("当前externalUrl:"+externalUrl);
-                externalUrl=StreamUtil.clearUrl(externalUrl);
-                MyLog.log("处理后externalUrl:"+externalUrl);
+                MyLog.log("当前externalUrl:"+exUrl);
+                exUrl=StreamUtil.clearUrl(exUrl);
+                MyLog.log("处理后externalUrl:"+exUrl);
 
-                if (externalUrl == null) {
-                    MyLog.log(new RuntimeException("无法解析url"));
+                if (exUrl == null) {
+                    MyLog.log("Error：无法解析url");
                     return;
                 }
             }
 
-            Uri uri = Uri.parse(externalUrl);
+            Uri uri = Uri.parse(exUrl);
             MyLog.log("uri:"+uri);
 
 
@@ -207,8 +180,8 @@ public class HookMain implements IXposedHookLoadPackage {
             Intent exIntent = new Intent();
             exIntent.setAction(Intent.ACTION_VIEW);
             exIntent.setData(uri);
+            exIntent.putExtra("exlink",true);
             ((Activity)param.thisObject).startActivity(exIntent);
-
             param.setResult(null);
 
         }
@@ -226,7 +199,7 @@ public class HookMain implements IXposedHookLoadPackage {
             Uri data = intent.getData();
             if (data!=null){
                 if (StreamUtil.isContain(data.toString())){
-                    openExlink(param,exDat);
+                    openExlink(param, EX_DAT);
                     return;
                 }
             }
