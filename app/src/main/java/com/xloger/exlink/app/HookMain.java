@@ -46,7 +46,7 @@ public class HookMain implements IXposedHookLoadPackage {
             if(lpparam.packageName.equals(app.getPackageName())&& app.isUse()){
                 index=i;
                 MyLog.log("进入"+ app.getAppName()+"("+ app.getPackageName()+")");
-                findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
+//                findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
                 findAndHookMethod(Activity.class, "startActivityForResult", Intent.class, int.class, Bundle.class,xc_methodHook);
                 break;
             }
