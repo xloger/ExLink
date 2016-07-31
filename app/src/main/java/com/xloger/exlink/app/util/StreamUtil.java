@@ -115,6 +115,9 @@ public class StreamUtil {
     }
 
     public  static boolean isContain(String url){
+        if (url==null){
+            return false;
+        }
         boolean ret = false;
         //获取自定义Url
         byte useDifferentUrl='0';
@@ -149,6 +152,14 @@ public class StreamUtil {
         longUrl= URLDecoder.decode(longUrl);
         shortUrl=URLDecoder.decode(shortUrl);
         Uri shortUri=Uri.parse(shortUrl);
+        //假如不是个链接，那直接看是否包含吧
+        if (shortUri.getHost()==null){
+            if (longUrl.contains(shortUrl)){
+                return true;
+            }else {
+                return false;
+            }
+        }
 
         if (shortUri.getPath() == null) {
             if (longUrl.contains(shortUri.getHost())){

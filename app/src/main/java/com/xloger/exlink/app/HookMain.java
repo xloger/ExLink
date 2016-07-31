@@ -1,6 +1,7 @@
 package com.xloger.exlink.app;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,7 +46,7 @@ public class HookMain implements IXposedHookLoadPackage {
             if(lpparam.packageName.equals(app.getPackageName())&& app.isUse()){
                 index=i;
                 MyLog.log("进入"+ app.getAppName()+"("+ app.getPackageName()+")");
-//                findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
+                findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
                 findAndHookMethod(Activity.class, "startActivityForResult", Intent.class, int.class, Bundle.class,xc_methodHook);
                 break;
             }
@@ -101,7 +102,7 @@ public class HookMain implements IXposedHookLoadPackage {
                     }
                 }else {
                     Bundle extras=intent.getExtras();
-                    if (!StreamUtil.isContainUrl(extras.toString())){
+                    if (extras==null||!StreamUtil.isContainUrl(extras.toString())){
                         MyLog.log("Extras不对，换一个");
                         if (param.args.length>2&&param.args[2]!=null){
                             extras=(Bundle)param.args[2];
@@ -175,15 +176,7 @@ public class HookMain implements IXposedHookLoadPackage {
                 return;
             }
 
-
-            //发送干净的Intent
-            Intent exIntent = new Intent();
-            exIntent.setAction(Intent.ACTION_VIEW);
-            exIntent.setData(uri);
-            exIntent.putExtra("exlink",true);
-            ((Activity)param.thisObject).startActivity(exIntent);
-            param.setResult(null);
-
+            openUrl(param,uri);
         }
 
         /**
@@ -204,25 +197,22 @@ public class HookMain implements IXposedHookLoadPackage {
                 }
             }
 
-            Bundle extras = intent.getExtras();
-            if (extras==null){
-                MyLog.log("没有Extras，采用第二套方案");
-                    if (param.args.length>2){
-                        extras= (Bundle) param.args[2];
-                        if (extras != null) {
-                            MyLog.log("第二套:"+extras.toString());
-                        }else {
-                            MyLog.log("第三套方案失败，跳过");
-                            return;
-                        }
-                    }else {
-                        MyLog.log("第三套方案失败，跳过");
+            Bundle extras=intent.getExtras();
+            if (extras!=null&&!StreamUtil.isContain(extras.toString())){
+                MyLog.log("Extras不对，换一个");
+                if (param.args.length>2&&param.args[2]!=null){
+                    extras=(Bundle)param.args[2];
+                    if (!StreamUtil.isContain(extras.toString())){
+                        MyLog.log("还是不对，不处理了...");
                         return;
                     }
-
-            }else {
-                MyLog.log(" - With extras: " + extras.toString());
+                }else {
+                    MyLog.log("没Bundle...");
+                    return;
+                }
             }
+            MyLog.log(" - With extras: " + extras);
+
             Set<String> keySet = extras.keySet();
             for (String key : keySet) {
                 Object o = extras.get(key);
@@ -292,17 +282,23 @@ public class HookMain implements IXposedHookLoadPackage {
                 isOpenWithOut3=true;
             }
 
-
             if (isOpenWithOut1||isOpenWithOut2||isOpenWithOut3){
                 MyLog.log("判断可以用外置浏览器打开");
-                Intent exIntent = new Intent();
-                exIntent.setAction(Intent.ACTION_VIEW);
-                exIntent.setData(uri);
-                ((Activity)param.thisObject).startActivity(exIntent);
-                param.setResult(null);
+                openUrl(param,uri);
             }else {
                 MyLog.log("判断需要用内置浏览器打开");
             }
+        }
+
+        private void openUrl(XC_MethodHook.MethodHookParam param,Uri uri){
+            //发送干净的Intent
+            Intent exIntent = new Intent();
+            exIntent.setAction(Intent.ACTION_VIEW);
+            exIntent.setData(uri);
+            exIntent.putExtra("exlink",true);
+            exIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            ((Activity)param.thisObject).startActivity(exIntent);
+            param.setResult(null);
         }
     };
 }

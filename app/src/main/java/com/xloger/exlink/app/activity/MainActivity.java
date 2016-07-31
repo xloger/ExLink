@@ -45,7 +45,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         //为了方便，每次进该App时更新一次规则
         AppUtil.updateAppData();
         appList= AppUtil.getAppList();
-        MyLog.e(appList.toString());
         openStepTwo();
         debugMode();
 

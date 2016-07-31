@@ -21,12 +21,10 @@ public class AppUtil {
     public static List<App> getAppList(){
         if (appList == null) {
             appList= (List<App>) FileUtil.loadObject(Constant.APP_URL, Constant.APP_FILE_NAME);
-            if (appList == null) {
-                appList=initAppData();
-                save(appList);
-            }else {
-                //TODO 判断要不要更新
-            }
+//            if (appList == null) {
+//                appList=initAppData();
+//                save(appList);
+//            }
         }
         return appList;
     }
@@ -57,6 +55,7 @@ public class AppUtil {
         qqWhiteUrl.add("jq.qq.com");
         qqWhiteUrl.add("mqq.tenpay.com");
         qqWhiteUrl.add("mp.qq.com");
+        qqWhiteUrl.add("yundong.qq.com");
         qq.setWhiteUrl(qqWhiteUrl);
         qq.setIsUse(true);
         qq.setIsUserBuild(false);
@@ -109,6 +108,7 @@ public class AppUtil {
         weiboRule.add(new Rule("com.sina.weibo.feed.DetailWeiboActivity","com_sina_weibo_weibobrowser_url"));
         weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","com_sina_weibo_weibobrowser_url"));
         weiboRule.add(new Rule("com.sina.weibo.feed.HomeListActivity","ExDat"));
+        weiboRule.add(new Rule("com.sina.weibo.feed.DetailWeiboActivity","ExDat"));
         weibo.setRules(weiboRule);
         Set<String> weiboWhiteUrl=new HashSet<String>();
         weiboWhiteUrl.add("card.weibo.com");
@@ -125,6 +125,7 @@ public class AppUtil {
         weChat.setRules(weChatRule);
         Set<String> weChatWhiteUrl=new HashSet<String>();
         weChatWhiteUrl.add("open.weixin.qq.com");
+        weChatWhiteUrl.add("weixin.qq.com");
         weChat.setWhiteUrl(weChatWhiteUrl);
         weChat.setIsUse(true);
         weChat.setIsUserBuild(false);
@@ -132,8 +133,16 @@ public class AppUtil {
         return apps;
     }
 
+    /**
+     * 初始化与更新规则，并且保存
+     */
     public static void updateAppData(){
         appList=getAppList();
+        if (appList == null) {
+            appList=initAppData();
+            save();
+            return;
+        }
         List<App> newAppList=initAppData();
 
         for (int i = 0; i < 6; i++) {
