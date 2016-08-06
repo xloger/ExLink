@@ -9,6 +9,7 @@ import java.util.Set;
  * Email:phoenix@xloger.com
  */
 public class App implements Serializable {
+    private static final long serialVersionUID=-4481917261998639697L;
     private int id;
     private String appName;
     private String packageName;
