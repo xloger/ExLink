@@ -8,6 +8,7 @@ import java.io.Serializable;
  * Email:phoenix@xloger.com
  */
 public class Rule implements Serializable {
+    private static final long serialVersionUID=86222585354990243L;
     private String activityName;
     private String extrasKey;
 

@@ -52,7 +52,7 @@ public class AddWhiteDialog extends AlertDialog {
         adapter.notifyDataSetChanged();
 
         builder.setTitle(getString(R.string.add_white_title)).setView(addWhiteView);
-        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.add), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String whiteName= whiteNameEditText.getText().toString();
