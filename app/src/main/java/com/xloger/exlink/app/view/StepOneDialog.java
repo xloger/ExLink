@@ -51,6 +51,11 @@ public class StepOneDialog extends AlertDialog implements View.OnClickListener {
                 String newRuleAppName= appEditText.getText().toString();
                 String newRulePackageName= packageEditText.getText().toString();
                 if (!"".equals(newRulePackageName)&&newRulePackageName.length()!=0) {
+                    if (newRulePackageName.equals("com.coolapk.market")){
+                        Toast.makeText(context, "酷安可直接在其设置里修改，无须添加。", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     App testApp=new App();
                     if ("".equals(newRuleAppName)) {
                         testApp.setAppName(getString(R.string.demo));

@@ -23,6 +23,8 @@ public class MyLog {
         byte[] bytes = FileUtil.load(Constant.APP_URL, Constant.IS_DEBUG_FILE_NAME);
         if (bytes != null) {
             isShowLog=Boolean.valueOf(new String(bytes)).booleanValue();
+        }else {
+            return;
         }
 
         if (isShowLog){
@@ -39,6 +41,8 @@ public class MyLog {
         byte[] bytes = FileUtil.load(Constant.APP_URL, Constant.IS_DEBUG_FILE_NAME);
         if (bytes != null) {
             isShowLog=Boolean.valueOf(new String(bytes)).booleanValue();
+        }else {
+            return;
         }
 
         if (isShowLog){

@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="更新说明：\n这次把核心代码全部重构了，对大部分的应用支持应该会更好了，比如微博。其实还剩一些工作量，但是最近不想写了于是就直接发出来好了......\n然后微博这次应该没问题了，微信感觉公众号部分我没法管了，不知道是它做了加密处理还是我脑抽了，反正获取不到链接了。QQ6.5有用户反馈有问题，但我这测试一直正常。一览我试了下是一个很不知所措的状况，尝试了一会后没啥思路就没继续试了。然后还剩下FaceBook什么的暂时没心情试了......\n短时间内这个App应该是不会更新了吧？感觉遇到了瓶颈_(:з)∠)_...不过有问题我还是会负责的。然后作者前段时间辞职了，本以为能开开心心修bug写新App了，结果如大部分同学的暑假一样颓废在房间_(:з)∠)_...哎呀，运气好的话过段时间你们也许能看到我的新App吧......【放心我现在还没建好项目呢。然后接着还得找工作，好烦好烦啊Orz......一想到从此以后再无寒暑假就泪流不止......"
+            android:text="更新说明：\n我们一路奋战，不是为了改变世界，而是为了不让这个世界改变我们。——《熔炉》"
             />
 
         <TextView
@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="本次更新内容与待完善内容:\n完善了对微博的支持；优化了一些杂七杂八的小细节。\n以及因为重构了代码所以可能会有一些bug.\n待完善的内容...大概就是一些App的兼容性吧..."
+            android:visibility="gone"
             />
 
         <TextView
@@ -40,6 +41,7 @@
             android:layout_height="wrap_content"
             android:text="以及一个理论上的反馈交流 QQ 群:429861674"
             android:autoLink="all"
+            android:visibility="gone"
             />
 
         <TextView
