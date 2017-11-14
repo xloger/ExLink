@@ -7,9 +7,14 @@ buildscript {
     }
 }
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 repositories {
     jcenter()
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 android {
@@ -32,8 +37,8 @@ android {
         signingConfig signingConfigs.config
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_6
-        targetCompatibility JavaVersion.VERSION_1_6
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
     buildTypes {
         release {
@@ -58,4 +63,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     //    设置成23.2.0的话fab button会有一个异常
     compile 'com.android.support:design:25.3.1'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'com.google.code.gson:gson:2.8.0'
+    compile(name: 'app-release', ext: 'aar')
 }

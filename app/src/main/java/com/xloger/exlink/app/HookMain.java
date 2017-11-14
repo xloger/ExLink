@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.AppUtil;
+import com.xloger.exlink.app.util.JSONFile;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.StreamUtil;
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -35,7 +36,7 @@ public class HookMain implements IXposedHookLoadPackage {
     public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
 
         if (appList == null||appList.size()==0) {
-            appList= AppUtil.getAppList();
+            appList= new JSONFile().getJson();
         }
         if (appList == null) {
             return;

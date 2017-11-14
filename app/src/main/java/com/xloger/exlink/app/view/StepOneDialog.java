@@ -56,20 +56,20 @@ public class StepOneDialog extends AlertDialog implements View.OnClickListener {
                         return;
                     }
 
-                    App testApp=new App();
-                    if ("".equals(newRuleAppName)) {
-                        testApp.setAppName(getString(R.string.demo));
-                    }else {
-                        testApp.setAppName(newRuleAppName);
-                    }
-                    testApp.setPackageName(newRulePackageName);
-                    testApp.setIsUse(true);
-                    testApp.setIsUserBuild(true);
-                    testApp.setIsTest(true);
-
-                    if (callBack != null) {
-                        callBack.onPositiveClick(testApp);
-                    }
+//                    App testApp=new App();
+//                    if ("".equals(newRuleAppName)) {
+//                        testApp.setAppName(getString(R.string.demo));
+//                    }else {
+//                        testApp.setAppName(newRuleAppName);
+//                    }
+//                    testApp.setPackageName(newRulePackageName);
+//                    testApp.setIsUse(true);
+//                    testApp.setIsUserBuild(true);
+//                    testApp.setIsTest(true);
+//
+//                    if (callBack != null) {
+//                        callBack.onPositiveClick(testApp);
+//                    }
                     Toast.makeText(context,getString(R.string.step_one_text4),Toast.LENGTH_SHORT).show();
                 }
             }

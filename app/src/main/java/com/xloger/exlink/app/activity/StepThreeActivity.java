@@ -8,6 +8,7 @@ import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.entity.Rule;
 import com.xloger.exlink.app.util.AppUtil;
 import com.xloger.exlink.app.util.FileUtil;
+import com.xloger.exlink.app.util.JSONFile;
 
 import java.util.HashSet;
 import java.util.List;
@@ -27,7 +28,7 @@ public class StepThreeActivity extends BaseActivity {
         String activityName = intent.getStringExtra("activityName");
         String extrasKey=intent.getStringExtra("extrasKey");
         int position = intent.getIntExtra("position", -1);
-        List<App> appList = AppUtil.getAppList();
+        List<App> appList = new JSONFile().getJson();
         if (appList != null) {
             App testApp = appList.get(position);
 
@@ -37,8 +38,8 @@ public class StepThreeActivity extends BaseActivity {
                 testApp.setRules(rules);
             }
             rules.add(new Rule(activityName,extrasKey));
-            testApp.setIsTest(false);
-            AppUtil.save(appList);
+//            testApp.setIsTest(false);
+//            AppUtil.INSTANCE.save(appList);
         }
 
 

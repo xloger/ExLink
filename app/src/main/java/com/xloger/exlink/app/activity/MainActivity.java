@@ -6,20 +6,24 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.*;
+
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.AppUtil;
+import com.xloger.exlink.app.util.JSONFile;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.ViewTool;
 import com.xloger.exlink.app.view.AddWhiteDialog;
 import com.xloger.exlink.app.view.StepOneDialog;
+import com.xloger.xlib.tool.XPermission;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -29,7 +33,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private ListView listView;
     private AppAdapter appAdapter;
     private FloatingActionButton addApp;
-    private boolean isShowingDebug=false;
+    private boolean isShowingDebug = false;
 
     private Context context;
 
@@ -40,35 +44,54 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        context=MainActivity.this;
+        context = MainActivity.this;
         initView();
-        //为了方便，每次进该App时更新一次规则
-        AppUtil.updateAppData();
-        appList= AppUtil.getAppList();
+        XPermission.INSTANCE.requestPermission(this, new XPermission.XPermissionCallback() {
+            @Override
+            public void onSuccess() {
+                onGetPermission();
+            }
+
+            @Override
+            public void onRefuse(List<String> list) {
+                Toast.makeText(context, "该 App 需要将规则存入SD卡供hook方法读取", Toast.LENGTH_SHORT).show();
+            }
+        }, XPermission.INSTANCE.getWrite_SD());
+
+
+//        setOverflowShowingAlways();
+
+    }
+
+    private void onGetPermission() {
+        appList = new JSONFile().getJson();
         openStepTwo();
         debugMode();
 
-        appAdapter = new AppAdapter(this,appList,itemCallBack);
+        appAdapter = new AppAdapter(this, appList, itemCallBack);
         listView.setAdapter(appAdapter);
         ViewTool.setListViewHeightBasedOnChildren(listView);
 
         addApp.setOnClickListener(this);
         readme.setOnClickListener(this);
         readme.getPaint().setAntiAlias(true);
+    }
 
-//        setOverflowShowingAlways();
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        XPermission.INSTANCE.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        appList=AppUtil.getAppList();
+//        appList= AppUtil.INSTANCE.getAppList();
         appAdapter.notifyDataSetChanged();
         debugMode();
     }
 
-    private void initView(){
+    private void initView() {
         listView = (ListView) findViewById(R.id.app_list);
         addApp = (FloatingActionButton) findViewById(R.id.add_app);
         show = (Button) findViewById(R.id.show);
@@ -76,26 +99,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
-
-    private void openStepTwo(){
-        for (int i=0;i<appList.size();i++){
-            if (appList.get(i).isUse()&&appList.get(i).isTest()){
-                Intent intent = new Intent(context,StepTwoActivity.class);
+    private void openStepTwo() {
+        for (int i = 0; i < appList.size(); i++) {
+            if (appList.get(i).isUse() && appList.get(i).isTest()) {
+                Intent intent = new Intent(context, StepTwoActivity.class);
                 startActivity(intent);
                 break;
             }
         }
     }
 
-    private void debugMode(){
+    private void debugMode() {
         SharedPreferences sp = getSharedPreferences("config", 0);
         boolean isDebugMode = sp.getBoolean("isDebugMode", false);
 
-        if (isDebugMode){
+        if (isDebugMode) {
             show.setVisibility(View.VISIBLE);
             show.setClickable(true);
             show.setOnClickListener(this);
-        }else {
+        } else {
             show.setVisibility(View.GONE);
             show.setClickable(false);
         }
@@ -104,59 +126,59 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.add_app:
-                StepOneDialog dialog=new StepOneDialog(context);
+                StepOneDialog dialog = new StepOneDialog(context);
                 dialog.setPositiveListener(new StepOneDialog.StepOneCallBack() {
                     @Override
                     public void onPositiveClick(App app) {
                         appList.add(app);
-                        AppUtil.save(appList);
+//                        AppUtil.INSTANCE.save(appList);
                         ViewTool.setListViewHeightBasedOnChildren(listView);
                     }
                 });
-                StepOneDialog.Builder builder=dialog.getBuilder();
+                StepOneDialog.Builder builder = dialog.getBuilder();
                 builder.create().show();
                 break;
             case R.id.main_read_me:
-                Intent intent=new Intent(context,ReadMeActivity.class);
+                Intent intent = new Intent(context, ReadMeActivity.class);
                 startActivity(intent);
                 break;
             case R.id.show:
-                TextView textView= (TextView) MainActivity.this.findViewById(R.id.show_text);
-                if (isShowingDebug){
+                TextView textView = (TextView) MainActivity.this.findViewById(R.id.show_text);
+                if (isShowingDebug) {
                     textView.setText("");
-                }else {
+                } else {
                     textView.setText(appList.toString());
                     textView.setTextIsSelectable(true);
                 }
-                isShowingDebug=!isShowingDebug;
+                isShowingDebug = !isShowingDebug;
                 break;
         }
     }
 
 //    private String[] longClickList=new String[]{getString(R.string.item_click_text1),getString(R.string.item_click_text2),getString(R.string.item_click_text3)};
 
-    private ItemCallBack itemCallBack=new ItemCallBack() {
+    private ItemCallBack itemCallBack = new ItemCallBack() {
         @Override
         public void onClick(int position, View view) {
-            if (view instanceof CheckBox){
-                CheckBox checkBox= (CheckBox) view;
-                appList.get(position).setIsUse(checkBox.isChecked());
-                AppUtil.save(appList);
-                Toast.makeText(context,getString(R.string.item_check_text),Toast.LENGTH_SHORT).show();
-            }else {
-                onLongClick(position,view);
+            if (view instanceof CheckBox) {
+                CheckBox checkBox = (CheckBox) view;
+//                appList.get(position).setIsUse(checkBox.isChecked());
+//                AppUtil.INSTANCE.save(appList);
+                Toast.makeText(context, getString(R.string.item_check_text), Toast.LENGTH_SHORT).show();
+            } else {
+                onLongClick(position, view);
             }
         }
 
 
         @Override
         public void onLongClick(final int position, View view) {
-            String[] longClickList=new String[]{getString(R.string.item_click_text1),getString(R.string.item_click_text2),getString(R.string.item_click_text3)};
-            appList=AppUtil.getAppList();
-            if (appList.get(position).isTest()){
-                longClickList=new String[]{getString(R.string.item_click_text1),getString(R.string.item_click_text2),getString(R.string.item_click_text3),getString(R.string.reset_rule)};
+            String[] longClickList = new String[]{getString(R.string.item_click_text1), getString(R.string.item_click_text2), getString(R.string.item_click_text3)};
+//            appList= AppUtil.INSTANCE.getAppList();
+            if (appList.get(position).isTest()) {
+                longClickList = new String[]{getString(R.string.item_click_text1), getString(R.string.item_click_text2), getString(R.string.item_click_text3), getString(R.string.reset_rule)};
             }
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -164,15 +186,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             builder.setItems(longClickList, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    if (which==0){
+                    if (which == 0) {
 //                        appList.get(position).setIsTest(true);
 //                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
 //                        openStepTwo();
-                        Intent intent=new Intent(context,EditRuleActivity.class);
-                        intent.putExtra("position",position);
+                        Intent intent = new Intent(context, EditRuleActivity.class);
+                        intent.putExtra("position", position);
                         startActivity(intent);
-                    }else if (which==1){
-                        AddWhiteDialog addWhiteDialog=new AddWhiteDialog(context,appList.get(position));
+                    } else if (which == 1) {
+                        AddWhiteDialog addWhiteDialog = new AddWhiteDialog(context, appList.get(position));
                         addWhiteDialog.setCallBack(new AddWhiteDialog.AddWhiteCallBack() {
                             @Override
                             public void onPositiveClick() {
@@ -181,23 +203,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                             @Override
                             public void saveWhiteList() {
-                                AppUtil.save(appList);
+//                                AppUtil.INSTANCE.save(appList);
                             }
                         });
                         android.support.v7.app.AlertDialog.Builder builder = addWhiteDialog.getBuilder();
                         builder.create().show();
-                    }else if (which==2){
-                        if (!appList.get(position).isUserBuild()){
-                            Toast.makeText(context,getString(R.string.del_system_rule_toask),Toast.LENGTH_SHORT).show();
+                    } else if (which == 2) {
+                        if (!appList.get(position).isUserBuild()) {
+                            Toast.makeText(context, getString(R.string.del_system_rule_toask), Toast.LENGTH_SHORT).show();
                             return;
                         }
                         appList.remove(position);
-                        AppUtil.save(appList);
+//                        AppUtil.INSTANCE.save(appList);
                         ViewTool.setListViewHeightBasedOnChildren(listView);
                         appAdapter.notifyDataSetChanged();
-                    }else if (which==3){
-                        appList.get(position).setIsTest(false);
-                        AppUtil.save(appList);
+                    } else if (which == 3) {
+                        appList.get(position).setTest(false);
+//                        AppUtil.INSTANCE.save(appList);
                         appAdapter.notifyDataSetChanged();
                     }
                 }
@@ -217,17 +239,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_instruction:
-                intent= new Intent(context,ReadMeActivity.class);
+                intent = new Intent(context, ReadMeActivity.class);
                 startActivity(intent);
                 break;
             case R.id.action_settings:
-                intent=new Intent(context,SettingActivity.class);
+                intent = new Intent(context, SettingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.action_about:
-                intent=new Intent(context,AboutActivity.class);
+                intent = new Intent(context, AboutActivity.class);
                 startActivity(intent);
                 break;
             default:
@@ -251,8 +273,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
-    public interface ItemCallBack{
-        void onClick(int position,View view);
-        void onLongClick(int position,View view);
+    public interface ItemCallBack {
+        void onClick(int position, View view);
+
+        void onLongClick(int position, View view);
     }
 }

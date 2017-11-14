@@ -13,61 +13,61 @@ public class FileUtil {
     private Context context;
     private static FileUtil fileUtil;
 
-    private FileUtil(Context context){
-        this.context=context;
+    private FileUtil(Context context) {
+        this.context = context;
     }
 
-    public static void createInstance(Context context){
+    public static void createInstance(Context context) {
         if (fileUtil == null) {
-            fileUtil=new FileUtil(context);
+            fileUtil = new FileUtil(context);
         }
     }
 
-    public static FileUtil getInstance(){
+    public static FileUtil getInstance() {
         if (fileUtil == null) {
             throw new IllegalStateException("FileUtil create happen an Error ");
         }
         return fileUtil;
     }
 
-    public void save(String fileName,byte[] content){
-        File folder=context.getFilesDir();
-        File file=new File(folder,fileName);
+    public void save(String fileName, byte[] content) {
+        File folder = context.getFilesDir();
+        File file = new File(folder, fileName);
 
-        FileOutputStream fout=null;
+        FileOutputStream fout = null;
         try {
-            fout=new FileOutputStream(file);
+            fout = new FileOutputStream(file);
             fout.write(content);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             StreamUtil.close(fout);
         }
 
     }
 
-    public byte[] load(String fileName){
+    public byte[] load(String fileName) {
         byte[] ret = null;
-        File folder=context.getFilesDir();
-        ret=load(folder.toString(),fileName);
+        File folder = context.getFilesDir();
+        ret = load(folder.toString(), fileName);
         return ret;
     }
 
-    public static byte[] load(String url,String fileName){
+    public static byte[] load(String url, String fileName) {
         byte[] ret = null;
 
-        File file=new File(url,fileName);
+        File file = new File(url, fileName);
 
-        if (file.exists()&&file.canRead()){
-            FileInputStream fin=null;
+        if (file.exists() && file.canRead()) {
+            FileInputStream fin = null;
             try {
-                fin=new FileInputStream(file);
-                ret=StreamUtil.readStream(fin);
+                fin = new FileInputStream(file);
+                ret = StreamUtil.readStream(fin);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 StreamUtil.close(fin);
             }
         }
@@ -75,24 +75,24 @@ public class FileUtil {
         return ret;
     }
 
-    public void saveObject(String fileName,Object object){
-        File folder=context.getFilesDir();
-        saveObject(folder.toString(),fileName,object);
+    public void saveObject(String fileName, Object object) {
+        File folder = context.getFilesDir();
+        saveObject(folder.toString(), fileName, object);
     }
 
-    public static void saveObject(String url,String fileName,Object object){
+    public static void saveObject(String url, String fileName, Object object) {
         File dir = new File(url);
-        if (!dir.exists()){
+        if (!dir.exists()) {
             dir.mkdirs();
-            dir.setExecutable(true,false);
+            dir.setExecutable(true, false);
         }
-        File file=new File(url,fileName);
+        File file = new File(url, fileName);
         file.setReadable(true, false);
-        file.setWritable(true,false);
-        FileOutputStream fout=null;
+        file.setWritable(true, false);
+        FileOutputStream fout = null;
         try {
-            fout=new FileOutputStream(file);
-            ObjectOutputStream oos=new ObjectOutputStream(fout);
+            fout = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(object);
             oos.close();
         } catch (FileNotFoundException e) {
@@ -106,21 +106,21 @@ public class FileUtil {
         }
     }
 
-    public Object loadObject(String fileName){
+    public Object loadObject(String fileName) {
         Object ret = null;
-        File folder=context.getFilesDir();
-        ret=loadObject(folder.toString(),fileName);
+        File folder = context.getFilesDir();
+        ret = loadObject(folder.toString(), fileName);
         return ret;
     }
 
-    public static Object loadObject(String url,String fileName){
+    public static Object loadObject(String url, String fileName) {
         Object ret = null;
 
-        FileInputStream fin=null;
+        FileInputStream fin = null;
         try {
-            fin=new FileInputStream(url+fileName);
-            ObjectInputStream ois=new ObjectInputStream(fin);
-            ret=ois.readObject();
+            fin = new FileInputStream(url + fileName);
+            ObjectInputStream ois = new ObjectInputStream(fin);
+            ret = ois.readObject();
         } catch (FileNotFoundException e) {
             MyLog.log(e);
             e.printStackTrace();
@@ -141,11 +141,11 @@ public class FileUtil {
         return ret;
     }
 
-    public void setReadable(String fileName){
-        File folder=context.getFilesDir();
-        File file=new File(folder,fileName);
-        boolean b = file.setReadable(true,false);
-        MyLog.log("修改权限："+b);
+    public void setReadable(String fileName) {
+        File folder = context.getFilesDir();
+        File file = new File(folder, fileName);
+        boolean b = file.setReadable(true, false);
+        MyLog.log("修改权限：" + b);
     }
 
 }

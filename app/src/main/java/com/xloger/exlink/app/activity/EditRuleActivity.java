@@ -12,6 +12,7 @@ import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.WhiteRuleAdapter;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.AppUtil;
+import com.xloger.exlink.app.util.JSONFile;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class EditRuleActivity extends BaseActivity {
             Toast.makeText(context,"哎呀我好像不知道哪个 App 点击了呢...",Toast.LENGTH_SHORT).show();
             finish();
         }
-        appList = AppUtil.getAppList();
+        appList = new JSONFile().getJson();
         app = appList.get(position);
         initView();
     }
@@ -47,8 +48,8 @@ public class EditRuleActivity extends BaseActivity {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                app.setIsTest(true);
-                AppUtil.save(appList);
+//                app.setIsTest(true);
+//                AppUtil.INSTANCE.save(appList);
                 Intent intent = new Intent(context,StepTwoActivity.class);
                 intent.putExtra("title","步骤二/添加规则");
                 startActivity(intent);
@@ -57,7 +58,7 @@ public class EditRuleActivity extends BaseActivity {
         WhiteRuleAdapter adapter = new WhiteRuleAdapter(context, app.getRules(), new WhiteRuleAdapter.WhiteRuleAdapterCallBack() {
             @Override
             public void onDelClick() {
-                AppUtil.save(appList);
+//                AppUtil.INSTANCE.save(appList);
                 Toast.makeText(context,"删除成功",Toast.LENGTH_SHORT).show();
             }
         });
