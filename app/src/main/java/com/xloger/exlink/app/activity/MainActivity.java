@@ -20,6 +20,7 @@ import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.AppUtil;
 import com.xloger.exlink.app.util.JSONFile;
 import com.xloger.exlink.app.util.MyLog;
+import com.xloger.exlink.app.util.Tool;
 import com.xloger.exlink.app.util.ViewTool;
 import com.xloger.exlink.app.view.AddWhiteDialog;
 import com.xloger.exlink.app.view.StepOneDialog;
@@ -96,6 +97,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         addApp = (FloatingActionButton) findViewById(R.id.add_app);
         show = (Button) findViewById(R.id.show);
         readme = (TextView) findViewById(R.id.main_read_me);
+
+        TextView hookText = (TextView) findViewById(R.id.hook_text);
+        hookText.setText("是否生效："+ new Tool().isHook());
     }
 
 

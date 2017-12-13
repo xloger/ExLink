@@ -8,10 +8,8 @@ import android.os.Bundle
 
 import com.xloger.exlink.app.entity.App
 import com.xloger.exlink.app.entity.Rule
-import com.xloger.exlink.app.util.AppUtil
-import com.xloger.exlink.app.util.JSONFile
-import com.xloger.exlink.app.util.MyLog
-import com.xloger.exlink.app.util.StreamUtil
+import com.xloger.exlink.app.util.*
+import com.xloger.xlib.tool.Xlog
 
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
@@ -20,6 +18,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.util.ArrayList
 
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
+import de.robv.android.xposed.XposedHelpers.getObjectField
+import kotlin.properties.Delegates
 
 /**
  * Created by xloger on 1月2日.
@@ -29,6 +29,40 @@ import de.robv.android.xposed.XposedHelpers.findAndHookMethod
  */
 class HookMain : IXposedHookLoadPackage {
     private var index: Int = 0
+
+    @Throws(Throwable::class)
+    override fun handleLoadPackage(lpparam: LoadPackageParam) {
+
+//        if (appList == null || appList.isEmpty()) {
+            appList = JSONFile().getJson()
+        MyLog.log("初始化")
+//        }
+
+        findAndHookMethod(Tool::class.java, "isHook", object : XC_MethodHook() {
+            override fun beforeHookedMethod (param: MethodHookParam?) {
+                MyLog.log("hook 测试")
+                param?.result = true
+            }
+
+            override fun afterHookedMethod(param: MethodHookParam?) {
+                MyLog.log("hook 测试")
+                param?.result = true
+            }
+
+        })
+
+        for (i in appList.indices) {
+            val (appName, packageName, _, _, isUse) = appList[i]
+            if (lpparam.packageName == packageName && isUse) {
+                index = i
+                MyLog.log("进入$appName($packageName)")
+                //                findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
+                findAndHookMethod(Activity::class.java, "startActivityForResult", Intent::class.java, Int::class.javaPrimitiveType, Bundle::class.java, xc_methodHook)
+                break
+            }
+        }
+
+    }
 
     private val xc_methodHook = object : XC_MethodHook() {
 
@@ -40,8 +74,7 @@ class HookMain : IXposedHookLoadPackage {
                 return
             }
 
-            val (_, _, ruleSet, whiteUrl, _, _, isTest) = appList!![index]
-            var exUrl: String? = null
+            val (_, packageName, ruleSet, whiteUrl, _, _, isTest) = appList[index]
 
             //如果该应用正处于“匹配模式”，则执行sendToExLink方法
             if (isTest) {
@@ -66,85 +99,90 @@ class HookMain : IXposedHookLoadPackage {
             //分析获取的Intent
             val intent = param.args[0] as Intent
             MyLog.log("Intent: " + intent.toString())
-            var isDatNull = false
-            do {
-                if (StreamUtil.isContain(ruleList, EX_DAT) && !isDatNull) {
-                    if (intent.data != null) {
-                        exUrl = intent.data!!.toString()
-                        isDatNull = false
-                    } else {
-                        isDatNull = true
-                    }
-                } else {
-                    var extras = intent.extras
-                    if (extras == null || !StreamUtil.isContainUrl(extras.toString())) {
-                        MyLog.log("Extras不对，换一个")
-                        if (param.args.size > 2 && param.args[2] != null) {
-                            extras = param.args[2] as Bundle
-                            if (!StreamUtil.isContainUrl(extras.toString())) {
-                                MyLog.log("还是不对，不处理了...")
-                                return
-                            }
-                        } else {
-                            MyLog.log("没Bundle...")
-                            return
-                        }
-                    }
-                    MyLog.log(" - With extras: " + extras.toString())
-                    var trueUrl = 0
-                    for (rule in ruleList) {
-                        val tempUrl = extras.getString(rule.extrasKey)
-                        if (tempUrl != null && "" != tempUrl) {
-                            MyLog.log("tempUrl:" + tempUrl)
-                            exUrl = tempUrl
-                            trueUrl++
-                        }
-                    }
-                    if (trueUrl > 1) {
-                        MyLog.log("Error：好像遇到多个链接的我无法处理的情况了_(:з)∠)_")
-                    }
-                    isDatNull = false
-                }
-            } while (isDatNull)
+//            var isDatNull = false
+//            do {
+//                if (StreamUtil.isContain(ruleList, EX_DAT) && !isDatNull) {
+//                    if (intent.data != null) {
+//                        exUrl = intent.data!!.toString()
+//                        isDatNull = false
+//                    } else {
+//                        isDatNull = true
+//                    }
+//                } else {
+//                    var extras = intent.extras
+//                    if (extras == null || !StreamUtil.isContainUrl(extras.toString())) {
+//                        MyLog.log("Extras不对，换一个")
+//                        if (param.args.size > 2 && param.args[2] != null) {
+//                            extras = param.args[2] as Bundle
+//                            if (!StreamUtil.isContainUrl(extras.toString())) {
+//                                MyLog.log("还是不对，不处理了...")
+//                                return
+//                            }
+//                        } else {
+//                            MyLog.log("没Bundle...")
+//                            return
+//                        }
+//                    }
+//                    MyLog.log(" - With extras: " + extras.toString())
+//                    var trueUrl = 0
+//                    for (rule in ruleList) {
+//                        val tempUrl = extras.getString(rule.extrasKey)
+//                        if (tempUrl != null && "" != tempUrl) {
+//                            MyLog.log("tempUrl:" + tempUrl)
+//                            exUrl = tempUrl
+//                            trueUrl++
+//                        }
+//                    }
+//                    if (trueUrl > 1) {
+//                        MyLog.log("Error：好像遇到多个链接的我无法处理的情况了_(:з)∠)_")
+//                    }
+//                    isDatNull = false
+//                }
+//            } while (isDatNull)
 
             //intent.toUri(0);这个还没测试有没有效果
 
-            if (exUrl == null || "" == exUrl) {
-                MyLog.log("Error：无法获取url")
+            val exUrlList = ruleList
+                    .map { parseUrl(it, param) }
+                    .filter { it.isNotBlank() }
+
+            if (exUrlList.isEmpty()) {
+                MyLog.e("Error：无法获取url")
+                return
+            } else if (exUrlList.size > 1) {
+                MyLog.e("遇到多个 url 的特殊情况，暂不处理。$exUrlList")
                 return
             }
+            var exUrl: String = exUrlList[0]
 
             //Url规范化
             if (!exUrl.startsWith("http")) {
                 MyLog.log("Url不符合规范，正在二次分析")
                 MyLog.log("当前externalUrl:" + exUrl)
                 exUrl = StreamUtil.clearUrl(exUrl)
-                MyLog.log("处理后externalUrl:" + exUrl!!)
+                MyLog.log("处理后externalUrl:" + exUrl)
 
-                if (exUrl == null) {
+                if (exUrl.isBlank()) {
                     MyLog.log("Error：无法解析url")
                     return
                 }
             }
 
             val uri = Uri.parse(exUrl)
-            MyLog.log("uri:" + uri)
-
 
             //检查白名单
-            if (whiteUrl != null) {
-                for (s in whiteUrl) {
-                    if (s == uri.host) {
-                        MyLog.log("处于白名单之中，跳过")
-                        return
-                    } else if (StreamUtil.isSecondLevelDomain(s, uri.host)) {
-                        MyLog.log("为" + s + "的二级域名，跳过")
-                        return
-                    }
+            for (s in whiteUrl) {
+                if (s == uri.host) {
+                    MyLog.log("处于白名单之中，跳过")
+                    return
+                } else if (StreamUtil.isSecondLevelDomain(s, uri.host)) {
+                    MyLog.log("为" + s + "的二级域名，跳过")
+                    return
                 }
             }
 
-            if (appList!![index].packageName == "com.tencent.mm") {
+
+            if (packageName == "com.tencent.mm") {
                 MyLog.log("进入匹配微信模式")
                 compatibleWeChat(param, uri)
                 return
@@ -153,14 +191,49 @@ class HookMain : IXposedHookLoadPackage {
             openUrl(param, uri)
         }
 
+        private fun parseUrl(rule: Rule, param: XC_MethodHook.MethodHookParam): String {
+            val intent = param.args[0] as Intent
+            if (rule.extrasKey == EX_DAT) {
+                return intent.dataString
+            } else {
+                val bundle = getBundle(param)
+                if (bundle != null) {
+                    return bundle.getString(rule.extrasKey)
+                }
+            }
+            return ""
+        }
+
+        private fun getBundle(param: XC_MethodHook.MethodHookParam): Bundle? {
+            val intent = param.args[0] as Intent
+            if (intent.extras != null) {
+                return intent.extras
+            } else if (param.args.size > 2 && param.args[2] != null) {
+                return param.args[2] as Bundle
+            } else {
+                MyLog.e("获取 Bundle 异常")
+                return null
+            }
+        }
+
+        private fun openUrl(param: XC_MethodHook.MethodHookParam, uri: Uri) {
+            //发送干净的Intent
+            val exIntent = Intent()
+            exIntent.action = Intent.ACTION_VIEW
+            exIntent.data = uri
+            exIntent.putExtra("exlink", true)
+            exIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            (param.thisObject as Activity).startActivity(exIntent)
+            param.result = null
+        }
+
         /**
          * 匹配模式 <br></br>
          * 判断哪个值包含了Url，并发送到Exlink
          * @param param 传入的参数
          */
-        private fun sendToExLink(param: XC_MethodHook.MethodHookParam?) {
-
-            val intent = param!!.args[0] as Intent
+        private fun sendToExLink(param: XC_MethodHook.MethodHookParam) {
+            val intent = param.args[0] as Intent
             MyLog.log("Intent: " + intent.toString())
 
             val data = intent.data
@@ -199,10 +272,10 @@ class HookMain : IXposedHookLoadPackage {
 
         }
 
-        private fun openExlink(param: XC_MethodHook.MethodHookParam?, key: String) {
+        private fun openExlink(param: XC_MethodHook.MethodHookParam, key: String) {
             MyLog.log("成功匹配！")
             val uri = Uri.parse("exlink://test")
-            val activityName = param!!.thisObject.javaClass.name
+            val activityName = param.thisObject.javaClass.name
 
             val sendToExLinkIntent = Intent()
             sendToExLinkIntent.action = Intent.ACTION_VIEW
@@ -261,43 +334,11 @@ class HookMain : IXposedHookLoadPackage {
             }
         }
 
-        private fun openUrl(param: XC_MethodHook.MethodHookParam?, uri: Uri) {
-            //发送干净的Intent
-            val exIntent = Intent()
-            exIntent.action = Intent.ACTION_VIEW
-            exIntent.data = uri
-            exIntent.putExtra("exlink", true)
-            exIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            (param!!.thisObject as Activity).startActivity(exIntent)
-            param.result = null
-        }
     }
 
-    @Throws(Throwable::class)
-    override fun handleLoadPackage(lpparam: LoadPackageParam) {
-
-        if (appList == null || appList!!.size == 0) {
-            appList = JSONFile().getJson()
-        }
-        if (appList == null) {
-            return
-        }
-
-        for (i in appList!!.indices) {
-            val (appName, packageName, _, _, isUse) = appList!![i]
-            if (lpparam.packageName == packageName && isUse) {
-                index = i
-                MyLog.log("进入$appName($packageName)")
-                //                findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
-                findAndHookMethod(Activity::class.java, "startActivityForResult", Intent::class.java, Int::class.javaPrimitiveType, Bundle::class.java, xc_methodHook)
-                break
-            }
-        }
-
-    }
 
     companion object {
-        private var appList: List<App>? = null
+        private var appList: List<App> by Delegates.notNull()
         private val EX_DAT = "ExDat"
     }
 }

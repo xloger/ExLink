@@ -25,3 +25,4 @@
     java.lang.Object readResolve();
 }
 -keep class com.xloger.exlink.app.entity.*{*;}
+-keep class com.xloger.exlink.app.util.Tool{*;}

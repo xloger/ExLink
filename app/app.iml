@@ -43,7 +43,7 @@
           </option>
           <option name="pluginClasspaths">
             <array>
-              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.1.51/5c33f0c440fdd8416f77824bda078426c3f3dc94/kotlin-android-extensions-1.1.51.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.1.60/3b6a750e48ac6a4ca5f0fba633385825610dce3e/kotlin-android-extensions-1.1.60.jar" />
             </array>
           </option>
         </compilerArguments>
@@ -105,6 +105,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaPrecompile" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/prebuild" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/proguard-rules" />
@@ -118,27 +119,30 @@
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 25 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 26 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="gson-2.8.0" level="project" />
-    <orderEntry type="library" name="annotations-13.0" level="project" />
-    <orderEntry type="library" name="transition-25.3.1" level="project" />
-    <orderEntry type="library" name="design-25.3.1" level="project" />
-    <orderEntry type="library" name="support-core-ui-25.3.1" level="project" />
-    <orderEntry type="library" name="kotlin-stdlib-1.1.51" level="project" />
-    <orderEntry type="library" name="kotlin-stdlib-jre7-1.1.51" level="project" />
-    <orderEntry type="library" name="support-v4-25.3.1" level="project" />
-    <orderEntry type="library" name="support-media-compat-25.3.1" level="project" />
-    <orderEntry type="library" name="recyclerview-v7-25.3.1" level="project" />
-    <orderEntry type="library" name="support-annotations-25.3.1" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\AndroidStudioProjects\ExLink\app\deps\XposedBridgeApi-20150213.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.code.gson:gson:2.8.0@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-media-compat-26.1.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-compat-26.1.0" level="project" />
+    <orderEntry type="library" name="com.android.support:recyclerview-v7-26.1.0" level="project" />
+    <orderEntry type="library" name="android.arch.lifecycle:common:1.0.0@jar" level="project" />
+    <orderEntry type="library" name="android.arch.core:common:1.0.0@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-fragment-26.1.0" level="project" />
+    <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib:1.1.60@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-vector-drawable-26.1.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-v4-26.1.0" level="project" />
+    <orderEntry type="library" name="android.arch.lifecycle:runtime-1.0.0" level="project" />
+    <orderEntry type="library" name="com.android.support:appcompat-v7-26.1.0" level="project" />
+    <orderEntry type="library" name="org.jetbrains:annotations:13.0@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:animated-vector-drawable-26.1.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-annotations:26.1.0@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-core-utils-26.1.0" level="project" />
+    <orderEntry type="library" name="com.android.support:design-26.1.0" level="project" />
+    <orderEntry type="library" name="com.android.support:transition-26.1.0" level="project" />
+    <orderEntry type="library" name="com.android.support:support-core-ui-26.1.0" level="project" />
     <orderEntry type="library" name="app-release:@aar" level="project" />
-    <orderEntry type="library" name="support-vector-drawable-25.3.1" level="project" />
-    <orderEntry type="library" name="appcompat-v7-25.3.1" level="project" />
-    <orderEntry type="library" name="animated-vector-drawable-25.3.1" level="project" />
-    <orderEntry type="library" name="support-compat-25.3.1" level="project" />
-    <orderEntry type="library" name="support-fragment-25.3.1" level="project" />
-    <orderEntry type="library" name="support-core-utils-25.3.1" level="project" />
-    <orderEntry type="library" name="XposedBridgeApi-20150213" level="project" />
-    <orderEntry type="library" name="android-android-25" level="project" />
+    <orderEntry type="library" name="org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.60@jar" level="project" />
+    <orderEntry type="library" name="android-android-26" level="project" />
   </component>
 </module>
