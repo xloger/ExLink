@@ -38,7 +38,7 @@ class HookMain : IXposedHookLoadPackage {
         MyLog.log("初始化")
 //        }
 
-        findAndHookMethod(Tool::class.java, "isHook", object : XC_MethodHook() {
+        findAndHookMethod("com.xloger.exlink.app.util.Tool", lpparam.classLoader, "isHook", object : XC_MethodHook() {
             override fun beforeHookedMethod (param: MethodHookParam?) {
                 MyLog.log("hook 测试")
                 param?.result = true
