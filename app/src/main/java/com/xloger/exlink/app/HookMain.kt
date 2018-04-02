@@ -13,12 +13,13 @@ import com.xloger.xlib.tool.Xlog
 
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XC_MethodReplacement
+import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-
-import java.util.ArrayList
 
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.XposedHelpers.getObjectField
+import java.util.*
 import kotlin.properties.Delegates
 
 /**
@@ -34,22 +35,10 @@ class HookMain : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
 
 //        if (appList == null || appList.isEmpty()) {
-            appList = JSONFile().getJson()
+        appList = JSONFile().getJson("xposed")
         MyLog.log("初始化")
 //        }
 
-        findAndHookMethod("com.xloger.exlink.app.util.Tool", lpparam.classLoader, "isHook", object : XC_MethodHook() {
-            override fun beforeHookedMethod (param: MethodHookParam?) {
-                MyLog.log("hook 测试")
-                param?.result = true
-            }
-
-            override fun afterHookedMethod(param: MethodHookParam?) {
-                MyLog.log("hook 测试")
-                param?.result = true
-            }
-
-        })
 
         for (i in appList.indices) {
             val (appName, packageName, _, _, isUse) = appList[i]
@@ -62,7 +51,26 @@ class HookMain : IXposedHookLoadPackage {
             }
         }
 
+        if (lpparam.packageName.equals("com.xloger.exlink.app")) {
+            MyLog.log("开始hook 测试方法")
+            try {
+//            val clazz = XposedHelpers.findClass("com.xloger.exlink.app.util.KotlinTool", lpparam.classLoader)
+//            val value = clazz.getDeclaredField("test")
+//            MyLog.e("value:" + value)
+
+
+                //"com.xloger.exlink.app.util.Tool"
+                XposedHelpers.findAndHookMethod("com.xloger.exlink.app.HookMain",lpparam.classLoader, "isHook", XC_MethodReplacement.returnConstant(true))
+                MyLog.log("isHook:" + isHook())
+            } catch (ex: XposedHelpers.ClassNotFoundError) {
+                MyLog.e("没找到你妹啊！")
+                MyLog.e(ex.message)
+            }
+        }
+
     }
+
+    fun isHook() = false
 
     private val xc_methodHook = object : XC_MethodHook() {
 

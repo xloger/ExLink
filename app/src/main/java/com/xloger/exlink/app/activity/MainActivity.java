@@ -14,11 +14,13 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.*;
 
+import com.xloger.exlink.app.HookMain;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.AppUtil;
 import com.xloger.exlink.app.util.JSONFile;
+import com.xloger.exlink.app.util.KotlinTool;
 import com.xloger.exlink.app.util.MyLog;
 import com.xloger.exlink.app.util.Tool;
 import com.xloger.exlink.app.util.ViewTool;
@@ -88,6 +90,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
 //        appList= AppUtil.INSTANCE.getAppList();
+        //此处有个NPE
         appAdapter.notifyDataSetChanged();
         debugMode();
     }
@@ -99,7 +102,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         readme = (TextView) findViewById(R.id.main_read_me);
 
         TextView hookText = (TextView) findViewById(R.id.hook_text);
-        hookText.setText("是否生效："+ new Tool().isHook());
+        hookText.setText("是否生效：");
     }
 
 
