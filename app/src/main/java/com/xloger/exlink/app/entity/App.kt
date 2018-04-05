@@ -9,8 +9,8 @@ import java.io.Serializable
  */
 data class App(var appName: String,
                var packageName: String,
-               var rules: Set<Rule>,
-               var whiteUrl: Set<String>,
+               var rules: Set<Rule> = emptySet(),
+               var whiteUrl: Set<String> = emptySet(),
                var isUse: Boolean = true,
                var isUserBuild: Boolean = true,
                var isTest: Boolean = false)

@@ -27,6 +27,7 @@ import com.xloger.exlink.app.util.ViewTool;
 import com.xloger.exlink.app.view.AddWhiteDialog;
 import com.xloger.exlink.app.view.StepOneDialog;
 import com.xloger.xlib.tool.XPermission;
+import com.xloger.xlib.tool.Xlog;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -42,24 +43,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private Button show;
     private TextView readme;
+    private JSONFile jsonFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = MainActivity.this;
+        jsonFile = new JSONFile();
         initView();
-        XPermission.INSTANCE.requestPermission(this, new XPermission.XPermissionCallback() {
-            @Override
-            public void onSuccess() {
-                onGetPermission();
-            }
+//        XPermission.INSTANCE.requestPermission(this, new XPermission.XPermissionCallback() {
+//            @Override
+//            public void onSuccess() {
+//                onGetPermission();
+//            }
+//
+//            @Override
+//            public void onRefuse(List<String> list) {
+//                Toast.makeText(context, "该 App 需要将规则存入SD卡供hook方法读取", Toast.LENGTH_SHORT).show();
+//            }
+//        }, XPermission.INSTANCE.getWrite_SD());
 
-            @Override
-            public void onRefuse(List<String> list) {
-                Toast.makeText(context, "该 App 需要将规则存入SD卡供hook方法读取", Toast.LENGTH_SHORT).show();
-            }
-        }, XPermission.INSTANCE.getWrite_SD());
+        onGetPermission();
 
 
 //        setOverflowShowingAlways();
@@ -67,7 +72,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void onGetPermission() {
-        appList = new JSONFile().getJson();
+        appList = jsonFile.getJson();
         openStepTwo();
         debugMode();
 
@@ -89,10 +94,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-//        appList= AppUtil.INSTANCE.getAppList();
-        //此处有个NPE
-        appAdapter.notifyDataSetChanged();
+        appList = jsonFile.getJson();
+        if (appAdapter != null) {
+            appAdapter.notifyDataSetChanged();
+        }
         debugMode();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        MyLog.log("保存本次数据：" + new KotlinTool().listAppToSimpleString(appList));
+        jsonFile.saveJson(appList);
     }
 
     private void initView() {
@@ -140,6 +153,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onPositiveClick(App app) {
                         appList.add(app);
+                        appAdapter.notifyDataSetChanged();
 //                        AppUtil.INSTANCE.save(appList);
                         ViewTool.setListViewHeightBasedOnChildren(listView);
                     }
@@ -171,7 +185,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         public void onClick(int position, View view) {
             if (view instanceof CheckBox) {
                 CheckBox checkBox = (CheckBox) view;
-//                appList.get(position).setIsUse(checkBox.isChecked());
+                appList.get(position).setUse(checkBox.isChecked());
 //                AppUtil.INSTANCE.save(appList);
                 Toast.makeText(context, getString(R.string.item_check_text), Toast.LENGTH_SHORT).show();
             } else {
@@ -194,7 +208,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
-//                        appList.get(position).setIsTest(true);
+                        appList.get(position).setTest(true);
 //                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
 //                        openStepTwo();
                         Intent intent = new Intent(context, EditRuleActivity.class);

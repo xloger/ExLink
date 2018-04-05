@@ -1,8 +1,10 @@
 package com.xloger.exlink.app.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import java.io.*;
+import java.util.List;
 
 /**
  * Created by xloger on 1月1日.
@@ -66,8 +68,8 @@ public class FileUtil {
                 fin = new FileInputStream(file);
                 ret = StreamUtil.readStream(fin);
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } finally {
+                MyLog.e(e.getMessage());
+            }finally {
                 StreamUtil.close(fin);
             }
         }
@@ -75,11 +77,19 @@ public class FileUtil {
         return ret;
     }
 
+    /**
+     * @deprecated 新版已经由存取序列化对象改为存取json，因此不再推荐使用该方法，使用{@link JSONFile#saveJson(List)}
+     */
+    @Deprecated
     public void saveObject(String fileName, Object object) {
         File folder = context.getFilesDir();
         saveObject(folder.toString(), fileName, object);
     }
 
+    /**
+     * @deprecated 新版已经由存取序列化对象改为存取json，因此不再推荐使用该方法，使用{@link JSONFile#saveJson(List)}
+     */
+    @Deprecated
     public static void saveObject(String url, String fileName, Object object) {
         File dir = new File(url);
         if (!dir.exists()) {
@@ -106,6 +116,10 @@ public class FileUtil {
         }
     }
 
+    /**
+     * @deprecated 新版已经由存取序列化对象改为存取json，因此不再推荐使用该方法，使用{@link JSONFile#getJson()}
+     */
+    @Deprecated
     public Object loadObject(String fileName) {
         Object ret = null;
         File folder = context.getFilesDir();
@@ -113,6 +127,10 @@ public class FileUtil {
         return ret;
     }
 
+    /**
+     * @deprecated 新版已经由存取序列化对象改为存取json，因此不再推荐使用该方法，使用{@link JSONFile#getJson()}
+     */
+    @Deprecated
     public static Object loadObject(String url, String fileName) {
         Object ret = null;
 
@@ -144,7 +162,7 @@ public class FileUtil {
     public void setReadable(String fileName) {
         File folder = context.getFilesDir();
         File file = new File(folder, fileName);
-        boolean b = file.setReadable(true, false);
+        @SuppressLint("SetWorldReadable") boolean b = file.setReadable(true, false);
         MyLog.log("修改权限：" + b);
     }
 

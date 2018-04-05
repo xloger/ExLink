@@ -21,55 +21,43 @@ public class MyLog {
 
     }
 
-    public static void log(String s) {
+    private static boolean checkIsShowLog() {
         byte[] bytes = FileUtil.load(Constant.APP_URL, Constant.IS_DEBUG_FILE_NAME);
         if (bytes != null) {
-            isShowLog = Boolean.valueOf(new String(bytes)).booleanValue();
-        } else {
-            return;
+            isShowLog = Boolean.valueOf(new String(bytes));
         }
-        isShowLog = true;
+        return isShowLog;
+    }
 
-        if (isShowLog) {
+    public static void log(String s) {
+
+        if (checkIsShowLog()) {
             try {
                 XposedBridge.log("[ExLink] " + s);
-            }catch (NoClassDefFoundError error){
-                if (LOG_ON){
-                    Log.d("[ExLink] ",s);
-                }
+            } catch (NoClassDefFoundError error) {
+                Log.d("[ExLink] ", s);
             }
         }
     }
 
     public static void log(Throwable t) {
-        byte[] bytes = FileUtil.load(Constant.APP_URL, Constant.IS_DEBUG_FILE_NAME);
-        if (bytes != null) {
-            isShowLog = Boolean.valueOf(new String(bytes)).booleanValue();
-        } else {
-            return;
-        }
 
-        if (isShowLog) {
+        if (checkIsShowLog()) {
             try {
                 XposedBridge.log(t);
             } catch (NoClassDefFoundError error) {
-                if (LOG_ON) {
-                    Log.e("[ExLink Error] ", t.toString());
-                }
+                Log.e("[ExLink Error] ", t.toString());
             }
         }
     }
 
     public static void e(String s) {
-        isShowLog = true;
-
-        if (isShowLog) {
+        if (true) {
             try {
                 XposedBridge.log("[ExLink Error] " + s);
-            }catch (NoClassDefFoundError error){
-                if (LOG_ON){
-                    Log.e("[ExLink] ",s);
-                }
+            } catch (NoClassDefFoundError error) {
+                Log.e("[ExLink] ", s);
+
             }
         }
     }

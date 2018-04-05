@@ -34,10 +34,12 @@ class HookMain : IXposedHookLoadPackage {
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
 
-//        if (appList == null || appList.isEmpty()) {
-        appList = JSONFile().getJson("xposed")
-        MyLog.log("初始化")
-//        }
+        if (appList.isEmpty()) {
+            appList = JSONFile().getJson("xposed")
+//            MyLog.log("初始化")
+        }
+
+//        MyLog.log("本次数据：" + KotlinTool().listAppToSimpleString(appList))
 
 
         for (i in appList.indices) {
@@ -51,22 +53,22 @@ class HookMain : IXposedHookLoadPackage {
             }
         }
 
-        if (lpparam.packageName.equals("com.xloger.exlink.app")) {
-            MyLog.log("开始hook 测试方法")
-            try {
-//            val clazz = XposedHelpers.findClass("com.xloger.exlink.app.util.KotlinTool", lpparam.classLoader)
-//            val value = clazz.getDeclaredField("test")
-//            MyLog.e("value:" + value)
-
-
-                //"com.xloger.exlink.app.util.Tool"
-                XposedHelpers.findAndHookMethod("com.xloger.exlink.app.HookMain",lpparam.classLoader, "isHook", XC_MethodReplacement.returnConstant(true))
-                MyLog.log("isHook:" + isHook())
-            } catch (ex: XposedHelpers.ClassNotFoundError) {
-                MyLog.e("没找到你妹啊！")
-                MyLog.e(ex.message)
-            }
-        }
+//        if (lpparam.packageName.equals("com.xloger.exlink.app")) {
+//            MyLog.log("开始hook 测试方法")
+//            try {
+////            val clazz = XposedHelpers.findClass("com.xloger.exlink.app.util.KotlinTool", lpparam.classLoader)
+////            val value = clazz.getDeclaredField("test")
+////            MyLog.e("value:" + value)
+//
+//
+//                //"com.xloger.exlink.app.util.Tool"
+//                XposedHelpers.findAndHookMethod("com.xloger.exlink.app.HookMain",lpparam.classLoader, "isHook", XC_MethodReplacement.returnConstant(true))
+//                MyLog.log("isHook:" + isHook())
+//            } catch (ex: XposedHelpers.ClassNotFoundError) {
+//                MyLog.e("没找到你妹啊！")
+//                MyLog.e(ex.message)
+//            }
+//        }
 
     }
 
@@ -203,6 +205,8 @@ class HookMain : IXposedHookLoadPackage {
             val intent = param.args[0] as Intent
             if (rule.extrasKey == EX_DAT) {
                 return intent.dataString
+            } else if (intent.getStringExtra(rule.extrasKey).isNotEmpty()) {
+                return intent.getStringExtra(rule.extrasKey)
             } else {
                 val bundle = getBundle(param)
                 if (bundle != null) {
@@ -243,40 +247,58 @@ class HookMain : IXposedHookLoadPackage {
         private fun sendToExLink(param: XC_MethodHook.MethodHookParam) {
             val intent = param.args[0] as Intent
             MyLog.log("Intent: " + intent.toString())
+            var isEqual = false
+            var type = 0
 
+            //从 data 中获取
             val data = intent.data
-            if (data != null) {
-                if (StreamUtil.isContain(data.toString())) {
-                    openExlink(param, EX_DAT)
-                    return
-                }
+            if (data != null && StreamUtil.isContain(data.toString())) {
+                type = 1
+                isEqual = true
             }
 
             var extras = intent.extras
-            if (extras != null && !StreamUtil.isContain(extras!!.toString())) {
-                MyLog.log("Extras不对，换一个")
-                if (param.args.size > 2 && param.args[2] != null) {
-                    extras = param.args[2] as Bundle
-                    if (!StreamUtil.isContain(extras!!.toString())) {
-                        MyLog.log("还是不对，不处理了...")
-                        return
+            MyLog.log(" - With extras: $extras")
+            //从 intent 中获取
+            if (!isEqual && StreamUtil.isContain(extras.toString())) {
+                MyLog.log("链接存在于 extras 中")
+                type = 2
+                isEqual = true
+            }
+
+            //从 Bundle 中获取
+            if (!isEqual && param.args.size > 2 && param.args[2] != null) {
+                val bundle = param.args[2] as Bundle
+                if (StreamUtil.isContain(bundle.toString())) {
+                    MyLog.log("链接存在于 bundle 中")
+                    type = 3
+                    isEqual = true
+                }
+            }
+
+            when (type) {
+                1 -> openExlink(param, EX_DAT)
+                2, 3 -> {
+                    if (type == 3) {
+                        extras = param.args[2] as Bundle
                     }
-                } else {
-                    MyLog.log("没Bundle...")
-                    return
+                    val keySet = extras?.keySet()
+                    if (keySet != null) {
+                        for (key in keySet) {
+                            val o = extras.get(key) ?: continue
+                            val value = o.toString()
+
+                            if (StreamUtil.isContain(value)) {
+                                openExlink(param, key)
+                            }
+                        }
+                    }
+                }
+                else -> {
+                    MyLog.e("=。=我识别不到链接")
                 }
             }
-            MyLog.log(" - With extras: " + extras!!)
 
-            val keySet = extras!!.keySet()
-            for (key in keySet) {
-                val o = extras!!.get(key) ?: continue
-                val value = o.toString()
-
-                if (StreamUtil.isContain(value)) {
-                    openExlink(param, key)
-                }
-            }
 
         }
 
@@ -346,7 +368,7 @@ class HookMain : IXposedHookLoadPackage {
 
 
     companion object {
-        private var appList: List<App> by Delegates.notNull()
+        private var appList: List<App> = emptyList()
         private val EX_DAT = "ExDat"
     }
 }

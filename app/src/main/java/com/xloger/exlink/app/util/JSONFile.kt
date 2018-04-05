@@ -88,6 +88,8 @@ class JSONFile {
                 }
                 file.writeText(Gson().toJson(AppList(list)))
             }
+        } else {
+            file.writeText(Gson().toJson(AppList(list)))
         }
         return true
     }

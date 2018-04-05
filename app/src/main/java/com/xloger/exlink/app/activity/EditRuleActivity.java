@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.WhiteRuleAdapter;
 import com.xloger.exlink.app.entity.App;
@@ -33,8 +34,8 @@ public class EditRuleActivity extends BaseActivity {
         setContentView(R.layout.activity_edit_rule);
         context = this;
         int position = getIntent().getIntExtra("position", -1);
-        if (position==-1){
-            Toast.makeText(context,"哎呀我好像不知道哪个 App 点击了呢...",Toast.LENGTH_SHORT).show();
+        if (position == -1) {
+            Toast.makeText(context, "哎呀我好像不知道哪个 App 点击了呢...", Toast.LENGTH_SHORT).show();
             finish();
         }
         appList = new JSONFile().getJson();
@@ -42,24 +43,24 @@ public class EditRuleActivity extends BaseActivity {
         initView();
     }
 
-    private void initView(){
-        ListView listView= (ListView) findViewById(R.id.edit_rule_list);
-        Button addBtn= (Button) findViewById(R.id.edit_rule_add);
+    private void initView() {
+        ListView listView = (ListView) findViewById(R.id.edit_rule_list);
+        Button addBtn = (Button) findViewById(R.id.edit_rule_add);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                app.setIsTest(true);
-//                AppUtil.INSTANCE.save(appList);
-                Intent intent = new Intent(context,StepTwoActivity.class);
-                intent.putExtra("title","步骤二/添加规则");
+                app.setTest(true);
+                new JSONFile().saveJson(appList);
+                Intent intent = new Intent(context, StepTwoActivity.class);
+                intent.putExtra("title", "步骤二/添加规则");
                 startActivity(intent);
             }
         });
         WhiteRuleAdapter adapter = new WhiteRuleAdapter(context, app.getRules(), new WhiteRuleAdapter.WhiteRuleAdapterCallBack() {
             @Override
             public void onDelClick() {
-//                AppUtil.INSTANCE.save(appList);
-                Toast.makeText(context,"删除成功",Toast.LENGTH_SHORT).show();
+                new JSONFile().saveJson(appList);
+                Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
             }
         });
         listView.setAdapter(adapter);

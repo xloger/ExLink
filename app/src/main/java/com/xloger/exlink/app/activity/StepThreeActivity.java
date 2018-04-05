@@ -38,8 +38,8 @@ public class StepThreeActivity extends BaseActivity {
                 testApp.setRules(rules);
             }
             rules.add(new Rule(activityName,extrasKey));
-//            testApp.setIsTest(false);
-//            AppUtil.INSTANCE.save(appList);
+            testApp.setTest(false);
+            new JSONFile().saveJson(appList);
         }
 
 
