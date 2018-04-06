@@ -1,10 +1,12 @@
 package com.xloger.exlink.app
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 
 import com.xloger.exlink.app.entity.App
 import com.xloger.exlink.app.entity.Rule
@@ -26,7 +28,7 @@ import kotlin.properties.Delegates
  * Created by xloger on 1月2日.
  * Author:xloger
  * Email:phoenix@xloger.com
- * 卧槽这代码复杂度简直了......你们想看的话自求多福吧Orz，当初我写的什么鬼啊......
+ * (ง •_•)ง 加油
  */
 class HookMain : IXposedHookLoadPackage {
     private var index: Int = 0
@@ -72,7 +74,6 @@ class HookMain : IXposedHookLoadPackage {
 
     }
 
-    fun isHook() = false
 
     private val xc_methodHook = object : XC_MethodHook() {
 
@@ -109,48 +110,6 @@ class HookMain : IXposedHookLoadPackage {
             //分析获取的Intent
             val intent = param.args[0] as Intent
             MyLog.log("Intent: " + intent.toString())
-//            var isDatNull = false
-//            do {
-//                if (StreamUtil.isContain(ruleList, EX_DAT) && !isDatNull) {
-//                    if (intent.data != null) {
-//                        exUrl = intent.data!!.toString()
-//                        isDatNull = false
-//                    } else {
-//                        isDatNull = true
-//                    }
-//                } else {
-//                    var extras = intent.extras
-//                    if (extras == null || !StreamUtil.isContainUrl(extras.toString())) {
-//                        MyLog.log("Extras不对，换一个")
-//                        if (param.args.size > 2 && param.args[2] != null) {
-//                            extras = param.args[2] as Bundle
-//                            if (!StreamUtil.isContainUrl(extras.toString())) {
-//                                MyLog.log("还是不对，不处理了...")
-//                                return
-//                            }
-//                        } else {
-//                            MyLog.log("没Bundle...")
-//                            return
-//                        }
-//                    }
-//                    MyLog.log(" - With extras: " + extras.toString())
-//                    var trueUrl = 0
-//                    for (rule in ruleList) {
-//                        val tempUrl = extras.getString(rule.extrasKey)
-//                        if (tempUrl != null && "" != tempUrl) {
-//                            MyLog.log("tempUrl:" + tempUrl)
-//                            exUrl = tempUrl
-//                            trueUrl++
-//                        }
-//                    }
-//                    if (trueUrl > 1) {
-//                        MyLog.log("Error：好像遇到多个链接的我无法处理的情况了_(:з)∠)_")
-//                    }
-//                    isDatNull = false
-//                }
-//            } while (isDatNull)
-
-            //intent.toUri(0);这个还没测试有没有效果
 
             val exUrlList = ruleList
                     .map { parseUrl(it, param) }
@@ -205,7 +164,7 @@ class HookMain : IXposedHookLoadPackage {
             val intent = param.args[0] as Intent
             if (rule.extrasKey == EX_DAT) {
                 return intent.dataString
-            } else if (intent.getStringExtra(rule.extrasKey).isNotEmpty()) {
+            } else if (!intent.getStringExtra(rule.extrasKey).isNullOrBlank()) {
                 return intent.getStringExtra(rule.extrasKey)
             } else {
                 val bundle = getBundle(param)
@@ -328,40 +287,64 @@ class HookMain : IXposedHookLoadPackage {
             var isOpenWithOut2 = false
             var isOpenWithOut3 = false
 
+
             val intent = param!!.args[0] as Intent
-            val judge1 = intent.getStringExtra("preChatName")
-            val judge2 = intent.getStringExtra("prePublishId")
-            val judge3 = intent.getStringExtra("preUsername")
-            MyLog.log("judge1:" + judge1 + "judge2:" + judge2 + "judge3:" + judge3)
+//            val judge1 = intent.getStringExtra("preChatName")
+//            val judge2 = intent.getStringExtra("prePublishId")
+//            val judge3 = intent.getStringExtra("preUsername")
+//            MyLog.log("judge1:" + judge1 + "judge2:" + judge2 + "judge3:" + judge3)
+//
+//            if (judge1 == null && judge2 == null && judge3 == null) {
+//                isOpenWithOut1 = true
+//            }
+//
+//            val judge4 = intent.getStringExtra("version_name")
+//            val judge5 = intent.getStringExtra("KAppId")
+//            val judge6 = intent.getStringExtra("srcDisplayname")
+//            MyLog.log("judge4:" + judge4 + "judge5:" + judge5 + "judge6:" + judge6)
+//
+//            if (judge4 != null && judge5 != null && judge6 == null) {
+//                isOpenWithOut2 = true
+//            }
+//
+//            val judge7 = intent.getStringExtra("srcUsername")
+//            val judge8 = intent.getStringExtra("message_index")
+//            val judge9 = intent.getStringExtra("message_id")
+//            MyLog.log("judge7:" + judge7 + "judge8:" + judge8 + "judge9:" + judge9)
+//
+//            if (judge7 == null && judge8 == null && judge9 == null) {
+//                isOpenWithOut3 = true
+//            }
 
-            if (judge1 == null && judge2 == null && judge3 == null) {
-                isOpenWithOut1 = true
-            }
+            MyLog.log("extras:" + intent.extras)
 
-            val judge4 = intent.getStringExtra("version_name")
-            val judge5 = intent.getStringExtra("KAppId")
-            val judge6 = intent.getStringExtra("srcDisplayname")
-            MyLog.log("judge4:" + judge4 + "judge5:" + judge5 + "judge6:" + judge6)
+            val activity = param.thisObject as Activity
 
-            if (judge4 != null && judge5 != null && judge6 == null) {
-                isOpenWithOut2 = true
-            }
+            val dialog = AlertDialog.Builder(activity)
+                    .setItems(arrayOf("微信浏览器打开", "手机浏览器打开")) { dialogInterface, which ->
+                        when (which) {
+                            0 -> {
+                                intent.putExtra("exlink", true)
+                                activity.startActivity(intent)
+                            }
+                            1 -> {
+                                openUrl(param, uri)
+                            }
+                        }
+                    }.create()
+            dialog.show()
 
-            val judge7 = intent.getStringExtra("srcUsername")
-            val judge8 = intent.getStringExtra("message_index")
-            val judge9 = intent.getStringExtra("message_id")
-            MyLog.log("judge7:" + judge7 + "judge8:" + judge8 + "judge9:" + judge9)
+            param.result = null
 
-            if (judge7 == null && judge8 == null && judge9 == null) {
-                isOpenWithOut3 = true
-            }
+//            Toast.makeText((param.thisObject as Activity),"$uri",Toast.LENGTH_SHORT).show()
 
-            if (isOpenWithOut1 || isOpenWithOut2 || isOpenWithOut3) {
-                MyLog.log("判断可以用外置浏览器打开")
-                openUrl(param, uri)
-            } else {
-                MyLog.log("判断需要用内置浏览器打开")
-            }
+
+//            if (isOpenWithOut1 || isOpenWithOut2 || isOpenWithOut3) {
+//                MyLog.log("判断可以用外置浏览器打开")
+//                openUrl(param, uri)
+//            } else {
+//                MyLog.log("判断需要用内置浏览器打开")
+//            }
         }
 
     }
