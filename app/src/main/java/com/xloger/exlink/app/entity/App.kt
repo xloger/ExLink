@@ -1,7 +1,5 @@
 package com.xloger.exlink.app.entity
 
-import java.io.Serializable
-
 /**
  * Created by xloger on 1月1日.
  * Author:xloger
@@ -15,4 +13,4 @@ data class App(var appName: String,
                var isUserBuild: Boolean = true,
                var isTest: Boolean = false)
 
-data class AppList(val list: List<App>)
+data class AppList(val list: MutableList<App>)

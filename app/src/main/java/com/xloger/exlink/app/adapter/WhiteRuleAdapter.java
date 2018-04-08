@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.xloger.exlink.app.R;
 
 import java.util.ArrayList;
@@ -65,8 +66,8 @@ public class WhiteRuleAdapter extends BaseAdapter {
         }else {
             view=convertView;
         }
-        TextView urlText= (TextView) view.findViewById(R.id.item_white_url);
-        ImageView delImg= (ImageView) view.findViewById(R.id.item_white_del);
+        TextView urlText= view.findViewById(R.id.item_white_url);
+        ImageView delImg= view.findViewById(R.id.item_white_del);
         urlText.setText(whiteList.get(position).toString());
         delImg.setOnClickListener(new View.OnClickListener() {
             @Override

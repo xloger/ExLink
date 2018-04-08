@@ -12,9 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.xloger.exlink.app.HookMain;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
 import com.xloger.exlink.app.entity.App;
@@ -22,12 +25,12 @@ import com.xloger.exlink.app.util.AppUtil;
 import com.xloger.exlink.app.util.JSONFile;
 import com.xloger.exlink.app.util.KotlinTool;
 import com.xloger.exlink.app.util.MyLog;
-import com.xloger.exlink.app.util.Tool;
 import com.xloger.exlink.app.util.ViewTool;
 import com.xloger.exlink.app.view.AddWhiteDialog;
+import com.xloger.exlink.app.view.ExportJsonDialog;
+import com.xloger.exlink.app.view.ImportJsonDialog;
 import com.xloger.exlink.app.view.StepOneDialog;
 import com.xloger.xlib.tool.XPermission;
-import com.xloger.xlib.tool.Xlog;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -94,7 +97,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-        appList = jsonFile.getJson();
+        appList.clear();
+        appList.addAll(jsonFile.getJson());
         if (appAdapter != null) {
             appAdapter.notifyDataSetChanged();
         }
@@ -105,16 +109,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onPause() {
         super.onPause();
 //        MyLog.log("保存本次数据：" + new KotlinTool().listAppToSimpleString(appList));
+        updateList();
+    }
+
+    public void updateList() {
         jsonFile.saveJson(appList);
+        MyLog.log("更新 List:" + new KotlinTool().listAppToSimpleString(appList));
+        appAdapter.notifyDataSetChanged();
+        ViewTool.setListViewHeightBasedOnChildren(listView);
     }
 
     private void initView() {
-        listView = (ListView) findViewById(R.id.app_list);
-        addApp = (FloatingActionButton) findViewById(R.id.add_app);
-        show = (Button) findViewById(R.id.show);
-        readme = (TextView) findViewById(R.id.main_read_me);
+        listView = findViewById(R.id.app_list);
+        addApp = findViewById(R.id.add_app);
+        show = findViewById(R.id.show);
+        readme = findViewById(R.id.main_read_me);
 
-        TextView hookText = (TextView) findViewById(R.id.hook_text);
+        findViewById(R.id.export_json).setOnClickListener(this);
+        findViewById(R.id.import_json).setOnClickListener(this);
+        findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateList();
+            }
+        });
+
+        TextView hookText = findViewById(R.id.hook_text);
         hookText.setText("是否生效：");
     }
 
@@ -153,8 +173,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     @Override
                     public void onPositiveClick(App app) {
                         appList.add(app);
-                        appAdapter.notifyDataSetChanged();
-//                        AppUtil.INSTANCE.save(appList);
+                        updateList();
                         ViewTool.setListViewHeightBasedOnChildren(listView);
                     }
                 });
@@ -166,7 +185,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.show:
-                TextView textView = (TextView) MainActivity.this.findViewById(R.id.show_text);
+                TextView textView = MainActivity.this.findViewById(R.id.show_text);
                 if (isShowingDebug) {
                     textView.setText("");
                 } else {
@@ -174,6 +193,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     textView.setTextIsSelectable(true);
                 }
                 isShowingDebug = !isShowingDebug;
+                break;
+            case R.id.export_json:
+                new ExportJsonDialog(context).showDialog();
+                break;
+            case R.id.import_json:
+                new ImportJsonDialog(this,appList).showDialog();
                 break;
         }
     }
@@ -186,7 +211,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             if (view instanceof CheckBox) {
                 CheckBox checkBox = (CheckBox) view;
                 appList.get(position).setUse(checkBox.isChecked());
-//                AppUtil.INSTANCE.save(appList);
+                updateList();
                 Toast.makeText(context, getString(R.string.item_check_text), Toast.LENGTH_SHORT).show();
             } else {
                 onLongClick(position, view);
@@ -197,7 +222,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         @Override
         public void onLongClick(final int position, View view) {
             String[] longClickList = new String[]{getString(R.string.item_click_text1), getString(R.string.item_click_text2), getString(R.string.item_click_text3)};
-//            appList= AppUtil.INSTANCE.getAppList();
             if (appList.get(position).isTest()) {
                 longClickList = new String[]{getString(R.string.item_click_text1), getString(R.string.item_click_text2), getString(R.string.item_click_text3), getString(R.string.reset_rule)};
             }
@@ -209,7 +233,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == 0) {
                         appList.get(position).setTest(true);
-//                        FileUtil.getInstance().saveObject(Constant.APP_FILE_NAME,appList);
+                        updateList();
 //                        openStepTwo();
                         Intent intent = new Intent(context, EditRuleActivity.class);
                         intent.putExtra("position", position);
@@ -224,7 +248,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                             @Override
                             public void saveWhiteList() {
-//                                AppUtil.INSTANCE.save(appList);
+                                updateList();
                             }
                         });
                         android.support.v7.app.AlertDialog.Builder builder = addWhiteDialog.getBuilder();
@@ -235,13 +259,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             return;
                         }
                         appList.remove(position);
-//                        AppUtil.INSTANCE.save(appList);
+                        updateList();
                         ViewTool.setListViewHeightBasedOnChildren(listView);
                         appAdapter.notifyDataSetChanged();
                     } else if (which == 3) {
                         appList.get(position).setTest(false);
-//                        AppUtil.INSTANCE.save(appList);
-                        appAdapter.notifyDataSetChanged();
+                        updateList();
                     }
                 }
             });

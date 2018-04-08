@@ -103,10 +103,6 @@ class StepOneDialog(context: Context) : AlertDialog(context), View.OnClickListen
             builder.create().show()
         }
 
-        override fun onProgressUpdate(vararg values: Void) {
-            super.onProgressUpdate(*values)
-        }
-
         override fun doInBackground(vararg params: Void): List<AndroidApp> {
             val appList = AndroidAppUtil.getUserAppInfo(context)
             return AndroidAppUtil.getUserAppInfo(context)

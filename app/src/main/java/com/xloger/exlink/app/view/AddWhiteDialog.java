@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.WhiteRuleAdapter;
 import com.xloger.exlink.app.entity.App;
@@ -36,8 +37,8 @@ public class AddWhiteDialog extends AlertDialog {
     public Builder getBuilder(){
         Builder builder=new Builder(context);
         final View addWhiteView = LayoutInflater.from(context).inflate(R.layout.add_white, null);
-        whiteNameEditText = (EditText) addWhiteView.findViewById(R.id.add_white_name);
-        ListView listView= (ListView) addWhiteView.findViewById(R.id.add_white_list);
+        whiteNameEditText = addWhiteView.findViewById(R.id.add_white_name);
+        ListView listView= addWhiteView.findViewById(R.id.add_white_list);
 
         adapter = new WhiteRuleAdapter(context, app.getWhiteUrl(), new WhiteRuleAdapter.WhiteRuleAdapterCallBack() {
             @Override

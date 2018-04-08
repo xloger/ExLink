@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.util.MyLog;
 
@@ -18,7 +19,7 @@ public class ReadMeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_me);
 
-        WebView webView= (WebView) findViewById(R.id.read_me_web_view);
+        WebView webView= findViewById(R.id.read_me_web_view);
         WebSettings webSettings = webView.getSettings();
         webSettings.setSupportZoom(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);

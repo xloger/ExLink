@@ -2,27 +2,19 @@ package com.xloger.exlink.app
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
-
 import com.xloger.exlink.app.entity.App
 import com.xloger.exlink.app.entity.Rule
-import com.xloger.exlink.app.util.*
-import com.xloger.xlib.tool.Xlog
-
+import com.xloger.exlink.app.util.JSONFile
+import com.xloger.exlink.app.util.MyLog
+import com.xloger.exlink.app.util.StreamUtil
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
-import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedHelpers
-import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
-
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
-import de.robv.android.xposed.XposedHelpers.getObjectField
+import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.util.*
-import kotlin.properties.Delegates
 
 /**
  * Created by xloger on 1月2日.

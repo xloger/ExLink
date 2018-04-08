@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.xloger.exlink.app.BuildConfig;
 import com.xloger.exlink.app.R;
 
@@ -22,7 +23,7 @@ public class AboutActivity extends BaseActivity {
         setContentView(R.layout.activity_about);
 
         //自动匹配版本号
-        TextView versions= (TextView) findViewById(R.id.about_version);
+        TextView versions= findViewById(R.id.about_version);
         String versionName = BuildConfig.VERSION_NAME;
         versions.setText("版本号："+versionName);
 

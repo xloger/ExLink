@@ -3,6 +3,7 @@ package com.xloger.exlink.app.view;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+
 import com.xloger.exlink.app.R;
 
 /**

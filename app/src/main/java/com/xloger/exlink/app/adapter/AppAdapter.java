@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.activity.MainActivity;
 import com.xloger.exlink.app.entity.App;
@@ -60,12 +61,12 @@ public class AppAdapter extends BaseAdapter implements View.OnClickListener, Vie
         ViewHolder viewHolder= (ViewHolder) ret.getTag(R.id.app_adapter_view_holder);
         if (viewHolder == null) {
             viewHolder=new ViewHolder();
-            viewHolder.layout= (LinearLayout) ret.findViewById(R.id.app_layout);
-            viewHolder.use= (CheckBox) ret.findViewById(R.id.app_use);
-            viewHolder.name= (TextView) ret.findViewById(R.id.app_name);
-            viewHolder.packageName= (TextView) ret.findViewById(R.id.app_package_name);
-            viewHolder.system= (TextView) ret.findViewById(R.id.app_system);
-            viewHolder.test= (TextView) ret.findViewById(R.id.app_test);
+            viewHolder.layout= ret.findViewById(R.id.app_layout);
+            viewHolder.use= ret.findViewById(R.id.app_use);
+            viewHolder.name= ret.findViewById(R.id.app_name);
+            viewHolder.packageName= ret.findViewById(R.id.app_package_name);
+            viewHolder.system= ret.findViewById(R.id.app_system);
+            viewHolder.test= ret.findViewById(R.id.app_test);
             ret.setTag(R.id.app_adapter_view_holder,viewHolder);
         }
 

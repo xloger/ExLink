@@ -24,9 +24,7 @@ class Rule(var activityName: String?, var extrasKey: String?) : Serializable {
             return false
         }
 
-        return if (extrasKey != o.extrasKey) {
-            false
-        } else true
+        return extrasKey == o.extrasKey
 
     }
 

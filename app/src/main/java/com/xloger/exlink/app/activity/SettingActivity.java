@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.util.FileUtil;
@@ -20,8 +21,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        hiddenIcon = (CheckBox) findViewById(R.id.setting_hidden_icon);
-        debugMode = (CheckBox) findViewById(R.id.setting_debug);
+        hiddenIcon = findViewById(R.id.setting_hidden_icon);
+        debugMode = findViewById(R.id.setting_debug);
 
         hiddenIcon.setOnClickListener(this);
         debugMode.setOnClickListener(this);

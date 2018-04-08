@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.util.FileUtil;
@@ -37,11 +38,11 @@ public class StepTwoActivity extends BaseActivity implements View.OnClickListene
             setTitle(getResources().getString(R.string.step_two));
         }
 
-        urlTextView = (TextView) findViewById(R.id.step_two_url);
-        differentUrlEditText = (EditText) findViewById(R.id.step_two_different_url);
-        differentUrlButton = (Button) findViewById(R.id.step_two_different_button);
-        Button customBtn=(Button)findViewById(R.id.step_two_custom_btn);
-        Button defaultBtn=(Button)findViewById(R.id.step_two_back_default);
+        urlTextView = findViewById(R.id.step_two_url);
+        differentUrlEditText = findViewById(R.id.step_two_different_url);
+        differentUrlButton = findViewById(R.id.step_two_different_button);
+        Button customBtn= findViewById(R.id.step_two_custom_btn);
+        Button defaultBtn= findViewById(R.id.step_two_back_default);
         customLayout = findViewById(R.id.step_two_custom_layout);
         urlTextView.setOnClickListener(this);
         differentUrlButton.setOnClickListener(this);

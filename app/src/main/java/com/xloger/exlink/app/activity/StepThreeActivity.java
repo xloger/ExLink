@@ -2,11 +2,11 @@ package com.xloger.exlink.app.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.entity.Rule;
-import com.xloger.exlink.app.util.AppUtil;
 import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.JSONFile;
 

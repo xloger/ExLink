@@ -1,14 +1,13 @@
 package com.xloger.exlink.app.util
 
 import android.annotation.SuppressLint
-import android.os.Environment
+import android.os.Build
 import com.google.gson.Gson
 import com.xloger.exlink.app.entity.App
 import com.xloger.exlink.app.entity.AppList
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.IOException
-import android.os.Build
 
 
 /**
@@ -40,9 +39,9 @@ class JSONFile {
         }
 
     //兼容 Java 代码
-    fun getJson() : List<App> = getJson("default")
+    fun getJson() : MutableList<App> = getJson("default")
 
-    fun getJson(from: String = "default"): List<App> {
+    fun getJson(from: String = "default"): MutableList<App> {
         try {
             return if (file.exists() && file.readText().isNotEmpty()) {
                 Gson().fromJson(file.readText(), AppList::class.java).list
@@ -59,7 +58,7 @@ class JSONFile {
                 MyLog.e("${file.path}没找到，将初始化")
                 val isCrate = saveJson(appList)
                 if (!isCrate) {
-                    appList = emptyList()
+                    appList = mutableListOf()
                 }
             }
 
@@ -69,7 +68,7 @@ class JSONFile {
     }
 
     @SuppressLint("SetWorldReadable")
-    fun saveJson(list: List<App>): Boolean {
+    fun saveJson(list: MutableList<App>): Boolean {
         if (!file.exists()) {
             val isSuccess = try {
                 file.createNewFile()

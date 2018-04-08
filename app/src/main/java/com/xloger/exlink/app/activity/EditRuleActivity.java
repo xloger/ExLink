@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.WhiteRuleAdapter;
 import com.xloger.exlink.app.entity.App;
-import com.xloger.exlink.app.util.AppUtil;
 import com.xloger.exlink.app.util.JSONFile;
 
 import java.util.List;
@@ -44,8 +43,8 @@ public class EditRuleActivity extends BaseActivity {
     }
 
     private void initView() {
-        ListView listView = (ListView) findViewById(R.id.edit_rule_list);
-        Button addBtn = (Button) findViewById(R.id.edit_rule_add);
+        ListView listView = findViewById(R.id.edit_rule_list);
+        Button addBtn = findViewById(R.id.edit_rule_add);
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.entity.AndroidApp;
 
@@ -37,11 +38,11 @@ public class ChooseAppAdapter extends ArrayAdapter<AndroidApp> {
 
         AndroidApp app=getItem(position);
 
-        TextView nameText = (TextView) view.findViewById(R.id.choose_name);
+        TextView nameText = view.findViewById(R.id.choose_name);
         nameText.setText(app.getName());
-        TextView packageText = (TextView) view.findViewById(R.id.choose_package_name);
+        TextView packageText = view.findViewById(R.id.choose_package_name);
         packageText.setText(app.getPackageName());
-        ImageView icon = (ImageView) view.findViewById(R.id.choose_icon);
+        ImageView icon = view.findViewById(R.id.choose_icon);
         icon.setImageDrawable(app.getIcon());
 
 

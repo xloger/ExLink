@@ -6,7 +6,12 @@ import android.net.Uri;
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.entity.Rule;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URLDecoder;
 import java.util.List;
@@ -80,10 +85,7 @@ public class StreamUtil {
             return true;
         }
 
-        if (s1.startsWith(s2) || s2.startsWith(s1)) {
-            return true;
-        }
-        return false;
+        return s1.startsWith(s2) || s2.startsWith(s1);
     }
 
     public static String parseUrl(String s) {
@@ -155,11 +157,7 @@ public class StreamUtil {
         Uri shortUri = Uri.parse(shortUrl);
         //假如不是个链接，那直接看是否包含吧
         if (shortUri.getHost() == null) {
-            if (longUrl.contains(shortUrl)) {
-                return true;
-            } else {
-                return false;
-            }
+            return longUrl.contains(shortUrl);
         }
 
         if (shortUri.getPath() == null) {
@@ -206,10 +204,7 @@ public class StreamUtil {
         if (string == null || string.equals("")) {
             return false;
         }
-        if (string.contains("http") || string.contains("sinaweibo://")) {
-            return true;
-        }
-        return false;
+        return string.contains("http") || string.contains("sinaweibo://");
     }
 
     public static boolean isContain(List<Rule> ruleList, String ruleKey) {

@@ -1,13 +1,11 @@
 package com.xloger.exlink.app.util
 
-import com.xloger.exlink.app.Constant
+import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.xloger.exlink.app.entity.App
+import com.xloger.exlink.app.entity.AppList
 import com.xloger.exlink.app.entity.Rule
-import org.jetbrains.annotations.NotNull
-
-import java.util.HashSet
-import java.util.LinkedList
-import kotlin.properties.Delegates
+import java.util.*
 
 
 /**
@@ -37,7 +35,7 @@ class AppUtil {
 //        AppUtil.appList = appList
 //    }
 
-    fun initAppData(): List<App> {
+    fun initAppData(): MutableList<App> {
         MyLog.log("进行了初始化规则")
         val apps = LinkedList<App>()
         val qq = App(
@@ -106,8 +104,65 @@ class AppUtil {
         return apps
     }
 
-    fun getAppList() : List<App> = JSONFile().getJson()
-    fun save(list: List<App>) = JSONFile().saveJson(list)
+    @Deprecated("不推荐使用该方法，统一使用JSONFile", ReplaceWith("JSONFile().getJson()"))
+    fun getAppList(): MutableList<App> = JSONFile().getJson()
+
+    @Deprecated("不推荐使用该方法，统一使用JSONFile", ReplaceWith("JSONFile().saveJson(list)"))
+    fun save(list: MutableList<App>) = JSONFile().saveJson(list)
+
+    fun addJson(localAppList: MutableList<App>, string: String): Boolean {
+        if (string.isNullOrEmpty()) {
+            return false
+        }
+        val importAppList: AppList = try {
+            Gson().fromJson(string, AppList::class.java)
+        } catch (e: JsonSyntaxException) {
+            MyLog.e("传入的 json 异常：${e.message}")
+            AppList(mutableListOf())
+            return false
+        }
+
+//        val localAppList = JSONFile().getJson()
+//        val mutableList = localAppList.toMutableList()
+
+        for (newApp in importAppList.list) {
+            var isAdd = false
+            for (localApp in localAppList) {
+                if (localApp.packageName == newApp.packageName) {
+                    if (localApp.rules == null) {
+                        localApp.rules = newApp.rules
+                    } else {
+                        val mutableSet = localApp.rules.toMutableSet()
+                        mutableSet.addAll(newApp.rules)
+                        localApp.rules = mutableSet.toSet()
+                    }
+                    if (localApp.whiteUrl == null) {
+                        localApp.whiteUrl = newApp.whiteUrl
+                    } else {
+                        val mutableSet = localApp.whiteUrl.toMutableSet()
+                        mutableSet.addAll(newApp.whiteUrl)
+                        localApp.whiteUrl = mutableSet
+                    }
+                    isAdd = true
+                }
+            }
+            if (!isAdd) {
+                localAppList.add(newApp)
+            }
+
+        }
+
+//        MyLog.log("保存${mutableList.toSimpleString()}")
+//        localAppList.clear()
+//        localAppList.addAll(mutableList)
+//        JSONFile().saveJson(mutableList.toList())
+        return true
+
+    }
+
+    fun exportJson(): String {
+        return Gson().toJson(AppList(JSONFile().getJson()))
+    }
 
     companion object {
         val INSTANCE = AppUtil()
