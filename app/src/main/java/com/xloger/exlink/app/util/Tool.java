@@ -9,7 +9,7 @@ package com.xloger.exlink.app.util;
 public class Tool {
     public static String test = "内容测试";
 
-    public boolean testHook(){
+    public static boolean isHook(){
         return false;
     }
 }

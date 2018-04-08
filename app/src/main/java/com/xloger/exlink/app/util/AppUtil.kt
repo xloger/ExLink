@@ -125,6 +125,11 @@ class AppUtil {
 //        val localAppList = JSONFile().getJson()
 //        val mutableList = localAppList.toMutableList()
 
+        if (importAppList == null || importAppList.list == null) {
+            MyLog.e("list 为 null：${importAppList.toString()}")
+            return false
+        }
+
         for (newApp in importAppList.list) {
             var isAdd = false
             for (localApp in localAppList) {
@@ -160,8 +165,8 @@ class AppUtil {
 
     }
 
-    fun exportJson(): String {
-        return Gson().toJson(AppList(JSONFile().getJson()))
+    fun exportJson(appList: MutableList<App> = JSONFile().getJson()): String {
+        return Gson().toJson(AppList(appList))
     }
 
     companion object {

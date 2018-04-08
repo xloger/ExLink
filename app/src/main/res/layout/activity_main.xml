@@ -38,45 +38,14 @@
                 android:textSize="18sp"
                 />
 
-            <Button
-                android:id="@+id/show"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/show"
-                android:visibility="gone"
-                />
-            <Button
-                android:id="@+id/export_json"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="导出规则"
-                />
-            <Button
-                android:id="@+id/import_json"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="导入规则"
-                />
-            <Button
-                android:id="@+id/update"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="刷新"
-                />
-
-            <TextView
-                android:id="@+id/show_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                />
-
             <TextView
                 android:id="@+id/hook_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="如果你看到这几个字说明没被启用"
+                android:visibility="gone"
                 />
+
 
         </LinearLayout>
 

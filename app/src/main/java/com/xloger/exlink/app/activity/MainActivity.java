@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xloger.exlink.app.HookSelf;
 import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
 import com.xloger.exlink.app.entity.App;
@@ -25,6 +26,7 @@ import com.xloger.exlink.app.util.AppUtil;
 import com.xloger.exlink.app.util.JSONFile;
 import com.xloger.exlink.app.util.KotlinTool;
 import com.xloger.exlink.app.util.MyLog;
+import com.xloger.exlink.app.util.Tool;
 import com.xloger.exlink.app.util.ViewTool;
 import com.xloger.exlink.app.view.AddWhiteDialog;
 import com.xloger.exlink.app.view.ExportJsonDialog;
@@ -44,7 +46,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private Context context;
 
-    private Button show;
     private TextView readme;
     private JSONFile jsonFile;
 
@@ -108,13 +109,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onPause() {
         super.onPause();
-//        MyLog.log("保存本次数据：" + new KotlinTool().listAppToSimpleString(appList));
         updateList();
     }
 
     public void updateList() {
         jsonFile.saveJson(appList);
-        MyLog.log("更新 List:" + new KotlinTool().listAppToSimpleString(appList));
+//        MyLog.log("更新 List:" + new KotlinTool().listAppToSimpleString(appList));
         appAdapter.notifyDataSetChanged();
         ViewTool.setListViewHeightBasedOnChildren(listView);
     }
@@ -122,20 +122,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private void initView() {
         listView = findViewById(R.id.app_list);
         addApp = findViewById(R.id.add_app);
-        show = findViewById(R.id.show);
         readme = findViewById(R.id.main_read_me);
 
-        findViewById(R.id.export_json).setOnClickListener(this);
-        findViewById(R.id.import_json).setOnClickListener(this);
-        findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                updateList();
-            }
-        });
+//        MyLog.log("View isHook:" + Tool.isHook());
+//        if (!Tool.isHook()) {
+//            findViewById(R.id.hook_text).setVisibility(View.VISIBLE);
+//        }
 
-        TextView hookText = findViewById(R.id.hook_text);
-        hookText.setText("是否生效：");
     }
 
 
@@ -153,14 +146,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         SharedPreferences sp = getSharedPreferences("config", 0);
         boolean isDebugMode = sp.getBoolean("isDebugMode", false);
 
-        if (isDebugMode) {
-            show.setVisibility(View.VISIBLE);
-            show.setClickable(true);
-            show.setOnClickListener(this);
-        } else {
-            show.setVisibility(View.GONE);
-            show.setClickable(false);
-        }
 
     }
 
@@ -183,22 +168,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.main_read_me:
                 Intent intent = new Intent(context, ReadMeActivity.class);
                 startActivity(intent);
-                break;
-            case R.id.show:
-                TextView textView = MainActivity.this.findViewById(R.id.show_text);
-                if (isShowingDebug) {
-                    textView.setText("");
-                } else {
-                    textView.setText(appList.toString());
-                    textView.setTextIsSelectable(true);
-                }
-                isShowingDebug = !isShowingDebug;
-                break;
-            case R.id.export_json:
-                new ExportJsonDialog(context).showDialog();
-                break;
-            case R.id.import_json:
-                new ImportJsonDialog(this,appList).showDialog();
                 break;
         }
     }
@@ -295,6 +264,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.action_about:
                 intent = new Intent(context, AboutActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.action_export_json:
+                new ExportJsonDialog(context).showDialog();
+                break;
+            case R.id.action_import_json:
+                new ImportJsonDialog(this, appList).showDialog();
                 break;
             default:
                 return true;

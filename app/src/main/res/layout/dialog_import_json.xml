@@ -6,18 +6,11 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="请选择你要导出的规则，然后点击「复制到剪切板」或直接从编辑框复制。"
+        android:text="将导入的内容粘贴到下方编辑框即可。"
         />
 
-    <ListView
-        android:id="@+id/export_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </ListView>
-
     <EditText
-        android:id="@+id/export_edit"
+        android:id="@+id/import_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
