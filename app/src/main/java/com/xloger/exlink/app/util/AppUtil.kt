@@ -95,8 +95,9 @@ class AppUtil {
         val weChat = App(
                 appName = "微信",
                 packageName = "com.tencent.mm",
-                rules = setOf(Rule("com.tencent.mm.ui.LauncherUI", "rawUrl")),
-                whiteUrl = setOf("open.weixin.qq.com", "weixin.qq.com"),
+                rules = setOf(Rule("com.tencent.mm.ui.LauncherUI", "rawUrl"),
+                        Rule("com.tencent.mm.plugin.sns.ui.SnsTimeLineUI", "rawUrl")),
+//                whiteUrl = setOf("open.weixin.qq.com", "weixin.qq.com"),
                 isUserBuild = false
         )
         apps.add(weChat)

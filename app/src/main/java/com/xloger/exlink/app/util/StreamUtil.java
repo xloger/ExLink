@@ -1,7 +1,10 @@
 package com.xloger.exlink.app.util;
 
 
+import android.media.MediaCodec;
 import android.net.Uri;
+import android.util.Patterns;
+import android.webkit.URLUtil;
 
 import com.xloger.exlink.app.Constant;
 import com.xloger.exlink.app.entity.Rule;
@@ -173,6 +176,19 @@ public class StreamUtil {
         return false;
     }
 
+    public static boolean isUrl(String url) {
+        if (Patterns.WEB_URL.matcher(url).matches() || URLUtil.isValidUrl(url)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 针对特殊格式的链接进行特殊处理。注意已经默认传入 string为链接了，所以将不再返回 null
+     * @param url
+     * @return
+     */
     public static String clearUrl(String url) {
         String ret = null;
 
@@ -194,6 +210,8 @@ public class StreamUtil {
                     ret = "http://m.weibo.cn/p/index/?containerid=" + containerid;
                 }
             }
+        } else {
+            ret = url;
         }
 
 

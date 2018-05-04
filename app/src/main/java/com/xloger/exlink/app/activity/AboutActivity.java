@@ -27,13 +27,13 @@ public class AboutActivity extends BaseActivity {
         String versionName = BuildConfig.VERSION_NAME;
         versions.setText("版本号："+versionName);
 
-        findViewById(R.id.about_qq).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager cmb = (ClipboardManager) AboutActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                cmb.setText("429861674"); //将内容放入粘贴管理器,在别的地方长按选择"粘贴"即可
-                Toast.makeText(AboutActivity.this,getString(R.string.copy_succeed),Toast.LENGTH_SHORT).show();
-            }
-        });
+//        findViewById(R.id.about_qq).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ClipboardManager cmb = (ClipboardManager) AboutActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+//                cmb.setText("429861674"); //将内容放入粘贴管理器,在别的地方长按选择"粘贴"即可
+//                Toast.makeText(AboutActivity.this,getString(R.string.copy_succeed),Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }

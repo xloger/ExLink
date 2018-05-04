@@ -37,8 +37,8 @@ android {
         applicationId "com.xloger.exlink.app"
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 17
-        versionName "2.1.2"
+        versionCode 18
+        versionName "3.0"
         signingConfig signingConfigs.config
     }
     compileOptions {
@@ -71,4 +71,5 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compile 'com.google.code.gson:gson:2.8.0'
     compile(name: 'app-release', ext: 'aar')
+
 }

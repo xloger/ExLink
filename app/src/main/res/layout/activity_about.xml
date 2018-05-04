@@ -24,25 +24,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="更新说明：\n我们一路奋战，不是为了改变世界，而是为了不让这个世界改变我们。——《熔炉》"
+            android:text="更新说明：\n我们一路奋战，不是为了改变世界，而是为了不让这个世界改变我们。——《熔炉》\n几年没更新了，有客观原因，但主要还是我的锅，我错了Orz...精力都在工作和玩上了，丢弃了我的理想_(:з)∠)_...还有啊，这次更新会导致以前的规则丢失，很对不起诸位，因为以前是直接存序列化的对象，这次我改动比较大，原先的我没法解析了...不过这次我改用 json 存了，这种问题不会发送两次的！（flag...）\n还有微博贴吧的兼容性我还没测，我还是比较想去睡觉...先丢个新版本吧"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="本次更新内容与待完善内容:\n完善了对微博的支持；优化了一些杂七杂八的小细节。\n以及因为重构了代码所以可能会有一些bug.\n待完善的内容...大概就是一些App的兼容性吧..."
-            android:visibility="gone"
+            android:text="本次更新内容:使用 kotlin 重构了 App，完善了微信的支持，添加了「导入/导出规则」功能。"
             />
 
-        <TextView
-            android:id="@+id/about_qq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="以及一个理论上的反馈交流 QQ 群:429861674"
-            android:autoLink="all"
-            android:visibility="gone"
-            />
 
         <TextView
             android:id="@+id/about_version"

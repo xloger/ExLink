@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.xloger.exlink.app.entity.App
 import com.xloger.exlink.app.entity.Rule
 import com.xloger.exlink.app.util.JSONFile
@@ -41,7 +42,8 @@ class HookMain : IXposedHookLoadPackage {
             if (lpparam.packageName == packageName && isUse) {
                 index = i
                 MyLog.log("进入$appName($packageName)")
-                //                findAndHookMethod(Activity.class, "startActivity", Intent.class, Bundle.class, xc_methodHook);
+//                findAndHookMethod(Activity::class.java, "startActivity", Intent::class.java, xc_methodHook)
+                findAndHookMethod(AppCompatActivity::class.java, "startActivityForResult", Intent::class.java, Int::class.javaPrimitiveType, Bundle::class.java, xc_methodHook)
                 findAndHookMethod(Activity::class.java, "startActivityForResult", Intent::class.java, Int::class.javaPrimitiveType, Bundle::class.java, xc_methodHook)
                 break
             }
@@ -71,6 +73,7 @@ class HookMain : IXposedHookLoadPackage {
 
         @Throws(Throwable::class)
         override fun beforeHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+            MyLog.log("调用 startActivityForResult")
             val booleanExtra = (param!!.args[0] as Intent).getBooleanExtra("exlink", false)
             if (booleanExtra) {
                 MyLog.log("递归，不处理")
@@ -117,16 +120,21 @@ class HookMain : IXposedHookLoadPackage {
             var exUrl: String = exUrlList[0]
 
             //Url规范化
-            if (!exUrl.startsWith("http")) {
-                MyLog.log("Url不符合规范，正在二次分析")
-                MyLog.log("当前externalUrl:" + exUrl)
-                exUrl = StreamUtil.clearUrl(exUrl)
-                MyLog.log("处理后externalUrl:" + exUrl)
+            if (StreamUtil.isUrl(exUrl)) {
+                if (!exUrl.startsWith("http")) {
+                    MyLog.log("Url不符合规范，正在二次分析")
+                    MyLog.log("当前externalUrl:" + exUrl)
+                    exUrl = StreamUtil.clearUrl(exUrl)
+                    MyLog.log("处理后externalUrl:" + exUrl)
 
-                if (exUrl.isBlank()) {
-                    MyLog.log("Error：无法解析url")
-                    return
+                    if (exUrl.isBlank()) {
+                        MyLog.log("Error：无法解析url")
+                        return
+                    }
                 }
+            } else {
+                MyLog.log("$exUrl 不是链接，不处理")
+                return
             }
 
             val uri = Uri.parse(exUrl)
@@ -160,7 +168,7 @@ class HookMain : IXposedHookLoadPackage {
                 return intent.getStringExtra(rule.extrasKey)
             } else {
                 val bundle = getBundle(param)
-                if (bundle != null) {
+                if (bundle?.getString(rule.extrasKey) != null) {
                     return bundle.getString(rule.extrasKey)
                 }
             }
@@ -211,7 +219,7 @@ class HookMain : IXposedHookLoadPackage {
             var extras = intent.extras
             MyLog.log(" - With extras: $extras")
             //从 intent 中获取
-            if (!isEqual && StreamUtil.isContain(extras.toString())) {
+            if (!isEqual && extras != null && StreamUtil.isContain(extras.toString())) {
                 MyLog.log("链接存在于 extras 中")
                 type = 2
                 isEqual = true
@@ -337,6 +345,12 @@ class HookMain : IXposedHookLoadPackage {
 //            } else {
 //                MyLog.log("判断需要用内置浏览器打开")
 //            }
+        }
+
+
+        private fun intentToString(intent: Intent) {
+            MyLog.log(intent.toString())
+            MyLog.log(intent.extras?.toString())
         }
 
     }
