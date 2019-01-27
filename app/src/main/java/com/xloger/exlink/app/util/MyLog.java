@@ -52,7 +52,7 @@ public class MyLog {
     }
 
     public static void e(String s) {
-        if (true) {
+        if (checkIsShowLog()) {
             try {
                 XposedBridge.log("[ExLink Error] " + s);
             } catch (NoClassDefFoundError error) {
