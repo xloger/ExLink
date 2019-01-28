@@ -118,6 +118,7 @@ class AppUtil {
         val importAppList: AppList = try {
             Gson().fromJson(string, AppList::class.java)
         } catch (e: JsonSyntaxException) {
+            MyLog.e("传入的 json 异常：${string}")
             MyLog.e("传入的 json 异常：${e.message}")
             AppList(mutableListOf())
             return false

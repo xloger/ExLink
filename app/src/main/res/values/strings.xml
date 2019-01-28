@@ -51,6 +51,7 @@
     <string name="reset_rule">取消[待确认]状态</string>
     <string name="import_json">导入规则</string>
     <string name="export_json">导出规则</string>
+    <string name="import_old_json">导入旧版规则</string>
 
 
 </resources>

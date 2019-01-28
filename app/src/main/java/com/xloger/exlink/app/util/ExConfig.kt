@@ -1,10 +1,12 @@
 package com.xloger.exlink.app.util
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import com.xloger.exlink.app.Constant
 import de.robv.android.xposed.XSharedPreferences
+import java.io.File
 
 /**
  * Created on 2019/1/28 3:09.
@@ -16,8 +18,11 @@ object ExConfig {
 
     val fileName = "exconfig"
 
+    @SuppressLint("SetWorldReadable")
     fun init(context: Context) {
-        sp = context.getSharedPreferences(fileName, Activity.MODE_WORLD_READABLE)
+        sp = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
+        val prefsFile = File(context.getFilesDir().toString() + "/../shared_prefs/" + fileName + ".xml")
+        prefsFile.setReadable(true, false)
     }
 
     fun saveFromApp(key: String, value: String) {

@@ -23,6 +23,7 @@ import com.xloger.exlink.app.R;
 import com.xloger.exlink.app.adapter.AppAdapter;
 import com.xloger.exlink.app.entity.App;
 import com.xloger.exlink.app.util.AppUtil;
+import com.xloger.exlink.app.util.FileUtil;
 import com.xloger.exlink.app.util.JSONFile;
 import com.xloger.exlink.app.util.KotlinTool;
 import com.xloger.exlink.app.util.MyLog;
@@ -33,8 +34,12 @@ import com.xloger.exlink.app.view.ExportJsonDialog;
 import com.xloger.exlink.app.view.ImportJsonDialog;
 import com.xloger.exlink.app.view.StepOneDialog;
 import com.xloger.xlib.tool.XPermission;
+import com.xloger.xlib.tool.Xlog;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -270,6 +275,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.action_import_json:
                 new ImportJsonDialog(this, appList).showDialog();
+                break;
+            case R.id.action_import_old_json:
+                byte[] bytes = FileUtil.loadOld("/data/data/com.xloger.exlink.app/", "exlink.json");
+                if (bytes != null && bytes.length != 0) {
+                    boolean isSuccess = new AppUtil().addJson(appList, new String(bytes));
+                    if (isSuccess) {
+                        updateList();
+                        Xlog.toast(context, "导入成功");
+                    } else {
+                        Xlog.toast(context, "导入失败");
+                    }
+                } else {
+                    Xlog.toast(context, "没有旧的规则存在");
+                }
                 break;
             default:
                 return true;

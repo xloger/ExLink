@@ -43,7 +43,7 @@ public class FileUtil {
 
     public void save(String fileName, byte[] content) {
 
-        ExConfig.INSTANCE.saveFromApp(fileName, Arrays.toString(content));
+        ExConfig.INSTANCE.saveFromApp(fileName, new String(content));
         return;
 
 
@@ -95,6 +95,26 @@ public class FileUtil {
 //        }
 //
 //        return ret;
+    }
+
+    public static byte[] loadOld(String url, String fileName) {
+        byte[] ret = null;
+
+        File file = new File(url, fileName);
+
+        if (file.exists() && file.canRead()) {
+            FileInputStream fin = null;
+            try {
+                fin = new FileInputStream(file);
+                ret = StreamUtil.readStream(fin);
+            } catch (FileNotFoundException e) {
+                MyLog.e(e.getMessage());
+            }finally {
+                StreamUtil.close(fin);
+            }
+        }
+
+        return ret;
     }
 
     /**

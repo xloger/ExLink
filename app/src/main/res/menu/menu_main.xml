@@ -9,6 +9,10 @@
         android:title="@string/export_json"
         />
 
+    <item android:id="@+id/action_import_old_json"
+        android:title="@string/import_old_json"
+        />
+
     <item android:id="@+id/action_instruction"
           android:title="@string/use_state"
           />
