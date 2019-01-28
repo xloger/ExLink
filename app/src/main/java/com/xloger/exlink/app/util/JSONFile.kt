@@ -40,8 +40,18 @@ class JSONFile {
             return jsonFile
         }
 
+    val cacheList = mutableListOf<App>()
+
+
+    fun getReadJson(): MutableList<App> {
+        if (cacheList.size == 0) {
+            cacheList.addAll(getJson("xposed"))
+        }
+        return cacheList
+    }
+
     //兼容 Java 代码
-    fun getJson() : MutableList<App> = getJson("default")
+    fun getJson(): MutableList<App> = getJson("default")
 
     fun getJson(from: String = "default"): MutableList<App> {
         val string = if (from == "xposed") ExConfig.loadFromXposed("exlink.json") else ExConfig.loadFromApp("exlink.json")

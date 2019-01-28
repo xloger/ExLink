@@ -1,16 +1,4 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
-        google()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
-    }
-}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -33,7 +21,7 @@ android {
         }
     }
     compileSdkVersion 26
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '26.0.3'
     defaultConfig {
         applicationId "com.xloger.exlink.app"
         minSdkVersion 14
@@ -72,5 +60,4 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     compile 'com.google.code.gson:gson:2.8.0'
     compile(name: 'app-release', ext: 'aar')
-
 }

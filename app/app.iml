@@ -26,7 +26,7 @@
         <compilerSettings />
         <compilerArguments>
           <option name="destination" value="$MODULE_DIR$/build/tmp/kotlin-classes/release" />
-          <option name="classpath" value="$MODULE_DIR$/deps/XposedBridgeApi-20150213.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/7a02123470510516458fb5a1cb4b1a01/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/d43e8420b1c1c25aef0940321b08beeb/jars/classes.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.3.20/aa17d6fd473ce53061a7b2b9d2ae96f547cae93d/kotlin-stdlib-jdk7-1.3.20.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.0/c4ba5371a29ac9b2ad6129b1d39ea38750043eff/gson-2.8.0.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/app-release.aar/ab8bc5dbc8fcf7257b0261b67c6def77/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-26.1.0.aar/23df5188983e91a9a5ef3ee25efde8bf/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-26.1.0.aar/6006a5cce1ed80e490bee6898560cc0b/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-26.1.0.aar/78f7f5eb46c5877fb14a2a65d3bd9412/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/transition-26.1.0.aar/fa652f83a8219d2745fe1d07f62342b9/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/2d904c87263a4e758db2c54b9a52f59c/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/c5850f6554b9c24d161f84b4de30868c/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-fragment-26.1.0.aar/5012e6d734f7ba2456aaeabfa865167a/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-core-utils-26.1.0.aar/b0c41207a319e2c3e39db9f0db2227e8/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-core-ui-26.1.0.aar/88897231359e17d4b63ec072f35a8d78/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/664d14a0c9398c078ebb4c7002ca7d2f/jars/classes.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/com.android.support/support-annotations/26.1.0/814258103cf26a15fcc26ecce35f5b7d24b73f8/support-annotations-26.1.0.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.20/eb2a232734e09fcd1b958a5c7520a93c6de38b32/kotlin-stdlib-1.3.20.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.20/7d7934e26ce34da1a0a8d00e38038d7cf3375e89/kotlin-stdlib-common-1.3.20.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/dd4f59b5579310565f9affd64f96cc40/jars/classes.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/android.arch.lifecycle/common/1.0.0/e414a4cb28434e25c4f6aa71426eb20cf4874ae9/common-1.0.0.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/android.arch.core/common/1.0.0/a2d487452376193fc8c103dd2b9bd5f2b1b44563/common-1.0.0.jar;D:/00Path/AndroidSDK/platforms/android-26/android.jar" />
+          <option name="classpath" value="$MODULE_DIR$/deps/XposedBridgeApi-20150213.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/design-26.1.0.aar/da73d1a54daeb56a47900c2281ce033b/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/ab5559f45240fe9eca20de6fb398dbb1/jars/classes.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.3.11/4839661cf6ce3c14b65ed7dcf5b9249b44ecca16/kotlin-stdlib-jdk7-1.3.11.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.0/c4ba5371a29ac9b2ad6129b1d39ea38750043eff/gson-2.8.0.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/app-release.aar/1edaeea9c9184e539aa32bd9a91b1b80/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-26.1.0.aar/05791da7734466a148042bae0a1fed8f/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-26.1.0.aar/cce92d7786d703b76e29c3e46df55bd9/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-26.1.0.aar/3a0be1b3f85cd813ebabc1bd2f5751d4/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/transition-26.1.0.aar/b2e96218da2e9fecfe687d6c556b4eb2/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/2c227909211284ad4618042a1dc06afb/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/991591f2d0b9fc8b9f56a1f9a853dd3d/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-fragment-26.1.0.aar/fbe74a520e630e183c22c04c9c7e4fd6/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-core-utils-26.1.0.aar/67ec157296f270719382a3e80e4e003f/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-core-ui-26.1.0.aar/266a30e0eccf6b838fca7455c88b75fc/jars/classes.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/3ffb60b9ca3588c6afb1ade4801a97f4/jars/classes.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/com.android.support/support-annotations/26.1.0/814258103cf26a15fcc26ecce35f5b7d24b73f8/support-annotations-26.1.0.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.3.11/4cbc5922a54376018307a731162ccaf3ef851a39/kotlin-stdlib-1.3.11.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.3.11/d8b8e746e279f1c4f5e08bc14a96b82e6bb1de02/kotlin-stdlib-common-1.3.11.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar;C:/Users/xloger/.gradle/caches/transforms-1/files-1.1/runtime-1.0.0.aar/56ac4e3cb91d3c6e28b89b2bdb5db8da/jars/classes.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/android.arch.lifecycle/common/1.0.0/e414a4cb28434e25c4f6aa71426eb20cf4874ae9/common-1.0.0.jar;C:/Users/xloger/.gradle/caches/modules-2/files-2.1/android.arch.core/common/1.0.0/a2d487452376193fc8c103dd2b9bd5f2b1b44563/common-1.0.0.jar;D:/00Path/AndroidSDK/platforms/android-26/android.jar" />
           <option name="noStdlib" value="true" />
           <option name="noReflect" value="true" />
           <option name="moduleName" value="app_release" />
@@ -43,7 +43,7 @@
           </option>
           <option name="pluginClasspaths">
             <array>
-              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.3.20/b1016507a951b0cfaae431079ec0ac6847d56d8c/kotlin-android-extensions-1.3.20.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-android-extensions/1.3.11/61615dc1b4490a6a1940454da57496356067e488/kotlin-android-extensions-1.3.11.jar" />
             </array>
           </option>
           <option name="errors">
@@ -59,9 +59,10 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/release" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/aidl_source_output_dir/release/compileReleaseAidl/out" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/not_namespaced_r_class_sources/release/processReleaseResources/r" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/aidl/release" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/buildConfig/release" isTestSource="false" generated="true" />
-      <sourceFolder url="file://$MODULE_DIR$/build/generated/renderscript_source_output_dir/release/compileReleaseRenderscript/out" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/build/generated/source/rs/release" isTestSource="false" generated="true" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/res/rs/release" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/res/resValues/release" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/build/generated/source/apt/test/release" isTestSource="true" generated="true" />
@@ -104,6 +105,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/apk_list" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundle_manifest" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/check-manifest" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/checkReleaseClasspath" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/check_manifest_result" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/compatible_screen_manifest" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex" />
@@ -113,6 +116,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant_run_merged_manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javac" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint_jar" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/merged_assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/merged_manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/metadata_feature_manifest" />
@@ -123,6 +127,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shader_assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/signing_config" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/split_list" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/kotlin" />
@@ -133,18 +138,18 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: com.android.support:recyclerview-v7-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:animated-vector-drawable-26.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.3.20@jar" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.lifecycle:common:1.0.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-vector-drawable-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-core-ui-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:transition-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-core-utils-26.1.0" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.20@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:appcompat-v7-26.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.11@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-fragment-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: android.arch.core:common:1.0.0@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.11@jar" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.3.11@jar" level="project" />
     <orderEntry type="library" name="Gradle: __local_aars__:E.\AndroidProject\ExLink\app\deps\XposedBridgeApi-20150213.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.3.20@jar" level="project" />
     <orderEntry type="library" name="Gradle: app-release:@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-media-compat-26.1.0" level="project" />
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.0@jar" level="project" />

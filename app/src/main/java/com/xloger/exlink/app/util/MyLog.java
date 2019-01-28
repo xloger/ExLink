@@ -26,12 +26,12 @@ public class MyLog {
         try {
             string = ExConfig.INSTANCE.loadFromXposed(Constant.IS_DEBUG_FILE_NAME);
         }catch (NoClassDefFoundError ex){
-
+            e(ex.getMessage());
         }catch (Exception ex) {
             try {
                 string = ExConfig.INSTANCE.loadFromApp(Constant.IS_DEBUG_FILE_NAME);
             } catch (Exception ex2) {
-
+                e(ex.getMessage());
             }
         }
         if (string.equals("")) {
@@ -43,7 +43,7 @@ public class MyLog {
 
     public static void log(String s) {
 
-        if (true) {
+        if (checkIsShowLog()) {
             try {
                 XposedBridge.log("[ExLink] " + s);
             } catch (NoClassDefFoundError error) {
