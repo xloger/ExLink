@@ -23,7 +23,7 @@ public class StepTwoActivity extends BaseActivity implements View.OnClickListene
     private TextView urlTextView;
     private Button differentUrlButton;
     private EditText differentUrlEditText;
-    private boolean isShowCustom=false;
+    private boolean isShowCustom = false;
     private View customLayout;
 
     @Override
@@ -32,17 +32,17 @@ public class StepTwoActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.step_two);
 
         String title = getIntent().getStringExtra("title");
-        if (title!=null&&!"".equals(title)) {
+        if (title != null && !"".equals(title)) {
             setTitle(title);
-        }else {
+        } else {
             setTitle(getResources().getString(R.string.step_two));
         }
 
         urlTextView = findViewById(R.id.step_two_url);
         differentUrlEditText = findViewById(R.id.step_two_different_url);
         differentUrlButton = findViewById(R.id.step_two_different_button);
-        Button customBtn= findViewById(R.id.step_two_custom_btn);
-        Button defaultBtn= findViewById(R.id.step_two_back_default);
+        Button customBtn = findViewById(R.id.step_two_custom_btn);
+        Button defaultBtn = findViewById(R.id.step_two_back_default);
         customLayout = findViewById(R.id.step_two_custom_layout);
         urlTextView.setOnClickListener(this);
         differentUrlButton.setOnClickListener(this);
@@ -51,8 +51,8 @@ public class StepTwoActivity extends BaseActivity implements View.OnClickListene
 
         FileUtil fileUtil = FileUtil.getInstance();
         byte[] bytes = fileUtil.load(Constant.DIFFERENT_URL_FILE_NAME);
-        if (bytes!=null&&bytes[0]=='1'){
-            urlTextView.setText(new String(bytes,1,bytes.length-1));
+        if (bytes != null && bytes.length != 0 && bytes[0] == '1') {
+            urlTextView.setText(new String(bytes, 1, bytes.length - 1));
         }
 
     }
@@ -60,33 +60,33 @@ public class StepTwoActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.step_two_url:
                 ClipboardManager cmb = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
                 cmb.setText(urlTextView.getText()); //将内容放入粘贴管理器,在别的地方长按选择"粘贴"即可
 //              cm.getText();//获取粘贴信息
-                Toast.makeText(this,getString(R.string.copy_succeed),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.copy_succeed), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.step_two_different_button:
-                String differentUrl=differentUrlEditText.getText().toString();
-                if (differentUrl.length()!=0) {
+                String differentUrl = differentUrlEditText.getText().toString();
+                if (differentUrl.length() != 0) {
                     FileUtil fileUtil = FileUtil.getInstance();
-                    fileUtil.save(Constant.DIFFERENT_URL_FILE_NAME,("1"+differentUrl).getBytes());
+                    fileUtil.save(Constant.DIFFERENT_URL_FILE_NAME, ("1" + differentUrl).getBytes());
                     fileUtil.setReadable(Constant.DIFFERENT_URL_FILE_NAME);
                     urlTextView.setText(differentUrl);
-                    Toast.makeText(this, getString(R.string.change_succeed),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.change_succeed), Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.step_two_custom_btn:
-                if (isShowCustom){
+                if (isShowCustom) {
                     customLayout.setVisibility(View.GONE);
-                }else {
+                } else {
                     customLayout.setVisibility(View.VISIBLE);
                 }
-                isShowCustom=!isShowCustom;
+                isShowCustom = !isShowCustom;
                 break;
             case R.id.step_two_back_default:
-                FileUtil.getInstance().save(Constant.DIFFERENT_URL_FILE_NAME,"0".getBytes());
+                FileUtil.getInstance().save(Constant.DIFFERENT_URL_FILE_NAME, "0".getBytes());
                 urlTextView.setText(getString(R.string.test_url));
                 break;
         }

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ import java.util.List;
  * Author:xloger
  * Email:phoenix@xloger.com
  */
+@Deprecated
 public class FileUtil {
     private Context context;
     private static FileUtil fileUtil;
@@ -40,48 +42,59 @@ public class FileUtil {
     }
 
     public void save(String fileName, byte[] content) {
-        File folder = context.getFilesDir();
-        File file = new File(folder, fileName);
 
-        FileOutputStream fout = null;
-        try {
-            fout = new FileOutputStream(file);
-            fout.write(content);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            StreamUtil.close(fout);
-        }
+        ExConfig.INSTANCE.saveFromApp(fileName, Arrays.toString(content));
+        return;
+
+
+
+//        File folder = context.getFilesDir();
+//        File file = new File(folder, fileName);
+//
+//        FileOutputStream fout = null;
+//        try {
+//            fout = new FileOutputStream(file);
+//            fout.write(content);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            StreamUtil.close(fout);
+//        }
 
     }
 
     public byte[] load(String fileName) {
-        byte[] ret = null;
-        File folder = context.getFilesDir();
-        ret = load(folder.toString(), fileName);
-        return ret;
+        return ExConfig.INSTANCE.loadFromApp(fileName).getBytes();
+
+
+//        byte[] ret = null;
+//        File folder = context.getFilesDir();
+//        ret = load(folder.toString(), fileName);
+//        return ret;
     }
 
     public static byte[] load(String url, String fileName) {
-        byte[] ret = null;
+        return ExConfig.INSTANCE.loadFromApp(fileName).getBytes();
 
-        File file = new File(url, fileName);
-
-        if (file.exists() && file.canRead()) {
-            FileInputStream fin = null;
-            try {
-                fin = new FileInputStream(file);
-                ret = StreamUtil.readStream(fin);
-            } catch (FileNotFoundException e) {
-                MyLog.e(e.getMessage());
-            }finally {
-                StreamUtil.close(fin);
-            }
-        }
-
-        return ret;
+//        byte[] ret = null;
+//
+//        File file = new File(url, fileName);
+//
+//        if (file.exists() && file.canRead()) {
+//            FileInputStream fin = null;
+//            try {
+//                fin = new FileInputStream(file);
+//                ret = StreamUtil.readStream(fin);
+//            } catch (FileNotFoundException e) {
+//                MyLog.e(e.getMessage());
+//            }finally {
+//                StreamUtil.close(fin);
+//            }
+//        }
+//
+//        return ret;
     }
 
     /**
@@ -166,6 +179,10 @@ public class FileUtil {
         return ret;
     }
 
+    /**
+     * @deprecated 不再需要这个功能了
+     * @param fileName
+     */
     public void setReadable(String fileName) {
         File folder = context.getFilesDir();
         File file = new File(folder, fileName);

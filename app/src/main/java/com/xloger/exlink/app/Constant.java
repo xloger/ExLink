@@ -11,4 +11,6 @@ public class Constant {
     public static final String IS_DEBUG_FILE_NAME="isDebugModeFile.dat";
     public static final String DIFFERENT_URL_FILE_NAME="DifferentUrl.dat";
 
+    public static final String PACKAGE_NAME = "com.xloger.exlink.app";
+
 }

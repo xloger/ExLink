@@ -22,16 +22,28 @@ public class MyLog {
     }
 
     private static boolean checkIsShowLog() {
-        byte[] bytes = FileUtil.load(Constant.APP_URL, Constant.IS_DEBUG_FILE_NAME);
-        if (bytes != null) {
-            isShowLog = Boolean.valueOf(new String(bytes));
+        String string = "";
+        try {
+            string = ExConfig.INSTANCE.loadFromXposed(Constant.IS_DEBUG_FILE_NAME);
+        }catch (NoClassDefFoundError ex){
+
+        }catch (Exception ex) {
+            try {
+                string = ExConfig.INSTANCE.loadFromApp(Constant.IS_DEBUG_FILE_NAME);
+            } catch (Exception ex2) {
+
+            }
         }
+        if (string.equals("")) {
+            return false;
+        }
+        isShowLog = Boolean.valueOf(string);
         return isShowLog;
     }
 
     public static void log(String s) {
 
-        if (checkIsShowLog()) {
+        if (true) {
             try {
                 XposedBridge.log("[ExLink] " + s);
             } catch (NoClassDefFoundError error) {
@@ -52,7 +64,7 @@ public class MyLog {
     }
 
     public static void e(String s) {
-        if (checkIsShowLog()) {
+        if (isShowLog) {
             try {
                 XposedBridge.log("[ExLink Error] " + s);
             } catch (NoClassDefFoundError error) {
@@ -60,5 +72,9 @@ public class MyLog {
 
             }
         }
+    }
+
+    public static void logXP(String s) {
+        XposedBridge.log("[ExLink] " + s);
     }
 }

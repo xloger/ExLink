@@ -2,6 +2,7 @@ package com.xloger.exlink.app;
 
 import android.app.Application;
 
+import com.xloger.exlink.app.util.ExConfig;
 import com.xloger.exlink.app.util.FileUtil;
 
 /**
@@ -14,5 +15,6 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FileUtil.createInstance(this);
+        ExConfig.INSTANCE.init(this);
     }
 }

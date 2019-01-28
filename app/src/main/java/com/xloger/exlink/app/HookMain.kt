@@ -15,6 +15,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers.findAndHookMethod
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import java.lang.Exception
 import java.util.*
 
 /**
@@ -43,8 +44,18 @@ class HookMain : IXposedHookLoadPackage {
                 index = i
                 MyLog.log("进入$appName($packageName)")
 //                findAndHookMethod(Activity::class.java, "startActivity", Intent::class.java, xc_methodHook)
-                findAndHookMethod(AppCompatActivity::class.java, "startActivityForResult", Intent::class.java, Int::class.javaPrimitiveType, Bundle::class.java, xc_methodHook)
-                findAndHookMethod(Activity::class.java, "startActivityForResult", Intent::class.java, Int::class.javaPrimitiveType, Bundle::class.java, xc_methodHook)
+                try {
+                    findAndHookMethod(AppCompatActivity::class.java, "startActivityForResult", Intent::class.java, Int::class.javaPrimitiveType, Bundle::class.java, xc_methodHook)
+                }catch (ex: NoSuchMethodError) {
+                    MyLog.e(ex.toString())
+                } catch (ex : Exception) {
+                    MyLog.e(ex.toString())
+                }
+                try {
+                    findAndHookMethod(Activity::class.java, "startActivityForResult", Intent::class.java, Int::class.javaPrimitiveType, Bundle::class.java, xc_methodHook)
+                } catch (ex : Exception) {
+                    MyLog.e(ex.toString())
+                }
                 break
             }
         }

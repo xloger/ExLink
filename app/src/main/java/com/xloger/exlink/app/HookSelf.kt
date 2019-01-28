@@ -12,7 +12,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
  */
 class HookSelf : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
-        if (lpparam.packageName.equals("com.xloger.exlink.app")) {
+        if (lpparam.packageName.equals(Constant.PACKAGE_NAME)) {
             MyLog.log("开始hook 测试方法")
             try {
 //            val clazz = XposedHelpers.findClass("com.xloger.exlink.app.util.KotlinTool", lpparam.classLoader)

@@ -124,10 +124,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         addApp = findViewById(R.id.add_app);
         readme = findViewById(R.id.main_read_me);
 
-//        MyLog.log("View isHook:" + Tool.isHook());
-//        if (!Tool.isHook()) {
-//            findViewById(R.id.hook_text).setVisibility(View.VISIBLE);
-//        }
+        MyLog.log("View isHook:" + Tool.isHook());
+        if (!Tool.isHook()) {
+            findViewById(R.id.hook_text).setVisibility(View.VISIBLE);
+        }
 
     }
 
