@@ -5,9 +5,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,7 +62,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = MainActivity.this;
-        jsonFile = new JSONFile();
+        jsonFile = JSONFile.INSTANCE;
         initView();
 //        XPermission.INSTANCE.requestPermission(this, new XPermission.XPermissionCallback() {
 //            @Override
@@ -75,6 +78,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         onGetPermission();
 
+//        Cursor cursor = getContentResolver().query(Uri.parse("content://com.xloger.exlink.app.rule/rule"), null, null, null, null);
+//        cursor.moveToNext();
+//        String json = cursor.getString(0);
+//        MyLog.log("得到了：" + json);
+//        Log.d("xloger", "得到：" + json);
 
 //        setOverflowShowingAlways();
 

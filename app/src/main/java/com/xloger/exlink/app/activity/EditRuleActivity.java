@@ -37,7 +37,7 @@ public class EditRuleActivity extends BaseActivity {
             Toast.makeText(context, "哎呀我好像不知道哪个 App 点击了呢...", Toast.LENGTH_SHORT).show();
             finish();
         }
-        appList = new JSONFile().getJson();
+        appList = JSONFile.INSTANCE.getJson();
         app = appList.get(position);
         initView();
     }
@@ -49,7 +49,7 @@ public class EditRuleActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 app.setTest(true);
-                new JSONFile().saveJson(appList);
+                JSONFile.INSTANCE.saveJson(appList);
                 Intent intent = new Intent(context, StepTwoActivity.class);
                 intent.putExtra("title", "步骤二/添加规则");
                 startActivity(intent);
@@ -58,7 +58,7 @@ public class EditRuleActivity extends BaseActivity {
         WhiteRuleAdapter adapter = new WhiteRuleAdapter(context, app.getRules(), new WhiteRuleAdapter.WhiteRuleAdapterCallBack() {
             @Override
             public void onDelClick() {
-                new JSONFile().saveJson(appList);
+                JSONFile.INSTANCE.saveJson(appList);
                 Toast.makeText(context, "删除成功", Toast.LENGTH_SHORT).show();
             }
         });

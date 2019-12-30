@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xloger.exlink.app" >
+    package="com.xloger.exlink.app">
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -8,7 +9,13 @@
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+        <provider
+            android:name=".RuleContentProvider"
+            android:authorities="com.xloger.exlink.app.rule"
+            android:enabled="true"
+            android:exported="true"></provider>
+
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -21,7 +28,7 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,11 +38,10 @@
         </activity>
         <activity
             android:name=".activity.StepTwoActivity"
-            android:label="@string/step_two" >
-        </activity>
+            android:label="@string/step_two"></activity>
         <activity
             android:name=".activity.StepThreeActivity"
-            android:label="@string/step_three" >
+            android:label="@string/step_three">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -47,34 +53,23 @@
         </activity>
         <activity
             android:name=".activity.ReadMeActivity"
-            android:label="@string/use_state"
-            >
-        </activity>
+            android:label="@string/use_state"></activity>
         <activity
             android:name=".activity.SettingActivity"
-            android:label="@string/title_activity_setting" >
-        </activity>
-        <activity android:name=".activity.AboutActivity"
-                  android:label="@string/about"
-                  >
-        </activity>
+            android:label="@string/title_activity_setting"></activity>
+        <activity
+            android:name=".activity.AboutActivity"
+            android:label="@string/about"></activity>
         <activity
             android:name=".activity.EditRuleActivity"
-            android:label="@string/edit_rule"
-            >
-        </activity>
-
-        <activity
-                android:name=".activity.XposedIntoActivity"
-                >
+            android:label="@string/edit_rule"></activity>
+        <activity android:name=".activity.XposedIntoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
             </intent-filter>
-
         </activity>
     </application>
 

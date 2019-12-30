@@ -28,7 +28,7 @@ public class StepThreeActivity extends BaseActivity {
         String activityName = intent.getStringExtra("activityName");
         String extrasKey=intent.getStringExtra("extrasKey");
         int position = intent.getIntExtra("position", -1);
-        List<App> appList = new JSONFile().getJson();
+        List<App> appList = JSONFile.INSTANCE.getJson();
         if (appList != null) {
             App testApp = appList.get(position);
 
@@ -39,7 +39,7 @@ public class StepThreeActivity extends BaseActivity {
             }
             rules.add(new Rule(activityName,extrasKey));
             testApp.setTest(false);
-            new JSONFile().saveJson(appList);
+            JSONFile.INSTANCE.saveJson(appList);
         }
 
 

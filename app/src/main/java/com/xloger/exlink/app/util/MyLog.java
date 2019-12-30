@@ -15,13 +15,17 @@ import de.robv.android.xposed.XposedBridge;
 public class MyLog {
     private static final boolean LOG_ON = BuildConfig.DEBUG;
     private static boolean isShowLog = true;
-
+    public static boolean isChecked = false;
 
     private MyLog() {
 
     }
 
     private static boolean checkIsShowLog() {
+        if (isChecked) {
+            return isShowLog;
+        }
+
         String string = "";
         try {
             string = ExConfig.INSTANCE.loadFromXposed(Constant.IS_DEBUG_FILE_NAME);
@@ -34,10 +38,14 @@ public class MyLog {
                 e(ex.getMessage());
             }
         }
+
         if (string.equals("")) {
-            return false;
+            //TODO 暂时始终打应log
+            isShowLog = true;
+        } else  {
+            isShowLog = Boolean.valueOf(string);
         }
-        isShowLog = Boolean.valueOf(string);
+        isChecked = true;
         return isShowLog;
     }
 

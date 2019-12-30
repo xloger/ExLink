@@ -30,7 +30,7 @@ class ExportJsonDialog(context: Context) : AlertDialog(context) {
         val editText = view.findViewById<EditText>(R.id.export_edit)
         val listview = view.findViewById<ListView>(R.id.export_list)
 
-        val appList = JSONFile().getJson()
+        val appList = JSONFile.getJson()
         val adapter = ExportAdapter(context, appList) { position, isCheck ->
             if (isCheck) {
                 chooseSet.add(position)

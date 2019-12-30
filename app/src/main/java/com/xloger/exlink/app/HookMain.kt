@@ -2,11 +2,16 @@ package com.xloger.exlink.app
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.AndroidAppHelper
+import android.content.Context
 import android.content.Intent
+import android.database.MatrixCursor
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.google.gson.Gson
 import com.xloger.exlink.app.entity.App
+import com.xloger.exlink.app.entity.AppList
 import com.xloger.exlink.app.entity.Rule
 import com.xloger.exlink.app.util.JSONFile
 import com.xloger.exlink.app.util.MyLog
@@ -30,9 +35,11 @@ class HookMain : IXposedHookLoadPackage {
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
 
+
+
         if (appList.isEmpty()) {
-            appList = JSONFile().getJson("xposed")
-//            MyLog.log("初始化")
+            appList.clear()
+            appList.addAll(JSONFile.readJsonFromXposed(AndroidAppHelper.currentApplication() as Context))
         }
 
 //        MyLog.log("本次数据：" + KotlinTool().listAppToSimpleString(appList))
@@ -368,7 +375,8 @@ class HookMain : IXposedHookLoadPackage {
 
 
     companion object {
-        private var appList: List<App> = emptyList()
+        @JvmStatic
+        private var appList: MutableList<App> = mutableListOf()
         private val EX_DAT = "ExDat"
     }
 }

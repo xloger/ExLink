@@ -106,10 +106,10 @@ class AppUtil {
     }
 
     @Deprecated("不推荐使用该方法，统一使用JSONFile", ReplaceWith("JSONFile().getJson()"))
-    fun getAppList(): MutableList<App> = JSONFile().getJson()
+    fun getAppList(): MutableList<App> = JSONFile.getJson()
 
     @Deprecated("不推荐使用该方法，统一使用JSONFile", ReplaceWith("JSONFile().saveJson(list)"))
-    fun save(list: MutableList<App>) = JSONFile().saveJson(list)
+    fun save(list: MutableList<App>) = JSONFile.saveJson(list)
 
     fun addJson(localAppList: MutableList<App>, string: String): Boolean {
         if (string.isNullOrEmpty()) {
@@ -167,7 +167,7 @@ class AppUtil {
 
     }
 
-    fun exportJson(appList: MutableList<App> = JSONFile().getJson()): String {
+    fun exportJson(appList: MutableList<App> = JSONFile.getJson()): String {
         return Gson().toJson(AppList(appList))
     }
 
