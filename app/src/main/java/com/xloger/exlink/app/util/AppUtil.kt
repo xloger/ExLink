@@ -105,12 +105,6 @@ class AppUtil {
         return apps
     }
 
-    @Deprecated("不推荐使用该方法，统一使用JSONFile", ReplaceWith("JSONFile().getJson()"))
-    fun getAppList(): MutableList<App> = JSONFile.getJson()
-
-    @Deprecated("不推荐使用该方法，统一使用JSONFile", ReplaceWith("JSONFile().saveJson(list)"))
-    fun save(list: MutableList<App>) = JSONFile.saveJson(list)
-
     fun addJson(localAppList: MutableList<App>, string: String): Boolean {
         if (string.isNullOrEmpty()) {
             return false
