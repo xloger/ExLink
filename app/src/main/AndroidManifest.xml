@@ -3,6 +3,7 @@
     package="com.xloger.exlink.app">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".BaseApplication"
@@ -14,7 +15,8 @@
             android:name=".RuleContentProvider"
             android:authorities="com.xloger.exlink.app.rule"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true"
+            android:grantUriPermissions="true" />
 
         <meta-data
             android:name="xposedmodule"

@@ -33,6 +33,7 @@ class RuleContentProvider : ContentProvider() {
 
     override fun query(uri: Uri, projection: Array<String>?, selection: String?,
                        selectionArgs: Array<String>?, sortOrder: String?): Cursor? {
+        MyLog.log("进行内容查询")
         val cursor = MatrixCursor(arrayOf("rule"), 1)
         val json = Gson().toJson(AppList(AppUtil().initAppData()))
         cursor.addRow(arrayOf(json))

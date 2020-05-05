@@ -2,17 +2,19 @@ package com.xloger.exlink.app
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.AndroidAppHelper
 import android.content.Context
 import android.content.Intent
-import android.database.MatrixCursor
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
-import com.google.gson.Gson
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import com.xloger.exlink.app.entity.App
-import com.xloger.exlink.app.entity.AppList
 import com.xloger.exlink.app.entity.Rule
+import com.xloger.exlink.app.util.GetRuleError
 import com.xloger.exlink.app.util.JSONFile
 import com.xloger.exlink.app.util.MyLog
 import com.xloger.exlink.app.util.StreamUtil
@@ -23,6 +25,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import java.lang.Exception
 import java.util.*
 
+
 /**
  * Created by xloger on 1月2日.
  * Author:xloger
@@ -31,18 +34,40 @@ import java.util.*
  */
 class HookMain : IXposedHookLoadPackage {
     private var index: Int = 0
+    private var applicationContext: Context? = null
 
     @Throws(Throwable::class)
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
 
 
+//        try {
+//            val ContextClass = findClass("android.content.ContextWrapper", lpparam.classLoader)
+//            findAndHookMethod(ContextClass, "getApplicationContext", object : XC_MethodHook() {
+//                @Throws(Throwable::class)
+//                override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam?) {
+//                    super.afterHookedMethod(param)
+//                    if (applicationContext != null)
+//                        return
+//                    applicationContext = param!!.result as Context
+////                    MyLog.log("CSDN_LQR-->得到上下文")
+//                }
+//            })
+//        } catch (t: Throwable) {
+////            MyLog.log("CSDN_LQR-->获取上下文出错")
+//            MyLog.log(t)
+//        }
+
 
         if (appList.isEmpty()) {
             appList.clear()
-            appList.addAll(JSONFile.readJsonFromXposed(AndroidAppHelper.currentApplication() as Context))
+            try {
+                appList.addAll(JSONFile.getJsonFromXposed())
+            } catch (ex: GetRuleError) {
+                MyLog.log("${lpparam.packageName} 获取规则异常，使用默认值")
+                appList.addAll(JSONFile.getDefaultJson())
+            }
         }
 
-//        MyLog.log("本次数据：" + KotlinTool().listAppToSimpleString(appList))
 
 
         for (i in appList.indices) {
@@ -51,6 +76,13 @@ class HookMain : IXposedHookLoadPackage {
                 index = i
                 MyLog.log("进入$appName($packageName)")
 //                findAndHookMethod(Activity::class.java, "startActivity", Intent::class.java, xc_methodHook)
+                if (packageName == "com.zhihu.android.lite") {
+                    try {
+                        findAndHookMethod("com.zhihu.app.ui.fragment.webview", lpparam.classLoader, "onCreate", Bundle::class.java, fragmentHook)
+                    } catch (ex: Exception) {
+                        MyLog.log("hook webview 失败")
+                    }
+                }
                 try {
                     findAndHookMethod(AppCompatActivity::class.java, "startActivityForResult", Intent::class.java, Int::class.javaPrimitiveType, Bundle::class.java, xc_methodHook)
                 }catch (ex: NoSuchMethodError) {
@@ -86,6 +118,11 @@ class HookMain : IXposedHookLoadPackage {
 
     }
 
+    private val fragmentHook = object : XC_MethodHook() {
+        override fun beforeHookedMethod(param: MethodHookParam?) {
+            MyLog.log(param.toString() + "信息")
+        }
+    }
 
     private val xc_methodHook = object : XC_MethodHook() {
 

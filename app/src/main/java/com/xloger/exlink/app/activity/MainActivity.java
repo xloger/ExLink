@@ -64,21 +64,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         context = MainActivity.this;
         jsonFile = JSONFile.INSTANCE;
         initView();
-//        XPermission.INSTANCE.requestPermission(this, new XPermission.XPermissionCallback() {
-//            @Override
-//            public void onSuccess() {
-//                onGetPermission();
-//            }
+        XPermission.INSTANCE.requestPermission(this, new XPermission.XPermissionCallback() {
+            @Override
+            public void onSuccess() {
+                onGetPermission();
+            }
+
+            @Override
+            public void onRefuse(List<String> list) {
+                Toast.makeText(context, "该 App 需要将规则存入SD卡供hook方法读取", Toast.LENGTH_SHORT).show();
+            }
+        }, XPermission.INSTANCE.getWrite_SD());
+
+//        onGetPermission();
 //
-//            @Override
-//            public void onRefuse(List<String> list) {
-//                Toast.makeText(context, "该 App 需要将规则存入SD卡供hook方法读取", Toast.LENGTH_SHORT).show();
-//            }
-//        }, XPermission.INSTANCE.getWrite_SD());
-
-        onGetPermission();
-
-//        Cursor cursor = getContentResolver().query(Uri.parse("content://com.xloger.exlink.app.rule/rule"), null, null, null, null);
+//        Cursor cursor = getContentResolver().query(Uri.parse("content://com.xloger.exlink.app.rule/*"), null, null, null, null);
 //        cursor.moveToNext();
 //        String json = cursor.getString(0);
 //        MyLog.log("得到了：" + json);

@@ -33,6 +33,9 @@ object ExConfig {
     }
 
     fun saveFromApp(key: String, value: String) {
+        if (!ExConfig::sp.isInitialized) {
+            return
+        }
         val edit = sp.edit()
         edit.putString(key, value)
         edit.apply()

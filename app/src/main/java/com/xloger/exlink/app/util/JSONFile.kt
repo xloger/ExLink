@@ -17,52 +17,50 @@ import java.io.IOException
  * Created on 2017/11/14 20:12.
  * Editor:xloger
  * Email:phoenix@xloger.com
- * TODO 做成缓存
+ * 规则的操作类，在此进行获取与存储操作
  */
 object JSONFile {
 
-    fun getJson(): MutableList<App> = getJson("")
-
-    fun getJson(from: String = "default"): MutableList<App> {
-        val string = ExConfig.loadFromApp("exlink.json")
+    /**
+     * 获得规则数据
+     */
+    @JvmStatic
+    fun getJson(): MutableList<App> {
+        val string = FileHelper.readFile()
         if (!string.isBlank()) {
             val list = Gson().fromJson<AppList>(string, AppList::class.java).list
             return list
+        } else {
+            throw GetRuleError()
         }
 
+
+
+    }
+
+    /**
+     * 在 hook 方法中得到规则数据
+     */
+    fun getJsonFromXposed(): MutableList<App> {
+        return getJson()
+    }
+
+    fun getDefaultJson(): List<App> {
         val appList = AppUtil().initAppData()
-
-        MyLog.e("没找到规则文件，返回默认值。")
         saveJson(appList)
-
         return appList
-
     }
 
-    fun readJsonFromXposed(context: Context): List<App> {
-        MyLog.e("context:" + context)
-        context?.let {
-            val cursor = it.contentResolver?.query(Uri.parse("content://com.xloger.exlink.app.rule/rule"), null, null, null, null)
-            cursor?.let {
-                cursor.moveToNext()
-                val json = cursor.getString(0)
-                if (!json.isBlank()) {
-//                    val list = Gson().fromJson<AppList>(json, AppList::class.java).list
-                    val list = Gson().fromJson<AppList>(json, AppList::class.java).list
-
-                    return list
-                }
-            }
-
-        }
-        return emptyList()
-
-    }
-
+    /**
+     * 保存数据
+     * @return 是否成功存储
+     */
     fun saveJson(list: MutableList<App>): Boolean {
-        ExConfig.saveFromApp("exlink.json", Gson().toJson(AppList(list)))
-        return true
-
+        return FileHelper.saveFile(FileHelper.getJsonPath(), Gson().toJson(AppList(list)))
     }
+
+}
+
+class GetRuleError() : Exception() {
 
 }
